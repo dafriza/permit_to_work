@@ -1,0 +1,35 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "dashboard-analytics"
+    },
+    {
+      "menuHeader": "Forms & Tables"
+    },
+    {
+      "name": "Form Layouts",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "form-layouts",
+      "submenu": [
+        {
+          "url": "form/layouts-horizontaltesting",
+          "name": "Permit To Work Form Cold Work",
+          "slug": "form-layouts-horizontaltesting"
+        },
+        {
+          "url": "form/layouts-horizontaltesting-page2",
+          "name": "Permit To Work Form Cold Work Page 2",
+          "slug": "form-layouts-horizontaltesting-page2"
+        },
+        {
+          "url": "form/layouth2s",
+          "name": "H2S Form",
+          "slug": "form-layouth2s"
+        }
+      ]
+    }
+  ]
+}
