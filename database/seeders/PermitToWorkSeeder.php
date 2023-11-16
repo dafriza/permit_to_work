@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\PermitToWork;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermitToWorkSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class PermitToWorkSeeder extends Seeder
      */
     public function run()
     {
-        //
+      PermitToWork::factory()->count(10)->create();
     }
 }

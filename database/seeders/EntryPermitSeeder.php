@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\EntryPermit;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class EntryPermitSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class EntryPermitSeeder extends Seeder
      */
     public function run()
     {
-        //
+      EntryPermit::factory()->count(10)->create();
     }
 }
