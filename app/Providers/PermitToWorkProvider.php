@@ -14,7 +14,6 @@ class PermitToWorkProvider extends ServiceProvider implements DeferrableProvider
     ];
     public function register()
     {
-        //
     }
 
     public function boot()
@@ -24,6 +23,6 @@ class PermitToWorkProvider extends ServiceProvider implements DeferrableProvider
 
     function provides()
     {
-        return [PermitToWorkServices::class];
+        return [PermitToWorkInterface::class];
     }
 }

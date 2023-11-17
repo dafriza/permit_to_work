@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\PermitToWork\PermitToWorkInterface;
 use Illuminate\Http\Request;
 
 class PermitToWorkController extends Controller
 {
-    protected $guarded = [];
-    public function request_pa()
+    private $permit_to_work;
+    public function __construct(PermitToWorkInterface $permit_to_work)
     {
-        return $this->belongsTo(User::class, 'request_pa', 'nip');
+        $this->permit_to_work = $permit_to_work;
     }
-    public function direct_spv()
+    function index()
     {
-        return $this->belongsTo(User::class, 'direct_spv', 'nip');
+        // $data = User::role('supervisor')->get();
+        // return response()->json($data);
+        return view('content.permit_to_work.index');
     }
 }

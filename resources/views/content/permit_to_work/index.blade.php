@@ -1,5 +1,19 @@
 @extends('layouts/contentNavbarLayout')
-
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('#mySelect2').select2({
+            ajax: {
+                url: function(params) {
+                    return '/some/url/' + params.term;
+                }
+            }
+        });
+    </script>
+@endpush
 @section('title', ' Horizontal Form ')
 
 @section('content')
@@ -18,16 +32,17 @@
                     <h4 style="text-align: center">PERMIT TO WORK <br> COLD WORK</h4>
                 </div>
                 <div class="p-2 ms-auto">
-                    <pre>Number     <input type="text"><br>Work Order <input type="text"></pre>
+                    <pre>Number     <input type="text"><br>Work Order <input type="text"
+                value="{{ Auth::id() ?? '1' }}" autocomplete="off" disabled></pre>
                 </div>
             </div>
 
             <!--<div class="card-header align-items-center d-flex justify-content-center">
-                    <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
-                </div>
-                <div class="card-header align-items-center d-flex justify-content-center">
-                    <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
-                </div>-->
+                            <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
+                        </div>
+                        <div class="card-header align-items-center d-flex justify-content-center">
+                            <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
+                        </div>-->
             <div class="card-body">
                 <form id="formAccountSettings" method="POST" onsubmit="return false">
                     <div class="row">
@@ -38,7 +53,8 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="reqbypa" class="form-label">Request by PA</label>
-                            <input class="form-control" type="text" name="reqbypa" id="reqbypa" />
+                            <input class="form-control" type="text" name="request_pa" id="reqbypa"
+                                value="{{ Auth::user()->name ?? 'John Doe' }}" />
                         </div>
                         <div class="mb-3 col-md-6">
                         </div>
