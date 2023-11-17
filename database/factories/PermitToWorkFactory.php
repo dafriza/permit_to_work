@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +17,16 @@ class PermitToWorkFactory extends Factory
      */
     public function definition()
     {
-        $site_controller = fake()->randomNumber(6, 10);
-        $area_authoriry = fake()->randomNumber(6, 10);
-        $permit_controller = fake()->randomNumber(6, 10);
-
+        // $site_controller = fake()->randomNumber(6, 10);
+        // $area_authoriry = fake()->randomNumber(6, 10);
+        // $permit_controller = fake()->randomNumber(6, 10);
+        $supervisor = User::role('supervisor')->get()->random();
+        $employee = User::role('employee')->get()->random();
         return [
-            'number' => fake()->randomNumber(5, true),
-            'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
-            'request_pa' => fake()->numberBetween(1, 5),
-            'direct_spv' => fake()->numberBetween(6, 10),
+            // 'number' => fake()->randomNumber(5, true),
+            // 'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
+            'request_pa' => $employee['id'],
+            'direct_spv' => $supervisor['id'],
             'date_application' => fake()->dateTimeBetween(),
             'location' => fake()->secondaryAddress(),
             'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
@@ -103,9 +105,9 @@ class PermitToWorkFactory extends Factory
                 'Others' => 'Lorem Ipsum',
             ]),
             'submission' => json_encode([
-                'site_controller' => $site_controller,
-                'area_authoriry' => $area_authoriry,
-                'permit_controller' => $permit_controller,
+                'site_controller' => $supervisor['id'],
+                'area_authoriry' => $supervisor['id'],
+                'permit_controller' => $supervisor['id'],
             ]),
             'authorization_and_issuing' => json_encode([
                 'site_controller' => fake()->imageUrl(360, 360, 'signature', true),

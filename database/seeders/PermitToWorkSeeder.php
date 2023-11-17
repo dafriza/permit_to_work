@@ -16,11 +16,8 @@ class PermitToWorkSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        PermitToWork::truncate();
         PermitToWork::factory()
-            ->count(10)
+            ->count(50)
             ->create();
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

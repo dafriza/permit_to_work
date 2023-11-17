@@ -16,18 +16,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-        User::truncate();
-        User::factory(10)
+        User::factory(50)
             ->create()
             ->each(function ($user) {
                 $user->assignRole(fake()->randomElement(['employee', 'supervisor']));
             });
+
         User::create([
-            'name' => 'superadmin',
-            'nip' => 'superadmin',
+            'first_name' => 'super',
+            'last_name' => 'admin',
+            'email' => 'admin@example.com',
             'password' => bcrypt('1'),
+            'phone_number' => 000000000000,
+            'address' => 'X Street',
         ])->assignRole('superadmin');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 }
