@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ToolsEquipment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,8 +21,12 @@ class PermitToWorkFactory extends Factory
         // $site_controller = fake()->randomNumber(6, 10);
         // $area_authoriry = fake()->randomNumber(6, 10);
         // $permit_controller = fake()->randomNumber(6, 10);
-        $supervisor = User::role('supervisor')->get()->random();
-        $employee = User::role('employee')->get()->random();
+        $supervisor = User::role('supervisor')
+            ->get()
+            ->random();
+        $employee = User::role('employee')
+            ->get()
+            ->random();
         return [
             // 'number' => fake()->randomNumber(5, true),
             // 'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
@@ -31,7 +36,10 @@ class PermitToWorkFactory extends Factory
             'location' => fake()->secondaryAddress(),
             'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'task_description' => 'test',
-            'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
+            // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
+            'tools_equipment' => json_encode([
+              $this->getToolsEquipment(),$this->getToolsEquipment()
+            ]),
             'trades' => fake()->randomElement(['Operation', 'Commander', 'Executioner']),
             'personel_involved' => fake()->randomDigitNotNull(),
             'tra_level' => fake()->randomElement([1, 2]),
@@ -122,5 +130,9 @@ class PermitToWorkFactory extends Factory
                 'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
             ]),
         ];
+    }
+    function getToolsEquipment()
+    {
+        return ToolsEquipment::get()->random();
     }
 }

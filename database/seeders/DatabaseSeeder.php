@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\ToolsEquipment;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -15,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
           RolesAndPermissionsSeeder::class,
+          ToolsEquipmentSeeder::class,
           JobSeeder::class,
           UserSeeder::class,
           EntryPermitSeeder::class,
