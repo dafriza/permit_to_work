@@ -30,6 +30,29 @@
             placeholder: $(this).data('placeholder'),
         });
 
+        $('#tools_equipment').select2({
+            // minimumInputLength: 2,
+            ajax: {
+                url: function(params) {
+                    return '{!! route('permit_to_work.get_data_tools_equipment') !!}';
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                id: item.id,
+                                text: item.name,
+                            }
+                        })
+                    };
+                },
+                cache: true,
+            },
+            theme: "bootstrap-5",
+            width: 'resolve',
+            placeholder: $(this).data('placeholder'),
+        });
+
         function isNumberKey(evt) {
             let charCode = (evt.which) ? evt.which : evt.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -92,7 +115,8 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label" for="equipmentid">EQUIPMENT ID / TAG NUMBER </label>
-                            <input type="text" class="form-control" id="equipmentid" name="equipmentid" onkeypress="return isNumberKey(event)" />
+                            <input type="text" class="form-control" id="equipmentid" name="equipmentid"
+                                onkeypress="return isNumberKey(event)" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="address" class="form-label">Location</label>
@@ -107,8 +131,9 @@
 
                         <div class="mb-3 col-md-12">
                             <label class="form-label" for="tools">TOOLS/EQUIPMENT</label>
-                            <input class="form-control" type="text" id="tools" name="tools"
-                                placeholder="Handtools, WD 40 ..." />
+                            <select class="form-control" type="text" id="tools_equipment" name="tools"
+                                multiple="multiple" data-placeholder="Pilih Tools">
+                            </select>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="timeZones" class="form-label">TRADES/KEAHLIAN (Kedepannya perlu pakai

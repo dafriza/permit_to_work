@@ -13,4 +13,5 @@ Route::prefix('permit_to_work')
         //     return $permit_to_work->getDirectSPV(Request $request);
         // })->name('get_data_spv');
         Route::get('get_data_spv', [PermitToWorkInterface::class,'getDirectSPV'])->name('get_data_spv');
+        Route::get('get_data_tools_equipment', [PermitToWorkInterface::class,'getToolsEquipment'])->name('get_data_tools_equipment');
     });
