@@ -12,6 +12,7 @@ class PermitToWork extends Model
     protected $guarded = [];
     protected $casts = [
         'tools_equipment' => 'array',
+        'trades' => 'array',
         'hazard' => 'object',
         'controls' => 'object',
         'cross_referenced_certificates' => 'object',

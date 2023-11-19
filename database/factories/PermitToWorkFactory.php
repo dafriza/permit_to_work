@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\ToolsEquipment;
 use App\Models\User;
+use App\Models\Trade;
+use App\Models\ToolsEquipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -37,10 +38,9 @@ class PermitToWorkFactory extends Factory
             'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'task_description' => 'test',
             // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
-            'tools_equipment' => json_encode([
-              $this->getToolsEquipment(),$this->getToolsEquipment()
-            ]),
-            'trades' => fake()->randomElement(['Operation', 'Commander', 'Executioner']),
+            'tools_equipment' => json_encode([$this->getToolsEquipment(), $this->getToolsEquipment()]),
+            // 'trades' => fake()->randomElement(['Operation', 'Commander', 'Executioner']),
+            'trades' => json_encode([$this->getTrades(), $this->getTrades()]),
             'personel_involved' => fake()->randomDigitNotNull(),
             'tra_level' => fake()->randomElement([1, 2]),
             'reference_no' => fake()->randomNumber(6),
@@ -134,5 +134,9 @@ class PermitToWorkFactory extends Factory
     function getToolsEquipment()
     {
         return ToolsEquipment::get()->random();
+    }
+    function getTrades()
+    {
+        return Trade::get()->random();
     }
 }
