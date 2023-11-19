@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('permit_to_works', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
-            $table->string('work_order');
+            // $table->string('number');
+            // $table->string('work_order');
             $table->dateTime('date_application');
             $table->foreignId('request_pa')->constrained('users')->onDelete('cascade');
             $table->foreignId('direct_spv')->constrained('users')->onDelete('cascade');
-            $table->string('location');
             $table->string('equipment_id');
-            $table->string('task_description');
-            $table->string('tools_equipment');
+            $table->string('location');
+            $table->longText('task_description');
+            $table->longText('tools_equipment');
             $table->string('trades');
             $table->integer('personel_involved');
             $table->integer('tra_level');

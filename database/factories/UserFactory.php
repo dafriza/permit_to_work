@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Job;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,12 +19,17 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $job = Job::all()->random();
+        // dd($job);
         return [
-            'name' => $this->faker->name(),
-            'nip' => 2023 . fake()->randomNumber(5),
-            // 'email' => $this->faker->unique()->safeEmail(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
             // 'email_verified_at' => now(),
             'password' => Hash::make(1), // password
+            'phone_number' => 0 . fake()->randomNumber(5, true) . fake()->randomNumber(5, true) . fake()->randomNumber(2, true),
+            'address' => fake()->streetAddress(),
+            'job_id' => $job['id'],
             // 'remember_token' => Str::random(10),
         ];
     }

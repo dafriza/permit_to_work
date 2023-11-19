@@ -15,6 +15,6 @@ class EntryPermitSeeder extends Seeder
      */
     public function run()
     {
-      EntryPermit::factory()->count(10)->create();
+      EntryPermit::factory()->count(50)->create();
     }
 }
