@@ -3,10 +3,10 @@
 @section('title', ' H2S Form ')
 
 @section('content')
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span><span class="text-muted fw-light">/</span>H2S
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms</span><span class="text-muted fw-light">/</span>H2S
     </h4>
     <div class="row">
-        <div class="card mb-4" style="background-color: gold">
+        <div class="card mb-4">
             <div class="card-body">
                 <form id="h2sForm" method="POST" onsubmit="return false">
                     <div class="row">
