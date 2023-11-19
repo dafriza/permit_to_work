@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Services\PermitToWork\PermitToWorkInterface;
+use App\Models\PermitToWork;
 use Illuminate\Http\Request;
+use App\Services\PermitToWork\PermitToWorkInterface;
 
 class PermitToWorkController extends Controller
 {
@@ -16,7 +17,8 @@ class PermitToWorkController extends Controller
     function index()
     {
         // $data = User::role('supervisor')->get();
-        // return response()->json($data);
+        $res = PermitToWork::get()->first();
+        return response()->json($res);
         return view('content.permit_to_work.index');
     }
 }
