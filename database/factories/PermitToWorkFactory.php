@@ -38,13 +38,13 @@ class PermitToWorkFactory extends Factory
             'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'task_description' => 'test',
             // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
-            'tools_equipment' => json_encode([$this->getToolsEquipment(), $this->getToolsEquipment()]),
+            'tools_equipment' => [$this->getToolsEquipment(), $this->getToolsEquipment()],
             // 'trades' => fake()->randomElement(['Operation', 'Commander', 'Executioner']),
-            'trades' => json_encode([$this->getTrades(), $this->getTrades()]),
+            'trades' => [$this->getTrades(), $this->getTrades()],
             'personel_involved' => fake()->randomDigitNotNull(),
             'tra_level' => fake()->randomElement([1, 2]),
             'reference_no' => fake()->randomNumber(6),
-            'hazard' => json_encode([
+            'hazard' => [
                 'slipping_hazard' => fake()->randomElement([0, 1]),
                 'awkward_access' => fake()->randomElement([0, 1]),
                 'flammable_material' => fake()->randomElement([0, 1]),
@@ -71,8 +71,8 @@ class PermitToWorkFactory extends Factory
                 'smoke_gas' => fake()->randomElement([0, 1]),
                 'bad_weather' => fake()->randomElement([0, 1]),
                 'hazard_other' => fake()->randomElement(['Hand Injury', 'Equipment Damage', 'Foot Injury']) . ',' . fake()->randomElement(['Hand Injury', 'Equipment Damage', 'Foot Injury']),
-            ]),
-            'controls' => json_encode([
+            ],
+            'controls' => [
                 'erect_sign_and_barriers' => fake()->randomElement([0, 1]),
                 'keep_worksite_free_of_trip' => fake()->randomElement([0, 1]),
                 'inital_gas_test_at_specific_intervals' => fake()->randomElement([0, 1]),
@@ -106,29 +106,29 @@ class PermitToWorkFactory extends Factory
                 'loto' => fake()->randomElement([0, 1]),
                 'controls_other' => fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']) . ',' . fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']),
                 'additional_ppe' => fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']) . ',' . fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']),
-            ]),
-            'cross_referenced_certificates' => json_encode([
+            ],
+            'cross_referenced_certificates' => [
                 'permit' => 'Lorem Ipsum',
                 'isolation' => 'Lorem Ipsum',
                 'Others' => 'Lorem Ipsum',
-            ]),
-            'submission' => json_encode([
+            ],
+            'submission' => [
                 'site_controller' => $supervisor['id'],
                 'area_authoriry' => $supervisor['id'],
                 'permit_controller' => $supervisor['id'],
-            ]),
-            'authorization_and_issuing' => json_encode([
+            ],
+            'authorization_and_issuing' => [
                 'site_controller' => fake()->imageUrl(360, 360, 'signature', true),
                 'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
                 'authorized_gas_tester' => fake()->imageUrl(360, 360, 'signature', true),
                 'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
                 'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
-            ]),
-            'completion' => json_encode([
+            ],
+            'completion' => [
                 'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
                 'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
                 'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
-            ]),
+            ],
         ];
     }
     function getToolsEquipment()
