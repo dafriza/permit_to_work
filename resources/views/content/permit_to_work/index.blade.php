@@ -1,17 +1,41 @@
 @extends('layouts/contentNavbarLayout')
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
 @endpush
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script>
-        $('#mySelect2').select2({
+        $('#direct_supervisor').select2({
+            // minimumInputLength: 2,
             ajax: {
                 url: function(params) {
-                    return '/some/url/' + params.term;
-                }
-            }
+                    return '{!! route('permit_to_work.get_data_spv') !!}';
+                },
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                id: item.id,
+                                text: item.first_name + ' ' + item.last_name,
+                            }
+                        })
+                    };
+                },
+                cache: true,
+            },
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
         });
+
+        function isNumberKey(evt) {
+            let charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
     </script>
 @endpush
 @section('title', ' Horizontal Form ')
@@ -37,12 +61,12 @@
                 </div>
             </div>
 
-            <!--<div class="card-header align-items-center d-flex justify-content-center">
-                            <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
-                        </div>
-                        <div class="card-header align-items-center d-flex justify-content-center">
-                            <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
-                        </div>-->
+            {{-- <div class="card-header align-items-center d-flex justify-content-center">
+                <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
+            </div>
+            <div class="card-header align-items-center d-flex justify-content-center">
+                <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
+            </div> --}}
             <div class="card-body">
                 <form id="formAccountSettings" method="POST" onsubmit="return false">
                     <div class="row">
@@ -60,11 +84,15 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="directspv" class="form-label">Direct Supervisor</label>
-                            <input type="text" class="form-control" id="directspv" name="directspv" />
+                            {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                            <select id="direct_supervisor" class="form-select" aria-label="direct_supervisor"
+                                data-placeholder="Pilih Supervisor">
+                                {{-- <option selected>Open this select menu</option> --}}
+                            </select>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label" for="equipmentid">EQUIPMENT ID / TAG NUMBER </label>
-                            <input type="text" class="form-control" id="equipmentid" name="equipmentid" />
+                            <input type="text" class="form-control" id="equipmentid" name="equipmentid" onkeypress="return isNumberKey(event)" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="address" class="form-label">Location</label>
@@ -73,8 +101,8 @@
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="taskdesc" class="form-label">TASK DESCRIPTION</label>
-                            <input class="form-control" type="text" id="taskdesc" name="taskdesc"
-                                placeholder="Perbaikan pada ..." />
+                            <textarea class="form-control" type="text" id="taskdesc" name="taskdesc" placeholder="Perbaikan pada ...">
+                            </textarea>
                         </div>
 
                         <div class="mb-3 col-md-12">
