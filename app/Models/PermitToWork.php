@@ -22,10 +22,10 @@ class PermitToWork extends Model
     ];
     public function request_pa()
     {
-        return $this->belongsTo(User::class, 'request_pa', 'nip');
+        return $this->belongsTo(User::class, 'request_pa', 'id');
     }
-    public function direct_spv()
+    public function direct_spv_relation()
     {
-        return $this->belongsTo(User::class, 'direct_spv', 'nip');
+        return $this->belongsTo(User::class, 'direct_spv', 'id');
     }
 }

@@ -4,70 +4,6 @@
     <link href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
 @endpush
-@push('scripts')
-    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
-    <script>
-        dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
-        dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
-        dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
-
-        function isNumberKey(evt) {
-            let charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57))
-                return false;
-            return true;
-        }
-
-        function isDateNow(evt) {
-            let choose_date = new Date(evt.target.value).toISOString();
-            let date_now = new Date().toISOString();
-            if (choose_date < date_now) {
-                console.log('jalan');
-                evt.target.value = null;
-                return false;
-            }
-            return true;
-        }
-
-        $('#formAccountSettings').on('submit', function(e) {
-            e.preventDefault();
-            let form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function(data, textStatus, xhr) {
-                    if (textStatus == 'success') {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Berhasil simpan data!",
-                            icon: 'success',
-                            confirmButtonText: 'Back'
-                        })
-                    }
-                    console.log(data);
-                    console.log(textStatus);
-                    console.log(xhr);
-                },
-                error: function(xhr, textStatus, err) {
-                    if (textStatus == 'error') {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: xhr.responseJSON.message,
-                            icon: 'error',
-                            confirmButtonText: 'Back'
-                        })
-                    }
-                    console.log(xhr);
-                    console.log(textStatus);
-                    console.log(err);
-                }
-            });
-            // console.log($(this).attr('action'));
-        });
-    </script>
-@endpush
 @section('title', ' Horizontal Form ')
 
 @section('content')
@@ -85,7 +21,7 @@
                     <h4 style="text-align: center">PERMIT TO WORK <br> COLD WORK</h4>
                 </div>
                 <div class="p-2 ms-auto">
-                    <pre>Number     <input type="text"><br>Work Order <input type="text"
+                    <pre>Number     <input id="number_hcml" type="text" disabled><br>Work Order <input type="text"
                 value="{{ Auth::id() ?? '1' }}" autocomplete="off" disabled></pre>
                 </div>
             </div>
@@ -118,7 +54,7 @@
                             {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                             <select id="direct_supervisor" class="form-select permit_to_work" name="direct_spv"
                                 aria-label="direct_supervisor" data-placeholder="Pilih Supervisor">
-                                {{-- <option selected>Open this select menu</option> --}}
+                                {{-- <option>Harold Carter</option> --}}
                             </select>
                         </div>
                         <div class="mb-3 col-md-6">
@@ -697,4 +633,53 @@
         </div>
     </div>
     </div>
-@endsection
+@e ndsection
+@push('scripts')
+    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
+    <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
+    <script src="{{ asset('assets/js/helperJs.js') }}"></script>
+    <script>
+        dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
+        dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
+        dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
+        submitWithAjax('formAccountSettings')
+        getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work') }}').done(function(data) {
+            if (data != '') {
+                let date = new Date(data.date_application);
+                let date_format = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+                $("#dateapplication").val(date_format);
+                getDataWithAjax(
+                    "{!! route('permit_to_work.find_data_direct_spv', '') !!}" + "/" + data.direct_spv).done(function(data) {
+                    let direct_spv_option = new Option(data.first_name + " " + data.last_name, data.id,
+                        true, true);
+                    $('#direct_supervisor').append(direct_spv_option).trigger('change');
+                });
+                $("#equipmentid").val(data.equipment_id);
+                $("#location").val(data.location);
+                $("#task_description").val(data.task_description);
+                getDataWithAjax("{!! route('permit_to_work.find_data_tools_equipment', '') !!}" + "/" + data.tools_equipment).done(function(data) {
+                    $.map(data, function(tools_equipment) {
+                        let tools_equipment_data = new Option(tools_equipment.name,
+                            tools_equipment.id, true, true);
+                        $('#tools_equipment').append(tools_equipment_data).trigger('change');
+                    })
+                })
+                getDataWithAjax("{!! route('permit_to_work.find_data_trades', '') !!}" + "/" + data.trades).done(function(data) {
+                    $.map(data, function(trades) {
+                        let trades_data = new Option(trades.name,
+                            trades.id, true, true);
+                        $('#trades').append(trades_data).trigger('change');
+                    })
+                })
+                $("#personel_involved").val(data.personel_involved);
+            }
+        });
+        getDataWithAjax('{{ route('permit_to_work.get_total_permits') }}').done(function(data) {
+            let date_now = new Date();
+            let month_romanize = romanize(date_now.getMonth()+1);
+            $("#number_hcml").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
+        })
+    </script>
+@endpush
