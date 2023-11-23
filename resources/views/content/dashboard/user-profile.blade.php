@@ -17,6 +17,8 @@
 @section('content')
 
     <head>
+        <link rel="stylesheet"
+            href="https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo/assets/vendor/libs/animate-css/animate.css" />
         <script
             src="https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo/assets/js/tables-datatables-basic.js">
         </script>
@@ -414,7 +416,8 @@
                                     <div class="d-flex justify-content-center pt-3">
                                         <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser"
                                             data-bs-toggle="modal">Edit</a>
-                                        <a href="javascript:;" class="btn btn-danger">Delete this Account</a>
+                                        <a href="javascript:;" class="btn btn-danger" data-bs-target="#modalTop"
+                                            data-bs-toggle="modal">Delete this Account</a>
                                     </div>
                                 </div>
                             </div>
@@ -483,6 +486,33 @@
                             </div>
                         </div>
                         <!--/ Edit User Modal -->
+
+                        <!-- Delete User Modal -->
+                        <div class="modal modal-top fade" id="modalTop" tabindex="-1">
+                            <div class="modal-dialog">
+                                <form class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalTopTitle">Delete Account Validation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="nameSlideTop" class="form-label">Are You Sure To Delete This Account Permanently?</label>
+                                                <h6>Delete Account John Doe (by system)</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-label-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary">OK</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--/ Delete User Modal -->
                     </div>
                     <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
                         <!-- Project table -->
@@ -610,24 +640,24 @@
                                                             aria-controls="DataTables_Table_0" role="link"
                                                             data-dt-idx="1" tabindex="0" class="page-link">2</a></li>
                                                     <!--
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                aria-controls="DataTables_Table_0" role="link"
-                                                                data-dt-idx="2" tabindex="0" class="page-link">3</a></li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                aria-controls="DataTables_Table_0" role="link"
-                                                                data-dt-idx="3" tabindex="0" class="page-link">4</a></li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                aria-controls="DataTables_Table_0" role="link"
-                                                                data-dt-idx="4" tabindex="0" class="page-link">5</a></li>
-                                                        <li class="paginate_button page-item disabled"
-                                                            id="DataTables_Table_0_ellipsis"><a
-                                                                aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                                role="link" data-dt-idx="ellipsis" tabindex="0"
-                                                                class="page-link">…</a></li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                aria-controls="DataTables_Table_0" role="link"
-                                                                data-dt-idx="14" tabindex="0" class="page-link">15</a></li>
-                                                        -->
+                                                                <li class="paginate_button page-item "><a href="#"
+                                                                        aria-controls="DataTables_Table_0" role="link"
+                                                                        data-dt-idx="2" tabindex="0" class="page-link">3</a></li>
+                                                                <li class="paginate_button page-item "><a href="#"
+                                                                        aria-controls="DataTables_Table_0" role="link"
+                                                                        data-dt-idx="3" tabindex="0" class="page-link">4</a></li>
+                                                                <li class="paginate_button page-item "><a href="#"
+                                                                        aria-controls="DataTables_Table_0" role="link"
+                                                                        data-dt-idx="4" tabindex="0" class="page-link">5</a></li>
+                                                                <li class="paginate_button page-item disabled"
+                                                                    id="DataTables_Table_0_ellipsis"><a
+                                                                        aria-controls="DataTables_Table_0" aria-disabled="true"
+                                                                        role="link" data-dt-idx="ellipsis" tabindex="0"
+                                                                        class="page-link">…</a></li>
+                                                                <li class="paginate_button page-item "><a href="#"
+                                                                        aria-controls="DataTables_Table_0" role="link"
+                                                                        data-dt-idx="14" tabindex="0" class="page-link">15</a></li>
+                                                                -->
                                                     <li class="paginate_button page-item next"
                                                         id="DataTables_Table_0_next"><a href="#"
                                                             aria-controls="DataTables_Table_0" role="link"
