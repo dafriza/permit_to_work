@@ -37,6 +37,31 @@ class PermitToWorkController extends Controller
         return $this->permit_to_work->getTrades($request);
     }
 
+    function getHeaderColdWork()
+    {
+        return $this->permit_to_work->getHeaderColdWork();
+    }
+
+    function getTotalPermits()
+    {
+        return $this->permit_to_work->getTotalPermits();
+    }
+
+    function findDataDirectSPV($id)
+    {
+        return $this->permit_to_work->findDataDirectSPV($id);
+    }
+
+    function findDataToolsEquipment($data_tools_equipment)
+    {
+        return $this->permit_to_work->findDataToolsEquipment($data_tools_equipment);
+    }
+
+    function findDataTrades($data_trades)
+    {
+        return $this->permit_to_work->findDataTrades($data_trades);
+    }
+
     function storeHeader(HeaderColdWorkRequest $request)
     {
         return $this->permit_to_work->storeHeader($request);

@@ -10,4 +10,9 @@ interface PermitToWorkInterface
     function getToolsEquipment(Request $request);
     function getTrades(Request $request);
     function storeHeader(HeaderColdWorkRequest $request);
+    function getHeaderColdWork();
+    function getTotalPermits();
+    function findDataDirectSPV($id);
+    function findDataToolsEquipment($data_tools_equipment);
+    function findDataTrades($data_trades);
 }

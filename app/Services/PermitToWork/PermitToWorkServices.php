@@ -56,6 +56,36 @@ class PermitToWorkServices implements PermitToWorkInterface
         return response()->json(['results' => $get_trades_map]);
     }
 
+    function getHeaderColdWork()
+    {
+        return json_decode(Storage::get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
+    }
+
+    function getTotalPermits()
+    {
+        return PermitToWork::get()->count() + 1;
+    }
+
+    function findDataDirectSPV($id)
+    {
+        $direct_spv = User::where('id', $id)->first();
+        return $direct_spv;
+    }
+
+    function findDataToolsEquipment($data_tools_equipment)
+    {
+        $data_tools_equipment = explode(',', $data_tools_equipment);
+        $tools_equipment = ToolsEquipment::all()->whereIn('id', $data_tools_equipment);
+        return $tools_equipment;
+    }
+
+    function findDataTrades($data_trades)
+    {
+        $data_trades = explode(',', $data_trades);
+        $trades = Trade::all()->whereIn('id', $data_trades);
+        return $trades;
+    }
+
     function storeHeader(HeaderColdWorkRequest $request)
     {
         // return $request->fails();
