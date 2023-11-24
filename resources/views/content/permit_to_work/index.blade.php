@@ -633,7 +633,7 @@
         </div>
     </div>
     </div>
-@e ndsection
+@endsection
 @push('scripts')
     <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
