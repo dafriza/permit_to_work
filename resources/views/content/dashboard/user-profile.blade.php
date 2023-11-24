@@ -380,7 +380,7 @@
                                             <span>Approved</span>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-start mt-3 gap-3">
+                                    <div class="d-flex align-items-start me-5 mt-3 gap-3">
                                         <span class="badge bg-label-primary p-2 rounded"><i
                                                 class='bx bx-check bx-sm'></i></span>
                                         <div>
