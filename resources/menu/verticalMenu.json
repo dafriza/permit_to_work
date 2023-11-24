@@ -4,7 +4,14 @@
       "url": "/",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard-analytics"
+      "slug": "dashboard-analytics",
+      "submenu": [
+        {
+          "url":"dashboard/user-profile",
+          "name":"User Profile",
+          "slug":"user-profile"
+        }
+      ]
     },
     {
       "menuHeader": "Forms & Tables"
