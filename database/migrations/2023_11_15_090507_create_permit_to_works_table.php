@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('equipment_id');
             $table->string('location');
             $table->longText('task_description');
-            $table->string('tools_equipment');
-            $table->string('trades');
+            $table->longText('tools_equipment');
+            $table->longText('trades');
             $table->integer('personel_involved');
             $table->integer('tra_level');
             $table->string('reference_no');

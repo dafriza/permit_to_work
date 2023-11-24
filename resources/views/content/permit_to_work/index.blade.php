@@ -1,5 +1,73 @@
 @extends('layouts/contentNavbarLayout')
+@push('styles')
+    <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+@endpush
+@push('scripts')
+    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
+    <script>
+        dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
+        dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
+        dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
 
+        function isNumberKey(evt) {
+            let charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function isDateNow(evt) {
+            let choose_date = new Date(evt.target.value).toISOString();
+            let date_now = new Date().toISOString();
+            if (choose_date < date_now) {
+                console.log('jalan');
+                evt.target.value = null;
+                return false;
+            }
+            return true;
+        }
+
+        $('#formAccountSettings').on('submit', function(e) {
+            e.preventDefault();
+            let form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data, textStatus, xhr) {
+                    if (textStatus == 'success') {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "Berhasil simpan data!",
+                            icon: 'success',
+                            confirmButtonText: 'Back'
+                        })
+                    }
+                    console.log(data);
+                    console.log(textStatus);
+                    console.log(xhr);
+                },
+                error: function(xhr, textStatus, err) {
+                    if (textStatus == 'error') {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: xhr.responseJSON.message,
+                            icon: 'error',
+                            confirmButtonText: 'Back'
+                        })
+                    }
+                    console.log(xhr);
+                    console.log(textStatus);
+                    console.log(err);
+                }
+            });
+            // console.log($(this).attr('action'));
+        });
+    </script>
+@endpush
 @section('title', ' Horizontal Form ')
 
 @section('content')
@@ -9,7 +77,6 @@
     <div class="row">
         <!-- Basic Layout -->
         <div class="card mb-4">
-
             <div class="hstack gap-3">
                 <div class="p-2">
                     <h1>HCML</h1>
@@ -18,75 +85,81 @@
                     <h4 style="text-align: center">PERMIT TO WORK <br> COLD WORK</h4>
                 </div>
                 <div class="p-2 ms-auto">
-                    <pre>Number     <input type="text"><br>Work Order <input type="text"></pre>
+                    <pre>Number     <input type="text"><br>Work Order <input type="text"
+                value="{{ Auth::id() ?? '1' }}" autocomplete="off" disabled></pre>
                 </div>
             </div>
 
-            <!--<div class="card-header align-items-center d-flex justify-content-center">
-                    <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
-                </div>
-                <div class="card-header align-items-center d-flex justify-content-center">
-                    <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
-                </div>-->
+            {{-- <div class="card-header align-items-center d-flex justify-content-center">
+                <h5 class="mb-0 fs-4 lh-0 ">PERMIT TO WORK</h5>
+            </div>
+            <div class="card-header align-items-center d-flex justify-content-center">
+                <h5 class="mb-0 fs-4 lh-0 ">COLD WORK</h5>
+            </div> --}}
             <div class="card-body">
-                <form id="formAccountSettings" method="POST" onsubmit="return false">
+                <form id="formAccountSettings" method="POST" action="{{ route('permit_to_work.store_header') }}">
+                    @csrf
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="dateapplication" class="form-label">Date Application</label>
-                            <input class="form-control" type="date" id="dateapplication" name="dateapplication"
-                                autofocus />
+                            <input class="form-control permit_to_work" type="date" id="dateapplication"
+                                name="date_application" onchange="return isDateNow(event)" autofocus />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="reqbypa" class="form-label">Request by PA</label>
-                            <input class="form-control" type="text" name="reqbypa" id="reqbypa" />
+                            <input type="hidden" name="request_pa" value="{{ Auth::id() ?? 1 }}">
+                            <input class="form-control permit_to_work" type="text" id="reqbypa"
+                                value="{{ Auth::user()->name ?? 'John Doe' }}" disabled />
                         </div>
                         <div class="mb-3 col-md-6">
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="directspv" class="form-label">Direct Supervisor</label>
-                            <input type="text" class="form-control" id="directspv" name="directspv" />
+                            {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                            <select id="direct_supervisor" class="form-select permit_to_work" name="direct_spv"
+                                aria-label="direct_supervisor" data-placeholder="Pilih Supervisor">
+                                {{-- <option selected>Open this select menu</option> --}}
+                            </select>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label" for="equipmentid">EQUIPMENT ID / TAG NUMBER </label>
-                            <input type="text" class="form-control" id="equipmentid" name="equipmentid" />
+                            <input type="text" class="form-control permit_to_work" id="equipmentid"
+                                name="equipment_id" />
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="address" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                placeholder="Address" />
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control permit_to_work" id="location" name="location"
+                                placeholder="Location ..." />
                         </div>
                         <div class="mb-3 col-md-12">
-                            <label for="taskdesc" class="form-label">TASK DESCRIPTION</label>
-                            <input class="form-control" type="text" id="taskdesc" name="taskdesc"
-                                placeholder="Perbaikan pada ..." />
+                            <label for="task_description" class="form-label">TASK DESCRIPTION</label>
+                            <textarea class="form-control permit_to_work" type="text" id="task_description" name="task_description"
+                                placeholder="Perbaikan pada ..."></textarea>
                         </div>
 
                         <div class="mb-3 col-md-12">
-                            <label class="form-label" for="tools">TOOLS/EQUIPMENT</label>
-                            <input class="form-control" type="text" id="tools" name="tools"
-                                placeholder="Handtools, WD 40 ..." />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="timeZones" class="form-label">TRADES/KEAHLIAN (Kedepannya perlu pakai
-                                select2)</label>
-                            <input class="form-control" type="text" id="tools" name="tools"
-                                placeholder="Handtools, WD 40 ..." />
-
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="currency" class="form-label">No. of personnel involved</label>
-                            <select id="currency" class="select2 form-select">
-                                <option value="">Select Total</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
+                            <label class="form-label" for="tools_equipment">TOOLS/EQUIPMENT</label>
+                            <select class="form-control permit_to_work" type="text" id="tools_equipment"
+                                name="tools_equipment[]" multiple="multiple" data-placeholder="Pilih Tools">
                             </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="trades" class="form-label">TRADES/KEAHLIAN</label>
+                            <select class="form-control permit_to_work" id="trades" name="trades[]"
+                                data-placeholder="Pilih Trade" multiple="multiple">
+                            </select>
+
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="personel_involved" class="form-label">No. of personnel involved</label>
+                            <input type="text" id="personel_involved" class="form-control permit_to_work"
+                                name="personel_involved" onkeypress="return isNumberKey(event)">
                         </div>
                     </div>
                     <div class="mt-2 d-flex justify-content-end">
                         <button type="reset" class="btn btn-outline-secondary me-2">Back</button>
-                        <button type="submit" class="btn btn-primary me-2">Next (SETELAH CHECKBOX)</button>
+                        <button id="submit_permit_to_work" type="submit" class="btn btn-primary me-2">Next (SETELAH
+                            CHECKBOX)</button>
                     </div>
                 </form>
             </div>
