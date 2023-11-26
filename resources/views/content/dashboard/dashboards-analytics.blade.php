@@ -459,7 +459,7 @@
                             datasets: [{
                                 data: [125, 20, 35],
                                 backgroundColor: ["#7C66FF", "#E2D345", "#FF6464"],
-                                borderColor: "black",
+                                borderColor: "white",
                                 borderWidth: 0,
                             }, ],
                         };
@@ -528,7 +528,7 @@
                                     "#E2D345",
                                     "#FF6464"
                                 ],
-                                borderColor: "black",
+                                borderColor: "white",
                                 borderWidth: 0
                             }]
                         };
