@@ -26,7 +26,6 @@
         src="https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo/assets/js/extended-ui-sweetalert2.js">
     </script>
 @endpush
-
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
@@ -106,12 +105,27 @@
             </div>
             <!--/ Card Border Shadow -->
 
-            <!-- cart ptw -->
+            <!-- chart permit to work -->
             <div class="col-md-4 col-xxl-4 mb-4 order-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Permit to Work</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="permit_to_work"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!--/ cart ptw -->
+
+            <!-- chart entry permit -->
+            <div class="col-md-4 col-xxl-4 mb-4 order-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-title mb-0">
+                            <h5 class="m-0 me-2">Entry Permit</h5>
                         </div>
                         {{-- <div class="dropdown">
                             <button class="btn p-0" type="button" id="deliveryExceptions" data-bs-toggle="dropdown"
@@ -126,75 +140,10 @@
                         </div> --}}
                     </div>
                     <div class="card-body">
-                        <canvas id="oilChart"></canvas>
+                        <canvas id="entry_permit"></canvas>
                     </div>
                 </div>
             </div>
-
-
-            <!--/ cart ptw -->
-            <!-- cart entry permit -->
-            <div class="col-md-4 col-xxl-4 mb-4 order-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">Entry Permit</h5>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="deliveryExceptions" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deliveryExceptions">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="oilChart-2" width="200" height="150"></canvas>
-                    </div>
-                </div>
-            </div>
-            {{-- <script type="text/javascript">
-                var oilCanvas = document.getElementById("oilChart-2");
-                Chart.defaults.global.defaultFontFamily = "Banshcraft";
-                Chart.defaults.global.defaultFontSize = 12;
-                var oilData = {
-                    labels: [
-                        "Approved",
-                        "On Going",
-                        "Rejected"
-                    ],
-                    datasets: [{
-                        data: [45, 20, 35],
-                        backgroundColor: [
-                            "#7C66FF",
-                            "#E2D345",
-                            "#FF6464"
-                        ],
-                        borderColor: "white",
-                        borderWidth: 0
-                    }]
-                };
-                var chartOptions = {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 35,
-                            pointStyle: 'circle',
-                            boxWidth: 3
-                        }
-                    }
-                };
-                var pieChart = new Chart(oilCanvas, {
-                    type: 'doughnut',
-                    data: oilData,
-                    options: chartOptions
-                });
-            </script> --}}
             <!--/ cart entry permit -->
 
             <!-- Activity Timeline -->
@@ -204,108 +153,44 @@
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Activity Timeline</h5>
                         </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="deliveryExceptions" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deliveryExceptions">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="card-body">
                         <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-success">
-                                        <i class="bx bx-check-circle" data-bs-target="#successactivity"
-                                            data-bs-toggle="modal"></i>
-                                    </span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">Autorization</h6>
-                                        <small class="text-muted">
-                                            Site Controller
-                                        </small>
+                            @foreach ($permit_to_work_auth->authorization_and_issuing as $key => $permit_to_work)
+                                @php
+                                    try {
+                                        $status_issue = explode(',', $permit_to_work_auth->status_issue[$permit_to_work]);
+                                        $str = $permit_to_work;
+                                        $pattern = '/https/i';
+                                        $pattern = preg_match($pattern, $str);
+                                        if ($pattern == 1) {
+                                            $permit_to_work = 'success';
+                                        }
+                                    } catch (\Exception $e) {
+                                        $status_issue = ['success', 'success','check-circle'];
+                                    }
+                                @endphp
+                                <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                        <span class="avatar-initial rounded bg-label-{{ $status_issue[0] }}">
+                                            <i class="bx bx-check-circle"
+                                                onclick="swal_usage('{{ $permit_to_work }}','Approved','{{ $status_issue[1] }}')"></i>
+                                        </span>
                                     </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">16 Day Ago</h6>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                            <h6 class="mb-1 fw-normal">{{ $permit_to_work_auth->main_issue[$loop->index] }}
+                                            </h6>
+                                            <small class="text-muted">
+                                                {{ $key }}
+                                            </small>
+                                        </div>
+                                        <div class="user-progress">
+                                            <h6 class="mb-0">16 Day Ago</h6>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-success">
-                                        <i class="bx bx-check-circle" data-bs-target="#successactivity"
-                                            data-bs-toggle="modal"></i>
-                                    </span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">Permit Registry</h6>
-                                        <small class="text-muted">
-                                            Permit Controller
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">10 Days Ago</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle"
-                                            data-bs-target="#ongoingactivity" data-bs-toggle="modal"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">Site Gas Test</h6>
-                                        <small class="text-muted">
-                                            Authorized Gas Tester
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">2 Days Ago</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-danger">
-                                        <i class="bx bx-x" data-bs-target="#rejectactivity"
-                                            data-bs-toggle="modal"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">Issue</h6>
-                                        <small class="text-muted">
-                                            Area Authority
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">10 Minute Ago</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label"><i
-                                            class="bx bx-check-circle"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">Acceptance</h6>
-                                        <small class="text-muted"> Performing Authority</small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0"></h6>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -402,6 +287,13 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('assets/js/chart_usage.js')}}"></script>
-    <script src="{{asset('assets/js/http_ajax.js')}}"></script>
+    <script src="{{ asset('assets/js/chart_usage.js') }}"></script>
+    <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
+    <script>
+        getDataWithAjax('{{ route('dashboard.get_data_permit_to_work') }}').done(function(data) {
+            let dataset = data;
+            doughnutChart("permit_to_work", ["On Going", "Success", "Rejected"], data)
+            doughnutChart("entry_permit", ["On Going", "Success", "Rejected"], data)
+        });
+    </script>
 @endpush

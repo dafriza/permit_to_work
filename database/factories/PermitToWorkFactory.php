@@ -118,11 +118,11 @@ class PermitToWorkFactory extends Factory
                 'permit_controller' => $supervisor['id'],
             ],
             'authorization_and_issuing' => [
-                'site_controller' => fake()->imageUrl(360, 360, 'signature', true),
-                'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
-                'authorized_gas_tester' => fake()->imageUrl(360, 360, 'signature', true),
-                'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
-                'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
+                'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
+                'permit_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
+                'authorized_gas_tester' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
+                'area_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
+                'performing_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
             ],
             'completion' => [
                 'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),

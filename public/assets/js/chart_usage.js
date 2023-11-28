@@ -1,6 +1,6 @@
 function doughnutChart(target, labels, data) {
-  // let oilCanvas = document.getElementById("oilChart");
-  let oilCanvas = $("#" + target);
+  // let target = document.getElementById("oilChart");
+  let target_canvas = $("#" + target);
 
   Chart.defaults.global.defaultFontFamily = "Public Sans";
   Chart.defaults.global.defaultFontSize = 13;
@@ -29,7 +29,7 @@ function doughnutChart(target, labels, data) {
     }
   };
 
-  return new Chart(oilCanvas, {
+  return new Chart(target_canvas, {
     type: "doughnut",
     data: datasets,
     options: optionChart

@@ -7,13 +7,14 @@ function submitWithAjax(target_id) {
       data: form.serialize(),
       success: function (data, textStatus, xhr) {
         if (textStatus == 'success') {
-          Swal.fire({
-            title: 'Success!',
-            text: "Berhasil simpan data!",
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          // Swal.fire({
+          //   title: 'Success!',
+          //   text: "Berhasil simpan data!",
+          //   icon: 'success',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // })
+          swal_usage('Success!', "Berhasil!", 'success')
         }
         // console.log(data);
         // console.log(textStatus);
@@ -21,13 +22,7 @@ function submitWithAjax(target_id) {
       },
       error: function (xhr, textStatus, err) {
         if (textStatus == 'error') {
-          Swal.fire({
-            title: 'Error!',
-            text: xhr.responseJSON.message,
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          swal_usage("Error!", xhr.responseJSON.message, 'error')
         }
         // console.log(xhr);
         // console.log(textStatus);
@@ -44,4 +39,17 @@ function getDataWithAjax(url_data) {
     type: 'GET',
   });
   return ajax;
+}
+
+function swal_usage(title, text, icon) {
+  Swal.fire({
+    // title: 'Error!',
+    title: title,
+    // text: xhr.responseJSON.message,
+    text: text,
+    // icon: 'error',
+    icon: icon,
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
