@@ -12,7 +12,6 @@
 
 @section('page-script')
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
-
 @endsection
 
 

@@ -1,17 +1,10 @@
 {
   "menu": [
     {
+      "icon": "menu-icon tf-icons bx bx-home-circle",
       "url": "/",
       "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard-analytics",
-      "submenu": [
-        {
-          "url":"dashboard/user-profile",
-          "name":"User Profile",
-          "slug":"user-profile"
-        }
-      ]
+      "slug": "dashboard-analytics"
     },
     {
       "menuHeader": "Forms & Tables"
@@ -37,6 +30,12 @@
           "slug": "form-layouth2s"
         }
       ]
+    },
+    {
+      "icon": "menu-icon tf-icons bx bx-grid",
+      "url": "ptw-management/ptwmanagement",
+      "name": "PTW Management",
+      "slug": "ptwmanagement"
     }
   ]
 }

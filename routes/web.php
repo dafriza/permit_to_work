@@ -24,3 +24,5 @@ Route::get('/form/layouts-horizontaltesting', $controller_path . '\form_layouts\
 Route::get('/form/layouts-horizontaltesting-page2', $controller_path . '\form_layouts\FormPage2@index')->name('form-layouts-horizontaltesting-page2');
 Route::get('/form/layouth2s', $controller_path . '\form_layouts\h2s@index')->name('form-layouth2s');
 
+// Ptw Management
+Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
