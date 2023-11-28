@@ -173,8 +173,9 @@
                                 <li class="d-flex mb-4 pb-1">
                                     <div class="avatar flex-shrink-0 me-3">
                                         <span class="avatar-initial rounded bg-label-{{ $status_issue[0] }}">
-                                            <i class="bx bx-check-circle"
-                                                onclick="swal_usage('{{ $permit_to_work }}','Approved','{{ $status_issue[1] }}')"></i>
+                                            <i class="bx bx-{{$status_issue[2]}}"
+                                            {{-- status by approval --}}
+                                                onclick="swal_usage_ok('{{ $permit_to_work }}','Approved','{{ $status_issue[1] }}')"></i>
                                         </span>
                                     </div>
                                     <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">

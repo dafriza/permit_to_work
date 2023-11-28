@@ -30,7 +30,7 @@ class PermitToWork extends Model
     ];
     const status_issue = [
         'rejected' => 'danger,error,x',
-        'revision' => 'secondary,warning,info-circle',
+        'on going' => 'secondary,warning,info-circle',
     ];
     public function request_pa()
     {

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number');
             $table->mediumText('address');
+            $table->string('role_assignment')->comment('khusus spv, employee = employee')->nullable();
             // $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

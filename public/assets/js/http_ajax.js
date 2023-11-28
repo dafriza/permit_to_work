@@ -53,3 +53,15 @@ function swal_usage(title, text, icon) {
     timer: 1500
   })
 }
+function swal_usage_ok(title, text, icon) {
+  Swal.fire({
+    // title: 'Error!',
+    title: title,
+    // text: xhr.responseJSON.message,
+    text: text,
+    // icon: 'error',
+    icon: icon,
+    showConfirmButton: true,
+    // timer: 1500
+  })
+}
