@@ -118,11 +118,11 @@ class PermitToWorkFactory extends Factory
                 'permit_controller' => $supervisor['id'],
             ],
             'authorization_and_issuing' => [
-                'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
-                'permit_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
-                'authorized_gas_tester' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
-                'area_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
-                'performing_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','revision']),
+                'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
+                'permit_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
+                'authorized_gas_tester' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
+                'area_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
+                'performing_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
             ],
             'completion' => [
                 'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
