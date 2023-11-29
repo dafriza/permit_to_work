@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\Analytics;
+use App\Http\Controllers\Dashboard\UserProfile;
+use App\Http\Controllers\form_layouts\HorizontalTestingForm;
+use App\Http\Controllers\form_layouts\H2s;
+use App\Http\Controllers\form_layouts\FormPage2;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +21,9 @@ use Illuminate\Support\Facades\Route;
 $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
-Route::get('/', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
-Route::get('/dashboard/user-profile', $controller_path . '\dashboard\UserProfile@index')->name('user-profile');
+Route::get('/', [Analytics::class, 'index'])->name('dashboard');
+Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
 
-// form layouts
-Route::get('/form/layouts-horizontaltesting', $controller_path . '\form_layouts\HorizontalTestingForm@index')->name('form-layouts-horizontaltesting');
-Route::get('/form/layouts-horizontaltesting-page2', $controller_path . '\form_layouts\FormPage2@index')->name('form-layouts-horizontaltesting-page2');
-Route::get('/form/layouth2s', $controller_path . '\form_layouts\h2s@index')->name('form-layouth2s');
-
+Route::get('permit_to_work', [HorizontalTestingForm::class, 'index'])->name('permit_to_work');
+Route::get('/form/layouts-horizontaltesting-page2', [FormPage2::class, 'index'])->name('form-layouts-horizontaltesting-page2');
+Route::get('/form/layouth2s', [H2s::class, 'index'])->name('form-layouth2s');

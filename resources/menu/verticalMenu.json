@@ -4,14 +4,7 @@
       "url": "/",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard-analytics",
-      "submenu": [
-        {
-          "url":"dashboard/user-profile",
-          "name":"User Profile",
-          "slug":"user-profile"
-        }
-      ]
+      "slug": "dashboard"
     },
     {
       "menuHeader": "Forms & Tables"
@@ -22,19 +15,31 @@
       "slug": "form-layouts",
       "submenu": [
         {
-          "url": "form/layouts-horizontaltesting",
-          "name": "Permit To Work Form Cold Work",
-          "slug": "form-layouts-horizontaltesting"
-        },
-        {
-          "url": "form/layouts-horizontaltesting-page2",
+          "url": "/form/layouts-horizontaltesting-page2",
           "name": "Permit To Work Form Cold Work Page 2",
           "slug": "form-layouts-horizontaltesting-page2"
         },
         {
-          "url": "form/layouth2s",
+          "url": "/form/layouth2s",
           "name": "H2S Form",
           "slug": "form-layouth2s"
+        }
+      ]
+    },
+    {
+      "name": "Permit To Work",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "permit_to_work",
+      "submenu": [
+        {
+          "url": "permit_to_work",
+          "name": "Cold PTW",
+          "slug": "permit_to_work.index"
+        },
+        {
+          "url": "permit_to_work",
+          "name": "Hot PTW",
+          "slug": ""
         }
       ]
     }
