@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PermitToWork extends Model
 {
@@ -20,6 +21,17 @@ class PermitToWork extends Model
         'authorization_and_issuing' => 'object',
         'completion' => 'object',
     ];
+    const main_issue = [
+        'site_controller' => 'Authorization',
+        'permit_controller' => 'Permit Registry',
+        'authorized_gas_tester' => 'Site Gast Test',
+        'performing_authority' => 'Acceptance',
+        'area_authority' => 'Issue',
+    ];
+    const status_issue = [
+        'rejected' => 'danger,error,x',
+        'revision' => 'secondary,warning,info-circle',
+    ];
     public function request_pa()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
@@ -27,5 +39,25 @@ class PermitToWork extends Model
     public function direct_spv_relation()
     {
         return $this->belongsTo(User::class, 'direct_spv', 'id');
+    }
+    function mainIssue(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $main_issue = [];
+                foreach ($this->authorization_and_issuing as $key => $value) {
+                    $main_issue[] = self::main_issue[$key];
+                }
+                return $main_issue;
+            },
+        );
+    }
+    function statusIssue(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return self::status_issue;
+            },
+        );
     }
 }

@@ -24,6 +24,7 @@ $controller_path = 'App\Http\Controllers';
 Route::get('/', [Analytics::class, 'index'])->name('dashboard');
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
 
+
 Route::get('permit_to_work', [HorizontalTestingForm::class, 'index'])->name('permit_to_work');
 Route::get('/form/layouts-horizontaltesting-page2', [FormPage2::class, 'index'])->name('form-layouts-horizontaltesting-page2');
 Route::get('/form/layouth2s', [H2s::class, 'index'])->name('form-layouth2s');
