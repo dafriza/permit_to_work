@@ -10,6 +10,7 @@ Route::prefix('permit_to_work')
     ->name('permit_to_work.')
     ->group(function () {
         Route::get('/', [PermitToWorkController::class, 'index'])->name('index');
+        Route::get('/tra', [PermitToWorkController::class, 'tra'])->name('tra');
         // get_data
         Route::get('get_data_spv', [PermitToWorkController::class, 'getDirectSPV'])->name('get_data_spv');
         Route::get('get_data_tools_equipment', [PermitToWorkController::class, 'getToolsEquipment'])->name('get_data_tools_equipment');

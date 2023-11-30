@@ -21,6 +21,10 @@ class PermitToWorkController extends Controller
     {
         return view('content.permit_to_work.index');
     }
+    function tra()
+    {
+        return view('content.permit_to_work.step2');
+    }
 
     function getDirectSPV(Request $request)
     {
