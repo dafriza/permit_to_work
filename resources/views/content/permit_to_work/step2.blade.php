@@ -8,47 +8,16 @@
 
 @section('content')
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">PTW Management/</span>PTW Request</h4>
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">  
     <!-- Basic Layout & Basic with Icons -->
     <div class="row">
+        {{-- Step Indicator --}}
+        @include('content.permit_to_work.step-indicator')
+        
         <!-- Basic Layout -->
         <div class="card mb-4">
             <div class="hstack gap-3">
-                <div class="bs-stepper-header">
-                    <div class="step crossed" data-target="#account-details-validation">
-                      <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
-                        <span class="bs-stepper-circle">1</span>
-                        <span class="bs-stepper-label mt-1">
-                          <span class="bs-stepper-title">Account Details</span>
-                          <span class="bs-stepper-subtitle">Setup Account Details</span>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="line">
-                      <i class="bx bx-chevron-right"></i>
-                    </div>
-                    <div class="step active" data-target="#personal-info-validation">
-                      <button type="button" class="step-trigger" aria-selected="true">
-                        <span class="bs-stepper-circle">2</span>
-                        <span class="bs-stepper-label mt-1">
-                          <span class="bs-stepper-title">Personal Info</span>
-                          <span class="bs-stepper-subtitle">Add personal info</span>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="line">
-                      <i class="bx bx-chevron-right"></i>
-                    </div>
-                    <div class="step" data-target="#social-links-validation">
-                      <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
-                        <span class="bs-stepper-circle">3</span>
-                        <span class="bs-stepper-label mt-1">
-                          <span class="bs-stepper-title">Social Links</span>
-                          <span class="bs-stepper-subtitle">Add social links</span>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+
                 <div class="p-2 ms-auto">
                     <h4 style="text-align: center">PERMIT TO WORK <br><h5 style="text-align: center">TRA</h5></h4>
                 </div>
@@ -61,77 +30,7 @@
                 <button type="reset" class="btn btn-outline-secondary me-2">Save</button>
                 <button id="submit_permit_to_work" type="submit" class="btn btn-primary me-2">Submit</button>
             </div>
-            <div class="card-body">
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="dateapplication" class="form-label">Date Application</label>
-                            <input class="form-control permit_to_work" type="date" id="dateapplication"
-                                name="date_application" onchange="return isDateNow(event)" autofocus />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="reqbypa" class="form-label">Request by PA</label>
-                            <input type="hidden" name="request_pa" value="{{ Auth::id() ?? 1 }}">
-                            <input class="form-control permit_to_work" type="text" id="reqbypa"
-                                value="{{ Auth::user()->name ?? 'John Doe' }}" disabled />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="directspv" class="form-label">Direct Supervisor</label>
-                            {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                            <select id="direct_supervisor" class="form-select permit_to_work" name="direct_spv"
-                                aria-label="direct_supervisor" data-placeholder="Pilih Supervisor">
-                                {{-- <option>Harold Carter</option> --}}
-                            </select>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label class="form-label" for="equipmentid">EQUIPMENT ID / TAG NUMBER </label>
-                            <input type="text" class="form-control permit_to_work" id="equipmentid"
-                                name="equipment_id" />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control permit_to_work" id="location" name="location"
-                                placeholder="Location ..." />
-                        </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="task_description" class="form-label">TASK DESCRIPTION</label>
-                            <textarea class="form-control permit_to_work" type="text" id="task_description" name="task_description"
-                                placeholder="Perbaikan pada ..."></textarea>
-                        </div>
-
-                        <div class="mb-3 col-md-12">
-                            <label class="form-label" for="tools_equipment">TOOLS/EQUIPMENT</label>
-                            <select class="form-control permit_to_work" type="text" id="tools_equipment"
-                                name="tools_equipment[]" multiple="multiple" data-placeholder="Pilih Tools">
-                            </select>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="trades" class="form-label">TRADES/KEAHLIAN</label>
-                            <select class="form-control permit_to_work" id="trades" name="trades[]"
-                                data-placeholder="Pilih Trade" multiple="multiple">
-                            </select>
-
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="personel_involved" class="form-label">No. of personnel involved</label>
-                            <input type="text" id="personel_involved" class="form-control permit_to_work"
-                                name="personel_involved" onkeypress="return isNumberKey(event)">
-                        </div>
-                    </div>
-                    <div class="mt-2 d-flex justify-content-end">
-                        <button type="reset" class="btn btn-outline-secondary me-2">Back</button>
-                        <button id="submit_permit_to_work" type="submit" class="btn btn-primary me-2">Next (SETELAH
-                            CHECKBOX)</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /Account -->
-        </div>
-    </div>
-
     <div class="form-check mb-3">
-        <form>
 
             <input class="form-check-input-inline" type="checkbox" name="accountActivation" id="accountActivation" />
             <label class="form-check-label" for="accountActivation">TRA Level 1</label>
@@ -143,25 +42,7 @@
                 <input class="form-control" type="text" id="tools" name="tools" placeholder="N-123" />
 
             </div>
-        </form>
-
-        {{-- <div class="hstack gap-3">
-          <div class="p-2" style="color: white">
-            <a style="margin: 10px">TRA Level 1</a>
-            <input class="form-check-input mt-0" type="checkbox" value="" style="border: 2px solid">
-          </div>
-          <div class="p-2" style="color: white">
-            <a style="margin: 10px">TRA Level 2</a>
-            <input class="form-check-input mt-0" type="checkbox" value="" style="border: 2px solid">
-          </div>
-          <div class="p-2 ms-auto">
-            <a style="color: white; margin: 5px">Reference No</a>
-            <input type="text" style="background-color: darkgray">
-          </div>
-        </div> --}}
-
     </div>
-
 
     <!-- Basic with Icons -->
     <div class="row">
@@ -176,22 +57,8 @@
                             <h5 class="card-header" style="text-align: left">A. Hazards / Bahaya-bahaya</h5>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
-                                    <thead>
-                                        <tr class="text-nowrap">
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
+                           
                                     <tbody>
-
                                         <!-- Row 1 -->
                                         <tr>
                                             <th scope="row">
@@ -207,11 +74,6 @@
                                                 <input class="form-check-input-inline" type="checkbox"
                                                     name="accountActivation" id="accountActivation">
                                             </td>
-                                            <td>
-                                                <div class="p-10">6. Tripping Hazard <br><i>Bahaya Tersandung</i></div>
-                                            </td>
-                                            <td><input class="form-check-input-inline" type="checkbox"
-                                                    name="accountActivation" id="accountActivation"></td>
                                             <td>
                                                 <div class="p-10">11. Working at Height with Scafford <br><i>Bekerja di
                                                         ketinggian dengan perancah</i>
@@ -355,6 +217,49 @@
                                             <td>
                                                 <div class="p-3">25. Bad Weather <br><i>Cuaca Buruk</i></div>
                                             </td>
+                                        </tr>
+                                        {{-- Step 6 --}}
+                                        <tr>
+                                            <th scope="row"><input class="form-check-input-inline" type="checkbox"
+                                                    name="accountActivation" id="accountActivation"></th>
+                                        <td>
+                                            <div class="p-10">6. Tripping Hazard <br><i>Bahaya Tersandung</i></div>
+                                        </td>
+                                        <td><input class="form-check-input-inline" type="checkbox"
+                                                name="accountActivation" id="accountActivation"></td>
+                                        </tr>
+
+                                        {{-- Step 7 --}}
+                                        <tr>
+                                            <th scope="row"><input class="form-check-input-inline" type="checkbox"
+                                                    name="accountActivation" id="accountActivation"></th>
+                                        <td>
+                                            <div class="p-10">6. Tripping Hazard <br><i>Bahaya Tersandung</i></div>
+                                        </td>
+                                        <td><input class="form-check-input-inline" type="checkbox"
+                                                name="accountActivation" id="accountActivation"></td>
+                                        </tr>
+
+                                        {{-- Step 8 --}}
+                                        <tr>
+                                            <th scope="row"><input class="form-check-input-inline" type="checkbox"
+                                                    name="accountActivation" id="accountActivation"></th>
+                                        <td>
+                                            <div class="p-10">6. Tripping Hazard <br><i>Bahaya Tersandung</i></div>
+                                        </td>
+                                        <td><input class="form-check-input-inline" type="checkbox"
+                                                name="accountActivation" id="accountActivation"></td>
+                                        </tr>
+
+                                        {{-- Step 9 --}}
+                                        <tr>
+                                            <th scope="row"><input class="form-check-input-inline" type="checkbox"
+                                                    name="accountActivation" id="accountActivation"></th>
+                                        <td>
+                                            <div class="p-10">6. Tripping Hazard <br><i>Bahaya Tersandung</i></div>
+                                        </td>
+                                        <td><input class="form-check-input-inline" type="checkbox"
+                                                name="accountActivation" id="accountActivation"></td>
                                         </tr>
                                     </tbody>
                                 </table>
