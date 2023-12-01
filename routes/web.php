@@ -23,6 +23,9 @@ $controller_path = 'App\Http\Controllers';
 // Main Page Route
 Route::get('/', [Analytics::class, 'index'])->name('dashboard');
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
+Route::get('test',function(){
+    return view('content.permit_to_work.test');
+});
 
 
 Route::get('permit_to_work', [HorizontalTestingForm::class, 'index'])->name('permit_to_work');
