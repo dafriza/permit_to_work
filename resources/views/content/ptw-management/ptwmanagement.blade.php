@@ -17,6 +17,8 @@
 @section('Row-Group-Css')
     <link rel="stylesheet"
         href="https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 @endsection
 
 @section('vendor-script')
@@ -292,7 +294,7 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="dashboard/user-profile">
+                            <a class="dropdown-item" href="/dashboard/user-profile">
                                 <i class="bx bx-user me-2"></i>
                                 <span class="align-middle">My Profile</span>
                             </a>
@@ -360,7 +362,7 @@
                                     <div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select
                                                 name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
                                                 class="form-select">
-                                                <option value="7">7</option>
+                                                <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
@@ -378,110 +380,63 @@
                                 <div class="col align-self-center col-lg-4">
                                     <select id="FilterTransaction" class="form-select text-capitalize">
                                         <option value=""> Select Status </option>
-                                        <option value="Pending" class="text-capitalize">Approved</option>
-                                        <option value="Active" class="text-capitalize">Draft</option>
-                                        <option value="Inactive" class="text-capitalize">On Going</option>
-                                        <option value="Inactive" class="text-capitalize">Rejected</option>
+                                        <option value="" class="text-capitalize">Approved</option>
+                                        <option value="" class="text-capitalize">Draft</option>
+                                        <option value="" class="text-capitalize">On Going</option>
+                                        <option value="" class="text-capitalize">Rejected</option>
                                     </select>
                                 </div>
                                 <div class="table-responsive mb-3">
                                     <table id="example" class="table datatable-project border-top">
                                         <thead>
                                             <tr>
-                                                <th>PTW ID</th>
-                                                <th>PROJECT</th>
-                                                <th>EMPLOYEE NAME</th>
-                                                <th>Start Date</th>
-                                                <th>Status</th>
+                                                <th>@sortablelink('ptw_id')</th>
+                                                <th>@sortablelink('project')</th>
+                                                <th>@sortablelink('employee_name')</th>
+                                                <th>@sortablelink('created_at')</th>
+                                                <th>@sortablelink('status')</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>01</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-success">Approved</span></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:pencil" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:draft" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:trash" style="color: #7c66ff;"></iconify-icon></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>02</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-success">Approved</span></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:pencil" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:draft" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:trash" style="color: #7c66ff;"></iconify-icon></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>03</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-danger">Rejected</span></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:pencil" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:draft" style="color: #7c66ff;"></iconify-icon></button>
-                                                    <button type="button" class="btn btn-outline-light" style="padding: 1px"><iconify-icon icon="mdi:trash" style="color: #7c66ff;"></iconify-icon></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>04</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-dark">Draft</span></td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>05</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-warning">On Going</span></td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>06</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-success">Approved</span></td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>07</td>
-                                                <td>Permit To Work 1</td>
-                                                <td>PT. Lorem Ipsum</td>
-                                                <td>09 November 2023</td>
-                                                <td><span class="badge bg-label-danger">Rejected</span></td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
+                                            @if($ptw_dummy->count())
+                                                @foreach($ptw_dummy as $item)
+                                                    <tr>
+                                                        <td>{{ $item->ptw_id }}</td>
+                                                        <td>{{ $item->project }}</td>
+                                                        <td>{{ $item->employee_name }}</td>
+                                                        <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                                        <td><span
+                                                                class="badge bg-label-success">{{ $item->status }}</span>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-light"
+                                                                style="padding: 1px"><iconify-icon icon="mdi:pencil"
+                                                                    style="color: #7c66ff;"></iconify-icon></button>
+                                                            <button type="button" class="btn btn-outline-light"
+                                                                style="padding: 1px"><iconify-icon icon="mdi:draft"
+                                                                    style="color: #7c66ff;"></iconify-icon></button>
+                                                            <button type="button" class="btn btn-outline-light"
+                                                                style="padding: 1px"><iconify-icon icon="mdi:trash"
+                                                                    style="color: #7c66ff;"></iconify-icon></button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="row">
+                                    <div class="d-flex justify-content-end">
+                                        {!! $ptw_dummy->links() !!}
+                                    </div>
+                                    <!-- 
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                            aria-live="polite">Showing 1 to 7 of 100 entries</div>
+                                            aria-live="polite">Showing 1 to 5 of 100 entries</div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
+                                    
+                                    <div class="col-sm-12 col-md-12">
                                         <div class="dataTables_paginate paging_simple_numbers"
                                             id="DataTables_Table_0_paginate">
                                             <ul class="pagination">
@@ -527,6 +482,7 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    -->    
                                 </div>
                             </div>
                         </div>
