@@ -1,4 +1,4 @@
-function submitWithAjax(target_id,ifSuccess = null) {
+function submitWithAjax(target_id, ifSuccess = null) {
     $('#' + target_id).on('submit', function (e) {
         e.preventDefault();
         let form = $(this);
@@ -15,10 +15,10 @@ function submitWithAjax(target_id,ifSuccess = null) {
                     // showConfirmButton: false,
                     // timer: 1500
                     // })
-                    if(ifSuccess != null){
+                    if (ifSuccess != null) {
                         ifSuccess()
                     }
-                    swal_usage('Success!', "Berhasil!", 'success')
+                    swal_usage_ok('Success!', "Berhasil!", 'success')
                 }
                 console.log(data);
                 console.log(textStatus);
@@ -26,7 +26,7 @@ function submitWithAjax(target_id,ifSuccess = null) {
             },
             error: function (xhr, textStatus, err) {
                 if (textStatus == 'error') {
-                    swal_usage("Error!", xhr.responseJSON.message, 'error')
+                    swal_usage_ok("Error!", xhr.responseJSON.message, 'error')
                 }
                 // console.log(xhr);
                 // console.log(textStatus);
@@ -58,14 +58,21 @@ function swal_usage(title, text, icon) {
     })
 }
 function swal_usage_ok(title, text, icon) {
-  Swal.fire({
-    // title: 'Error!',
-    title: title,
-    // text: xhr.responseJSON.message,
-    text: text,
-    // icon: 'error',
-    icon: icon,
-    showConfirmButton: true,
-    // timer: 1500
-  })
+    Swal.fire({
+        // title: 'Error!',
+        title: title,
+        // text: xhr.responseJSON.message,
+        text: text,
+        // icon: 'error',
+        icon: icon,
+        showConfirmButton: true,
+        // timer: 1500
+    })
+}
+function swal_usage_img(title, text, image) {
+    Swal.fire({
+        title: title,
+        text: text,
+        html : `<img src="data:image/png;base64, ${image}"></img>`
+    })
 }

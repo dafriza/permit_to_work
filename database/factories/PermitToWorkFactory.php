@@ -28,13 +28,14 @@ class PermitToWorkFactory extends Factory
         $employee = User::role('employee')
             ->get()
             ->random();
+        $romanize = ['XII','I','II','III','IV','V','VI','VII','VIII','IX','X','XI'];
         return [
-            // 'number' => fake()->randomNumber(5, true),
-            // 'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
+            'number' => "HCML/".fake()->randomElement($romanize)."/2023"."/".fake()->randomDigit(),
+            'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
             'request_pa' => $employee['id'],
             'direct_spv' => $supervisor['id'],
             'date_application' => fake()->dateTimeBetween(),
-            'location' => fake()->secondaryAddress(),
+            'location' => fake()->address(),
             'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'task_description' => 'test',
             // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
