@@ -401,7 +401,8 @@
                                     </form>
                                 </div>
                                 -->
-                                <div class="col align-self-center col-lg-4">
+                                <div class="col-sm-6 col-md-8"></div>
+                                <div class="col-6 col-md-4">
                                     <select name="status" id="status" class="form-select text-capitalize">
                                         <option value=""> Select Status </option>
                                         <option value="approved" class="text-capitalize">Approved</option>
