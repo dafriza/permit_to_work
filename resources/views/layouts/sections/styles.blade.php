@@ -110,4 +110,9 @@
     .pgb .step:first-of-type .img-circle:before {
         display: none;
     }
+
+    label.required::after {
+        content: "*";
+        color: #FF0000;
+    }
 </style>
