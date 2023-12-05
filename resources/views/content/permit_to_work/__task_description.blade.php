@@ -7,13 +7,17 @@
                 <h3>Permit To Work Request</h3>
                 <h5>Task Description</h5>
             </div>
-            <div class="d-flex flex-row-reverse bd-highlight">
+            {{-- <div class="d-flex flex-row-reverse bd-highlight">
                 <div class="p-2 bd-highlight">Flex item 1</div>
+            </div> --}}
+            <form id="formAccountSettings" method="POST" action="{{ route('permit_to_work.store_header') }}">
+                @csrf
+            <div class="mt-2 d-flex justify-content-end">
+                <button type="submit" class="btn btn-outline-secondary me-2">Save</button>
+                <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
             </div>
         </div>
         <div class="card-body">
-            <form id="formAccountSettings" method="POST" action="{{ route('permit_to_work.store_header') }}">
-                @csrf
                 <div class="row">
                     <div class="mb-3 col-md-6">
                         <div class="form-group required">
@@ -72,14 +76,11 @@
                         <input type="text" id="personel_involved" class="form-control permit_to_work"
                             name="personel_involved" onkeypress="return isNumberKey(event)">
                     </div>
+                </form>
+                    <div class="mt-2 d-flex justify-content-end">
+                    <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                    </div>
                 </div>
-                <div class="mt-2 d-flex justify-content-end">
-                    <button type="reset" class="btn btn-outline-secondary me-2">Back</button>
-                    <button id="submit_permit_to_work" type="submit" class="btn btn-primary me-2">Next
-                        (SETELAH
-                        CHECKBOX)</button>
-                </div>
-            </form>
         </div>
         <!-- /Account -->
     </div>
