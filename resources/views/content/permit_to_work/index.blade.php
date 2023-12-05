@@ -35,22 +35,66 @@
                                 {{-- <span class="bs-stepper-label">Third step</span> --}}
                             </button>
                         </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-4">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">4</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-5">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">5</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-6">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">6</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-7">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">7</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
                     </div>
                     <div class="bs-stepper-content">
                         <div id="test-l-1" class="content">
-                            {{-- <p class="text-center">test 1</p> --}}
                             @include('content.permit_to_work.__task_description')
-                            <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
                         </div>
                         <div id="test-l-2" class="content">
-                            <p class="text-center">test 2</p>
-                            <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
-                            <button class="btn btn-primary" onclick="stepper1.previous()">Previous</button>
+                            @include('content.permit_to_work.__tra')
                         </div>
                         <div id="test-l-3" class="content">
-                            <p class="text-center">test 3</p>
-                            <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
-                            <button class="btn btn-primary" onclick="stepper1.previous()">Previous</button>
+                            <p class="text-center">page 3</p>
+                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-4" class="content">
+                            <p class="text-center">page 4</p>
+                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-5" class="content">
+                            <p class="text-center">page 5</p>
+                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-6" class="content">
+                            <p class="text-center">page 6</p>
+                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-7" class="content">
+                            <p class="text-center">page 7</p>
+                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
                         </div>
                     </div>
                 </div>
@@ -127,5 +171,76 @@
             animation: true
         })
         var stepper4 = new Stepper(document.querySelector('#stepper4'))
+    </script>
+    <script>
+        // Function to add a new input
+        function addInputFieldHazard() {
+            var newDiv = $('<div/>', {
+                'class': 'input-group mb-3'
+            });
+            var newInput = $('<input/>', {
+                'class': 'form-control',
+                'type': 'text',
+                'name': 'Hazards[]',
+                'placeholder': 'Air Laut Pasang'
+            });
+
+            var removeBtn = $('<button/>', {
+                'class': 'btn btn-danger',
+                'type': 'button'
+            }).text('-').on('click', function() {
+                $(this).parent().remove();
+            });
+
+            newDiv.append(newInput).append(removeBtn);
+
+            $('#dynamicInputContainer').append(newDiv);
+        };
+
+        function addInputFieldControlOther() {
+            var newDiv = $('<div/>', {
+                'class': 'input-group mb-3'
+            });
+            var newInput = $('<input/>', {
+                'class': 'form-control',
+                'type': 'text',
+                'name': 'ControlOther[]',
+                'placeholder': 'Value'
+            });
+
+            var removeBtn = $('<button/>', {
+                'class': 'btn btn-danger',
+                'type': 'button'
+            }).text('-').on('click', function() {
+                $(this).parent().remove();
+            });
+
+            newDiv.append(newInput).append(removeBtn);
+
+            $('#dynamicInputContainerControlOther').append(newDiv);
+        }
+
+        function addInputFieldAdditionalPPE() {
+            var newDiv = $('<div/>', {
+                'class': 'input-group mb-3'
+            });
+            var newInput = $('<input/>', {
+                'class': 'form-control',
+                'type': 'text',
+                'name': 'AdditionalPPE[]',
+                'placeholder': 'PPE'
+            });
+
+            var removeBtn = $('<button/>', {
+                'class': 'btn btn-danger',
+                'type': 'button'
+            }).text('-').on('click', function() {
+                $(this).parent().remove();
+            });
+
+            newDiv.append(newInput).append(removeBtn);
+
+            $('#dynamicInputContainerAdditionalPPE').append(newDiv);
+        }
     </script>
 @endpush

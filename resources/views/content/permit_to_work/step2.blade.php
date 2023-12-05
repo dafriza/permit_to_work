@@ -54,7 +54,6 @@
 
                         <div class="card-body">
                             <form>
-                                <div class="container text-center">
 
                                     <!-- Responsive Table 1 -->
                                     <div class="card">
@@ -601,7 +600,6 @@
                                         </div>
                                     </div>
                                     <!--/ Responsive Table 2-->
-
                                 </div>
                             </form>
                         </div>
