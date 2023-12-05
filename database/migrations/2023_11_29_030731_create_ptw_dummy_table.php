@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id('ptw_id');
             $table->string('project');
             $table->string('employee_name');
-            $table->date('created_at');
+            $table->date('start_date');
             $table->string('status');
+            $table->timestamps();
         });
     }
 

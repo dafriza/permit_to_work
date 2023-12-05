@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PtwDummyController;
+use App\Models\PtwDummy;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,4 @@ Route::get('/form/layouth2s', $controller_path . '\form_layouts\h2s@index')->nam
 // Ptw Management
 Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
 Route::get('my_ptw_dummy', 'PtwDummyController@index');
+//Route::get('/filter', $controller_path . '\ptw_management\PtwManagementController@index');
