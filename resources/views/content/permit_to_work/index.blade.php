@@ -42,6 +42,27 @@
                                 {{-- <span class="bs-stepper-label">Third step</span> --}}
                             </button>
                         </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-5">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">5</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-6">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">6</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#test-l-7">
+                            <button type="button" class="btn step-trigger">
+                                <span class="bs-stepper-circle">7</span>
+                                {{-- <span class="bs-stepper-label">Third step</span> --}}
+                            </button>
+                        </div>
                     </div>
                     <div class="bs-stepper-content">
                         <div id="test-l-1" class="content">
@@ -51,12 +72,27 @@
                             @include('content.permit_to_work.__tra')                            
                         </div>
                         <div id="test-l-3" class="content">
-                            <p class="text-center">test 3</p>
+                            <p class="text-center">page 3</p>
             <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
             <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
                         </div>
                         <div id="test-l-4" class="content">
-                            <p class="text-center">test 4</p>
+                            <p class="text-center">page 4</p>
+            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-5" class="content">
+                            <p class="text-center">page 5</p>
+            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-6" class="content">
+                            <p class="text-center">page 6</p>
+            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                        </div>
+                        <div id="test-l-7" class="content">
+                            <p class="text-center">page 7</p>
             <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
             <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
                         </div>
