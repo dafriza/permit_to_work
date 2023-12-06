@@ -125,7 +125,7 @@
                     <textarea id="signature" name="signature" style="display: none"></textarea>
                 </div>
                 <div class="col-auto align-self-end ">
-                    <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                    <button id="next-1" class="btn btn-primary" onclick="stepper1.next()">Next</button>
                 </div>
             </div>
             </form>
@@ -209,6 +209,7 @@
                     $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
                     $(".work_order").val(data);
                 })
+                $("#next-1").attr('disabled','disabled');
             }
         });
 
