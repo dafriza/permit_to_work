@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(50)
+        User::factory(9)
             ->create()
             ->each(function ($user) {
                 $user->assignRole(fake()->randomElement(['employee', 'supervisor']));
@@ -24,9 +24,10 @@ class UserSeeder extends Seeder
 
         User::create([
             'first_name' => 'super',
-            'last_name' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('1'),
+            'last_name' => 'admin 01',
+            'email' => 'superadmin01@gmail.com',
+            'level' => 'super admin',
+            'password' => bcrypt('super1admin'),
             'phone_number' => 000000000000,
             'address' => 'X Street',
         ])->assignRole('superadmin');
