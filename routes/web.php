@@ -24,7 +24,8 @@ $controller_path = 'App\Http\Controllers';
 Route::get('/', [Analytics::class, 'index'])->name('dashboard');
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
 Route::get('test',function(){
-    return view('content.permit_to_work.test');
+    // return view('content.permit_to_work.test');
+    return view('content.print-ptw.original_worksite');
 });
 
 
