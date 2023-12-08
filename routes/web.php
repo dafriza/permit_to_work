@@ -37,7 +37,7 @@ Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@
 Route::post('postLogin', $controller_path . '\authentications\LoginBasic@postLogin')->name('postLogin');
 Route::get('logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
-Route::group(['middleware' => ['auth','ceklevel:super admin, admin, employee']], function() 
+Route::group(['middleware' => ['auth','ceklevel:super admin,admin,employee']], function() 
 {
     $controller_path = 'App\Http\Controllers';
     Route::get('/dashboard', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
