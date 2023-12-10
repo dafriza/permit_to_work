@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PermitToWork;
 
 use App\Models\User;
@@ -58,12 +59,16 @@ class PermitToWorkServices implements PermitToWorkInterface
 
     function getHeaderColdWork()
     {
-        return json_decode(Storage::get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
 
     function getTotalPermits()
     {
         return PermitToWork::get()->count() + 1;
+    }
+
+    function getSignature($img) {
+        return base64_encode(Storage::disk('signature')->get($img));
     }
 
     function findDataDirectSPV($id)
@@ -91,7 +96,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         // return $request->fails();
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
-        Storage::put($file_name, json_encode($request->validated()));
+        Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
         return response()->json($request->validated(), 202);
     }
 }

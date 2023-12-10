@@ -17,6 +17,7 @@ Route::controller(PermitToWorkController::class)->group(function () {
             Route::get('get_data_trades', 'getTrades')->name('get_data_trades');
             Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
             Route::get('get_total_permits', 'getTotalPermits')->name('get_total_permits');
+            Route::get('get_signature/{img}', 'getSignature')->name('get_signature');
 
             // find data
             Route::get('find_data_direct_spv/{id}', 'findDataDirectSPV')->name('find_data_direct_spv');

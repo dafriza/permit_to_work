@@ -12,6 +12,7 @@ interface PermitToWorkInterface
     function storeHeader(HeaderColdWorkRequest $request);
     function getHeaderColdWork();
     function getTotalPermits();
+    function getSignature($img);
     function findDataDirectSPV($id);
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);

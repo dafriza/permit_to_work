@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('permit_to_works', function (Blueprint $table) {
             $table->id();
-            // $table->string('number');
-            // $table->string('work_order');
+            $table->string('number');
+            $table->string('work_order');
             $table->dateTime('date_application');
             $table->foreignId('request_pa')->constrained('users')->onDelete('cascade');
             $table->foreignId('direct_spv')->constrained('users')->onDelete('cascade');
