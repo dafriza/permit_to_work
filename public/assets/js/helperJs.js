@@ -9,13 +9,19 @@ function isDateNow(evt) {
     // let choose_date = new Date(evt.target.value).toISOString();
     let choose_date = new Date(evt.target.value);
     choose_date = choose_date.getFullYear() + '-' + choose_date.getMonth() + '-' + choose_date.getDate();
-    // let date_now = new Date().toISOString();
+    choose_date = new Date(choose_date);
+
     let date_now = new Date();
     date_now = date_now.getFullYear() + '-' + date_now.getMonth() + '-' + date_now.getDate();
+    date_now = new Date(date_now);
     if (choose_date < date_now) {
         evt.target.value = null;
+        // console.log(date_now + " " + choose_date);
         return false;
-    } return true;
+    }
+    // console.log(choose_date < date_now);
+    // console.log(date_now + " " + choose_date);
+    return true;
 }
 
 function romanize(num) {

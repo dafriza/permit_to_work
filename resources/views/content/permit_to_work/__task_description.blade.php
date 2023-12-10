@@ -124,11 +124,11 @@
                     <span id="show"></span>
                     <textarea id="signature" name="signature" style="display: none"></textarea>
                 </div>
+            </form>
                 <div class="col-auto align-self-end ">
-                    <button id="next-1" class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                    <button id="next-1" class="btn btn-primary" type="button" onclick="stepper1.next()">Next</button>
                 </div>
             </div>
-            </form>
         </div>
         <!-- /Account -->
     </div>
@@ -192,6 +192,7 @@
                     // console.log(data);
                 });
                 $("#personel_involved").val(data.personel_involved);
+
                 // signature
                 $("#show").html(`<button id="show-signature" class="btn btn-success btn-sm">Show</button>`)
                 $("#show-signature").click(function(e) {

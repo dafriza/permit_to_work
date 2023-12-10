@@ -52,12 +52,16 @@ class HeaderColdWorkRequest extends FormRequest
     }
     function signConverter()
     {
-        $image_parts = explode(';base64,', $this->signature);
-        $image_type_aux = explode('image/', $image_parts[0]);
-        $image_type = $image_type_aux[1];
-        $image_base64 = base64_decode($image_parts[1]);
-        $file = $this->date_application . '-' . '1' . '-' . 'John Doe.' . $image_type;
-        Storage::disk('signature')->put($file, $image_base64);
-        return $file;
+        try {
+            $image_parts = explode(';base64,', $this->signature);
+            $image_type_aux = explode('image/', $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $file = $this->date_application . '-' . '1' . '-' . 'John Doe.' . $image_type;
+            Storage::disk('signature')->put($file, $image_base64);
+            return $file;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }
