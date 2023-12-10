@@ -7,6 +7,26 @@
       "slug": "dashboard"
     },
     {
+      "menuHeader": "Forms & Tables"
+    },
+    {
+      "name": "Form Layouts",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "form-layouts",
+      "submenu": [
+        {
+          "url": "/form/layouts-horizontaltesting-page2",
+          "name": "Permit To Work Form Cold Work Page 2",
+          "slug": "form-layouts-horizontaltesting-page2"
+        },
+        {
+          "url": "/form/layouth2s",
+          "name": "H2S Form",
+          "slug": "form-layouth2s"
+        }
+      ]
+    },
+    {
       "name": "Permit To Work",
       "icon": "menu-icon tf-icons bx bx-folder",
       "slug": "permit_to_work",
