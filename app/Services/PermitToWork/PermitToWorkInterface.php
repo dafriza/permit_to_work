@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\PermitToWork;
 
 use Illuminate\Http\Request;
@@ -16,4 +17,6 @@ interface PermitToWorkInterface
     function findDataDirectSPV($id);
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);
+    // ptw management
+    function getDatatable();
 }

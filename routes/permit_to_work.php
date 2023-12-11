@@ -25,13 +25,14 @@ Route::controller(PermitToWorkController::class)->group(function () {
             Route::get('find_data_trades/{data_trades}', 'findDataTrades')->name('find_data_trades');
 
             // store
-            Route::get('store_header', 'storeHeader')->name('store_header');
+            Route::post('store_header', 'storeHeader')->name('store_header');
 
             // PTW Management
             Route::prefix('management')
-                ->name('management')
+                ->name('management.')
                 ->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
+                    Route::get('get_datatable', 'getDatatable')->name('get_datatable');
                 });
         });
 });

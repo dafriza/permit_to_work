@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PermitToWorkManagementDataTable;
 use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
@@ -21,15 +22,15 @@ class PermitToWorkController extends Controller
     {
         return view('content.permit_to_work.index');
     }
-    function indexManagement()
+    function indexManagement(PermitToWorkManagementDataTable $dataTable)
     {
-        return view('content.permit_to_work.ptw_management');
+        // return $dataTable->render('content.permit_to_work.ptw_management.index');
+        return view('content.permit_to_work.ptw_management.index');
     }
     function tra()
     {
         return view('content.permit_to_work.step2');
     }
-
     function getDirectSPV(Request $request)
     {
         return $this->permit_to_work->getDirectSPV($request);
@@ -50,7 +51,8 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getTotalPermits();
     }
-    function getSignature($img) {
+    function getSignature($img)
+    {
         return $this->permit_to_work->getSignature($img);
     }
     function findDataDirectSPV($id)
@@ -66,12 +68,19 @@ class PermitToWorkController extends Controller
         return $this->permit_to_work->findDataTrades($data_trades);
     }
     function storeHeader(HeaderColdWorkRequest $request)
-    // function storeHeader(Request $request)
     {
+        // function storeHeader(Request $request)
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
-    function test_image() {
+    function test_image()
+    {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
+    }
+    // ptw management
+    function getDatatable(PermitToWorkManagementDataTable $table)
+    {
+        // return $table->render('content.permit_to_work.ptw_management.datatable');
+        return $this->permit_to_work->getDatatable();
     }
 }
