@@ -5,6 +5,10 @@ namespace App\Http\Controllers\authentications;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+
+
 class LoginBasic extends Controller
 {
   public function index()
@@ -15,7 +19,8 @@ class LoginBasic extends Controller
   public function postLogin(Request $request)
   {
     //dd($request->all());
-    if (Auth::attempt($request->only('email', 'password'))){
+
+    if (Auth::attempt($request->only('email', 'password'))) {
       return redirect('/dashboard');
     }
     return redirect('/auth/login-basic');

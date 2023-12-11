@@ -164,6 +164,7 @@ return [
     Illuminate\Validation\ValidationServiceProvider::class,
     Illuminate\View\ViewServiceProvider::class,
     Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+    Spatie\Permission\PermissionServiceProvider::class,
 
     /*
          * Package Service Providers...

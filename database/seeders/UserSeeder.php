@@ -26,7 +26,6 @@ class UserSeeder extends Seeder
             'first_name' => 'super',
             'last_name' => 'admin 01',
             'email' => 'superadmin01@gmail.com',
-            'level' => 'super admin',
             'password' => bcrypt('super1admin'),
             'phone_number' => 000000000000,
             'address' => 'X Street',
