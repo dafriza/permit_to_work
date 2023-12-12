@@ -374,33 +374,7 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
-                                <!-- Show -->
-                                <!-- 
-                                <div class="col">
-                                    <div class="dataTables_length" id="example_length"><label>Show
-                                            <select name="per_page" id="per_page" onchange="performSearch()">
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                            entries</label>
-                                    </div>
-                                </div>
-                                -->
-                                <!-- Search/filtering -->
-                                <!-- 
-                                <div class="col-md-auto">
-                                    <form action=" {{ route('ptwmanagement') }} " method="get" id="searchForm">
-                                        <div id="" class="dataTables_filter">
-                                            <input type="text" name="search" id="search" placeholder="Search"
-                                                value=" {{ request('search') }} ">
-                                        </div>
-                                    </form>
-                                </div>
-                                -->
                                 <div class="col-sm-6 col-md-8"></div>
                                 <div class="col-6 col-md-4">
                                     <select name="status" id="status" class="form-select text-capitalize">
@@ -436,8 +410,7 @@
                                                         @elseif($item->status == 'rejected')
                                                             <span class="badge bg-label-danger">{{ $item->status }}</span>
                                                         @elseif($item->status == 'on going')
-                                                            <span
-                                                                class="badge bg-label-warning">{{ $item->status }}</span>
+                                                            <span class="badge bg-label-warning">{{ $item->status }}</span>
                                                         @elseif($item->status == 'draft')
                                                             <span class="badge bg-label-dark">{{ $item->status }}</span>
                                                         @endif
@@ -455,92 +428,15 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
-
                                 </div>
                                 <div class="row">
                                     <div class="d-flex justify-content-end">
                                         {{ $ptw_dummy->links() }}
                                     </div>
                                 </div>
-                                <!--
-                                                                    <div class="row">
-                                                                                <div class="col-sm-12 col-md-12">
-                                                                                    <div class="dataTables_paginate paging_simple_numbers"
-                                                                                        id="DataTables_Table_0_paginate">
-                                                                                        <ul class="pagination">
-                                                                                            <li class="page-item first">
-                                                                                                <a class="page-link"
-                                                                                                    href="http://127.0.0.1:8000/ptw-management/ptwmanagement?page=1"><i
-                                                                                                        class="tf-icon bx bx-chevrons-left"></i></a>
-                                                                                            </li>
-                                                                                            <li class="paginate_button page-item ">
-                                                                                                
-                                                                                            </li>
-                                                                                            <li class="page-item last">
-                                                                                                <a class="page-link"
-                                                                                                    href="http://127.0.0.1:8000/ptw-management/ptwmanagement?page=7"><i
-                                                                                                        class="tf-icon bx bx-chevrons-right"></i></a>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
 
-                                                                                <div class="col-sm-12 col-md-6">
-                                                                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                                                                        aria-live="polite">Showing 1 to 5 of 100 entries</div>
-                                                                                </div>
-
-                                                                                <div class="col-sm-12 col-md-12">
-                                                                                    <div class="dataTables_paginate paging_simple_numbers"
-                                                                                        id="DataTables_Table_0_paginate">
-                                                                                        <ul class="pagination">
-                                                                                            <li class="page-item first">
-                                                                                                <a class="page-link" href="javascript:void(0);"><i
-                                                                                                        class="tf-icon bx bx-chevrons-left"></i></a>
-                                                                                            </li>
-                                                                                            <li class="page-item prev">
-                                                                                                <a class="page-link" href="javascript:void(0);"><i
-                                                                                                        class="tf-icon bx bx-chevron-left"></i></a>
-                                                                                            </li>
-                                                                                            <li class="paginate_button page-item active"><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link"
-                                                                                                    aria-current="page" data-dt-idx="0" tabindex="0"
-                                                                                                    class="page-link">1</a></li>
-                                                                                            <li class="paginate_button page-item "><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link" data-dt-idx="1"
-                                                                                                    tabindex="0" class="page-link">2</a></li>
-                                                                                            <li class="paginate_button page-item "><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link" data-dt-idx="2"
-                                                                                                    tabindex="0" class="page-link">3</a></li>
-                                                                                            <li class="paginate_button page-item "><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link" data-dt-idx="3"
-                                                                                                    tabindex="0" class="page-link">4</a></li>
-                                                                                            <li class="paginate_button page-item "><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link" data-dt-idx="4"
-                                                                                                    tabindex="0" class="page-link">5</a></li>
-                                                                                            <li class="paginate_button page-item disabled"
-                                                                                                id="DataTables_Table_0_ellipsis"><a aria-controls="DataTables_Table_0"
-                                                                                                    aria-disabled="true" role="link" data-dt-idx="ellipsis"
-                                                                                                    tabindex="0" class="page-link">…</a></li>
-                                                                                            <li class="paginate_button page-item "><a href="#"
-                                                                                                    aria-controls="DataTables_Table_0" role="link"
-                                                                                                    data-dt-idx="14" tabindex="0" class="page-link">15</a></li>
-                                                                                            <li class="page-item next">
-                                                                                                <a class="page-link" href="javascript:void(0);"><i
-                                                                                                        class="tf-icon bx bx-chevron-right"></i></a>
-                                                                                            </li>
-                                                                                            <li class="page-item last">
-                                                                                                <a class="page-link" href="javascript:void(0);"><i
-                                                                                                        class="tf-icon bx bx-chevrons-right"></i></a>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-                                                                    </div>
-                                                    -->
                             </div>
                         </div>
                     </div>
@@ -563,14 +459,20 @@
     <script>
         document.getElementById('status').addEventListener('change', function() {
             var selectedStatus = this.value;
-            axios.get('/ptw-management/ptwmanagement', { params: { status: selectedStatus } })
+            axios.get('/ptw-management/ptwmanagement', {
+                    params: {
+                        status: selectedStatus
+                    }
+                })
                 .then(response => {
                     // Update the table body with the filtered results
                     document.getElementById('postTableBody').innerHTML = '';
-    
+
                     response.data.forEach(post => {
                         var newRow = document.getElementById('postTableBody').insertRow();
-                        newRow.innerHTML = '<td>' + post.ptw_id + '</td><td>' + post.project + '</td><td>' + post.employee_name + '</td><td>' + post.start_date + '</td><td>' + post.status + '</td><td>' + post.action + '</td>';
+                        newRow.innerHTML = '<td>' + post.ptw_id + '</td><td>' + post.project +
+                            '</td><td>' + post.employee_name + '</td><td>' + post.start_date +
+                            '</td><td>' + post.status + '</td><td>' + post.action + '</td>';
                     });
                 })
                 .catch(error => console.error(error));
