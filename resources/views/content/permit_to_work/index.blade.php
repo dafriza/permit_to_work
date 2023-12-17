@@ -1,10 +1,4 @@
 @extends('layouts/contentNavbarLayout')
-@push('styles')
-    <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bs-stepper.min.css') }}">
-@endpush
 @section('title', ' Horizontal Form ')
 
 @section('content')
@@ -100,54 +94,6 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
-    <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
-    <script src="{{ asset('assets/js/helperJs.js') }}"></script>
-    <script src="{{ asset('assets/js/bs-stepper.min.js') }}"></script>
-    <script>
-        dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
-        dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
-        dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
-        submitWithAjax('formAccountSettings')
-        getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work') }}').done(function(data) {
-            if (data != '') {
-                let date = new Date(data.date_application);
-                let date_format = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-                $("#dateapplication").val(date_format);
-                getDataWithAjax(
-                    "{!! route('permit_to_work.find_data_direct_spv', '') !!}" + "/" + data.direct_spv).done(function(data) {
-                    let direct_spv_option = new Option(data.first_name + " " + data.last_name, data.id,
-                        true, true);
-                    $('#direct_supervisor').append(direct_spv_option).trigger('change');
-                });
-                $("#equipmentid").val(data.equipment_id);
-                $("#location").val(data.location);
-                $("#task_description").val(data.task_description);
-                getDataWithAjax("{!! route('permit_to_work.find_data_tools_equipment', '') !!}" + "/" + data.tools_equipment).done(function(data) {
-                    $.map(data, function(tools_equipment) {
-                        let tools_equipment_data = new Option(tools_equipment.name,
-                            tools_equipment.id, true, true);
-                        $('#tools_equipment').append(tools_equipment_data).trigger('change');
-                    })
-                })
-                getDataWithAjax("{!! route('permit_to_work.find_data_trades', '') !!}" + "/" + data.trades).done(function(data) {
-                    $.map(data, function(trades) {
-                        let trades_data = new Option(trades.name,
-                            trades.id, true, true);
-                        $('#trades').append(trades_data).trigger('change');
-                    })
-                })
-                $("#personel_involved").val(data.personel_involved);
-            }
-        });
-        getDataWithAjax('{{ route('permit_to_work.get_total_permits') }}').done(function(data) {
-            let date_now = new Date();
-            let month_romanize = romanize(date_now.getMonth() + 1);
-            $("#number_hcml").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
-        })
-    </script>
     <script>
         var stepper1Node = document.querySelector('#stepper1')
         var stepper1 = new Stepper(document.querySelector('#stepper1'))
