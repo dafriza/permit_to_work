@@ -17,35 +17,79 @@
         </div>
         <div class="card-body">
             <div class="row">
-                {{-- Permit --}}
-                <h3 class="form-header">PERMIT</h3>
+                {{-- Authorization --}}
+                <h3 class="form-header">Authorization SC</h3>
                 <div class="mb-3 col-md-12">
-                    <label for="permitDesc" class="form-label required">Permit Description</label>
-                    <input type="text" class="form-control permit_to_work" id="permitDesc" name="permitDesc"
-                        placeholder="Enter Permit Description" />
+                    {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                    <select id="approver_name_sc" class="form-select permit_to_work" name="approver_name_sc"
+                        aria-label="approver_name_sc" data-placeholder="Select Approver Name">
+                        <option>Harold Carter</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-md-12">
+                    <label for="designation" class="form-label required">Designation</label>
+                    <input type="text" class="form-control permit_to_work" disabled id="designation"
+                        name="designation" placeholder="Enter Designation" value="Site Controller" />
                 </div>
 
-                {{-- Isolations --}}
-                <h3 class="form-header mt-5">ISOLATIONS</h3>
+                {{-- Registry PC --}}
+                <h3 class="form-header mt-5">Permit Registry PC</h3>
                 <div class="mb-3 col-md-12">
-                    <label for="isolationDesc" class="form-label required">Isolations Description</label>
-                    <input type="text" class="form-control permit_to_work" id="isolationDesc" name="isolationDesc"
-                        placeholder="Enter Isolation Description" />
+                    {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                    <select id="approver_name_pc" class="form-select permit_to_work" name="approver_name_pc"
+                        aria-label="approver_name_pc" data-placeholder="Select Approver Name">
+                        <option>Harold Carter</option>
+                    </select>
                 </div>
 
-                <h3 class="form-header mt-5">PROCEDURS/ MSDS/ LIFTING PLAN/ JSA/ OTHERS</h3>
+                {{-- Procedures --}}
+                <h3 class="form-header mt-5">Procedures/MSDS/Lift Plan/SOPs/JSAs/Others:</h3>
                 <div class="mb-3 col-md-12">
-                    <label for="procedureDesc" class="form-label required">Procedures/ MSDS/ LIFTING PLAN/ JSA/ Others Description</label>
-                    <input type="text" class="form-control permit_to_work" id="procedureDesc" name="procedureDesc"
-                        placeholder="Enter Procedure Description" />
+                    {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                    <select id="approver_name_procedures" class="form-select permit_to_work"
+                        name="approver_name_procedures" aria-label="approver_name_procedures"
+                        data-placeholder="Select Approver Name">
+                        <option>Harold Carter</option>
+                    </select>
                 </div>
+
+                <div class="mb-3 col-md-12">
+                    <label for="flammable" class="form-label required">Flammable</label>
+                    <div class="mb-3 col-md-12 d-flex align-items-center">
+                        <input type="text" class="form-control permit_to_work" id="flammable" name="flammable"
+                            placeholder="Enter Flammable Percentage" />
+                        <span class="ps-2">%</span>
+                        <span>LEL</span>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                    <label for="h2s" class="form-label required">H2S</label>
+                    <div class="mb-3 col-md-12 d-flex align-items-center">
+                        <input type="text" class="form-control permit_to_work" id="h2s" name="h2s"
+                            placeholder="Enter H2S PPM" />
+                        <span class="ps-2"></span>
+                        <span>PPM</span>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                    <label for="oxygen" class="form-label required">Oxygen</label>
+                    <div class="mb-3 col-md-12 d-flex align-items-center">
+                        <input type="text" class="form-control permit_to_work" id="oxygen" name="oxygen"
+                            placeholder="Enter Oxygen Percentage" />
+                        <span class="ps-2"></span>
+                        <span class="mr-5"> % </span>
+                    </div>
+                </div>
+
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
-                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
                 </div>
             </div>
-            
+
         </div>
         <!-- /Account -->
     </div>
