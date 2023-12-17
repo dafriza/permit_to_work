@@ -72,9 +72,9 @@
                             @include('content.permit_to_work.__approval_one')
                         </div>
                         <div id="test-l-5" class="content">
-                            <p class="text-center">page 5</p>
-                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
-                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                            @include('content.permit_to_work.__approval_two')
+                            {{-- <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button> --}}
                         </div>
                         <div id="test-l-6" class="content">
                             <p class="text-center">page 6</p>
