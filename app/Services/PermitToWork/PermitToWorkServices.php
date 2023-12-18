@@ -108,11 +108,18 @@ class PermitToWorkServices implements PermitToWorkInterface
 
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
         // return $request->fails();
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         // dd($request->validated());
-        // $file_name = $request->validated() . 'crc' .'-'. '1' . '-' . 'John Doe' . '.json';
-        // Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
-        return response()->json($request->all(), 202);
+        $crc = 'crc';
+        $file_name = $crc .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
     }
 }
