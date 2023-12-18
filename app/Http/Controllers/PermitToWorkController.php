@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
@@ -37,6 +38,10 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getHeaderColdWork();
     }
+    function getHeaderColdWorkCrc()
+    {
+        return $this->permit_to_work->getHeaderColdWorkCrc();
+    }
     function getTotalPermits()
     {
         return $this->permit_to_work->getTotalPermits();
@@ -61,6 +66,10 @@ class PermitToWorkController extends Controller
     {
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
+    }
+    function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
+    {
+        return $this->permit_to_work->storeHeaderCrc($request);
     }
     function test_image() {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));

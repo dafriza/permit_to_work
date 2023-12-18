@@ -20,6 +20,9 @@ class PermitToWork extends Model
         'submission' => 'object',
         'authorization_and_issuing' => 'object',
         'completion' => 'object',
+        // 'permitDesc' => 'object',
+        // 'isolationDesc' => 'object',
+        // 'procedureDesc' => 'object',
     ];
     const main_issue = [
         'site_controller' => 'Authorization',

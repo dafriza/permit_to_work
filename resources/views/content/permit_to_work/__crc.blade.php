@@ -8,11 +8,13 @@
                 <h5>Cross Referenced Certificates PA & AA</h5>
             </div>
 
-            <form id="formAccountSettings" method="POST" action="{{ route('permit_to_work.store_header') }}">
-                @csrf
-                <div class="mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-secondary me-2">Save</button>
-                    <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
+            <form id="formAccountSettingsCrc" method="POST" action="{{ route('permit_to_work.store_header_crc') }}"
+                enctype="multipart/form-data">
+            @csrf
+                <div class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button>
+                        <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
+                    </div>
                 </div>
         </div>
         <div class="card-body">
@@ -41,8 +43,8 @@
                 </div>
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                            <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
-                            <button class="btn btn-primary me-2" onclick="stepper1.next()">Next</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button id="next-3" class="btn btn-primary" type="button" onclick="stepper1.next()">Next</button>
                 </div>
             </div>
             
@@ -50,3 +52,37 @@
         <!-- /Account -->
     </div>
 </div>
+@push('scripts')
+<script>
+    submitWithAjax('formAccountSettingsCrc', function() {
+        location.reload();
+    })
+    getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_crc') }}').done(function(data) {
+        if (data != '') {
+            $("#permitDesc").val(data.permitDesc);
+            $("#isolationDesc").val(data.isolationDesc);
+            $("#procedureDesc").val(data.procedureDesc);
+
+        } else {
+                getDataWithAjax('{{ route('permit_to_work.get_total_permits') }}').done(function(data) {
+                    console.log("jumlah " + data);
+                    let date_now = new Date();
+                    let month_romanize = romanize(date_now.getMonth() + 1);
+                    $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
+                    $(".work_order").val(data);
+                })
+                $("#next-3").attr('disabled','disabled');
+            }
+    });
+
+    let sig = $('#sig').signature({
+        syncField: '#signature',
+        syncFormat: 'PNG'
+    });
+    $('#clear').click(function(e) {
+        e.preventDefault();
+        sig.signature('clear');
+        $("#signature64").val('');
+    });
+</script>
+@endpush

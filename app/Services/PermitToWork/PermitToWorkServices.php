@@ -11,6 +11,7 @@ use App\Models\ToolsEquipment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 
 class PermitToWorkServices implements PermitToWorkInterface
 {
@@ -61,6 +62,10 @@ class PermitToWorkServices implements PermitToWorkInterface
     {
         return json_decode(Storage::disk('permit_to_work')->get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
+    function getHeaderColdWorkCrc()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('crc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
 
     function getTotalPermits()
     {
@@ -95,8 +100,19 @@ class PermitToWorkServices implements PermitToWorkInterface
     {
         // return $request->fails();
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        
         $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
         Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
         return response()->json($request->validated(), 202);
+    }
+
+    function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
+    {
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        // $file_name = $request->validated() . 'crc' .'-'. '1' . '-' . 'John Doe' . '.json';
+        // Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
+        return response()->json($request->all(), 202);
     }
 }

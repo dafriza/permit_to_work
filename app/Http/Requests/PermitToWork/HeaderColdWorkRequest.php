@@ -23,6 +23,10 @@ class HeaderColdWorkRequest extends FormRequest
             'trades' => 'required|array',
             'personel_involved' => 'required|integer',
             'signature' => 'required',
+
+            // 'permitDesc' => 'required|string',
+            // 'isolationDesc' => 'required|string',
+            // 'procedureDesc' => 'required|string',
         ];
     }
 
@@ -34,6 +38,10 @@ class HeaderColdWorkRequest extends FormRequest
             'location' => 'lokasi',
             'trades' => 'keahlian/trades',
             'signature' => 'tanda tangan',
+            // 'permitDesc' => 'Permit description',
+            // 'isolationDesc' => 'Isolation Description',
+            // 'procedureDesc' => 'Procedure Description',
+
         ];
     }
     function messages()

@@ -17,6 +17,8 @@ Route::prefix('permit_to_work')
             Route::get('get_data_tools_equipment', 'getToolsEquipment')->name('get_data_tools_equipment');
             Route::get('get_data_trades', 'getTrades')->name('get_data_trades');
             Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
+            Route::get('get_data_header_cold_work_crc', 'getHeaderColdWorkCrc')->name('get_data_header_cold_work_crc');
+
             Route::get('get_total_permits', 'getTotalPermits')->name('get_total_permits');
             Route::get('get_signature/{img}', 'getSignature')->name('get_signature');
 
@@ -27,5 +29,7 @@ Route::prefix('permit_to_work')
 
             // store
             Route::post('store_header', 'storeHeader')->name('store_header');
+            Route::post('store_header_crc', 'storeHeaderCrc')->name('store_header_crc');
+
         });
     });
