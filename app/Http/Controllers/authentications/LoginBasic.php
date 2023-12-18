@@ -21,7 +21,8 @@ class LoginBasic extends Controller
     //dd($request->all());
 
     if (Auth::attempt($request->only('email', 'password'))) {
-      return redirect('/dashboard');
+      $request->session()->regenerate();
+      return redirect()->intended('/dashboard');
     }
     return redirect('/auth/login-basic');
   }

@@ -28,18 +28,22 @@ Route::get('/form/layouts-horizontaltesting', $controller_path . '\form_layouts\
 Route::get('/form/layouts-horizontaltesting-page2', $controller_path . '\form_layouts\FormPage2@index')->name('form-layouts-horizontaltesting-page2');
 Route::get('/form/layouth2s', $controller_path . '\form_layouts\h2s@index')->name('form-layouth2s');
 
-// Ptw Management
-Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
-Route::get('my_ptw_dummy', 'PtwDummyController@index');
-
 // Auth
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('login-basic');
 Route::post('postLogin', $controller_path . '\authentications\LoginBasic@postLogin')->name('postLogin');
 Route::get('logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
 
-Route::group(['middleware' => ['auth', 'role:employee']], function () {
+Route::group(['middleware' => ['auth', 'role:superadmin|supervisor|employee']], function () {
     $controller_path = 'App\Http\Controllers';
+    // Dashboard
     Route::get('/dashboard', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
     Route::get('/dashboard/user-profile', $controller_path . '\dashboard\UserProfile@index')->name('user-profile');
+});
+
+Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
+    $controller_path = 'App\Http\Controllers';
+    // Ptw Management
+    Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
+    Route::get('my_ptw_dummy', 'PtwDummyController@index');
 });

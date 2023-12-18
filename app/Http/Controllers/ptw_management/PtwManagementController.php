@@ -32,7 +32,7 @@ class PtwManagementController extends Controller
             return response()->json($ptw_dummy);
         }
 
-        $ptw_dummy = PtwDummy::sortable()->paginate(100)->onEachSide(1);
+        //$ptw_dummy = PtwDummy::sortable()->paginate(100)->onEachSide(1);
 
         return view('content.ptw-management.ptwmanagement', compact('ptw_dummy'));
 

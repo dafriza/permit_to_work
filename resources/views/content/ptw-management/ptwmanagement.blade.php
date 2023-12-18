@@ -301,8 +301,11 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-medium d-block">Manabu Mikami</span>
-                                        <small class="text-muted">HRD</small>
+                                        <span class="fw-medium d-block"> {{ auth()->user()->first_name }} </span>
+                                        <small class="text-muted"> 
+                                            @foreach(auth()->user()->roles as $role) {{ $role->name }}
+                                            @endforeach 
+                                        </small>
                                     </div>
                                 </div>
                             </a>
@@ -321,7 +324,7 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                            <a class="dropdown-item" href="{{ route('logout') }}" target="_blank">
                                 <i class="bx bx-power-off me-2"></i>
                                 <span class="align-middle">Log Out</span>
                             </a>
@@ -389,12 +392,12 @@
                                     <table id="example" class="table datatable-project border-top">
                                         <thead>
                                             <tr>
-                                                <th>@sortablelink('ptw_id', 'PTW ID')</th>
-                                                <th>@sortablelink('project', 'PROJECT')</th>
-                                                <th>@sortablelink('employee_name', 'EMPLOYEE NAME')</th>
-                                                <th>@sortablelink('start_date', 'START DATE')</th>
-                                                <th>@sortablelink('status', 'STATUS')</th>
-                                                <th>Action</th>
+                                                <th>PTW ID</th>
+                                                <th>PROJECT</th>
+                                                <th>EMPLOYEE NAME</th>
+                                                <th>START DATE</th>
+                                                <th>STATUS</th>
+                                                <th>ACTION</th>
                                             </tr>
                                         </thead>
                                         <tbody id="postTableBody">
@@ -410,7 +413,8 @@
                                                         @elseif($item->status == 'rejected')
                                                             <span class="badge bg-label-danger">{{ $item->status }}</span>
                                                         @elseif($item->status == 'on going')
-                                                            <span class="badge bg-label-warning">{{ $item->status }}</span>
+                                                            <span
+                                                                class="badge bg-label-warning">{{ $item->status }}</span>
                                                         @elseif($item->status == 'draft')
                                                             <span class="badge bg-label-dark">{{ $item->status }}</span>
                                                         @endif
@@ -431,17 +435,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row">
-                                    <div class="d-flex justify-content-end">
-                                        {{ $ptw_dummy->links() }}
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                     <!-- / Data Tables -->
-
                 </div>
             </div>
         </div>
