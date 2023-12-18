@@ -130,7 +130,7 @@ class PermitToWorkFactory extends Factory
                 'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
                 'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
             ],
-            'status' => fake()->randomElement([1, 2, 3]),
+            'status' => fake()->randomElement([1, 2, 3, 4]),
         ];
     }
     function getToolsEquipment()

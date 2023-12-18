@@ -26,6 +26,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Job::class, 'job_id', 'id');
     }
+    public function entry_permit()
+    {
+        return $this->hasMany(EntryPermit::class, 'user_id', 'id');
+    }
     function fullName(): Attribute
     {
         return new Attribute(get: fn() => $this->first_name . ' ' . $this->last_name);

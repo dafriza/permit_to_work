@@ -12,13 +12,14 @@ class UserProfileServices implements UserProfileInterface
     {
         $user_data = $request->validated();
         $user = User::find($request->validated()['id']);
-        User::where('id',$request['id'])->update($request->safe()->except(['role']));
-        $user->syncRoles([$request->validated()['role']]);
+        // User::where('id',$request['id'])->update($request->safe()->except(['role']));
+        User::where('id',$request['id'])->update($user_data);
+        // $user->syncRoles([$request->validated()['role']]);
         // return response()->json($request->validated(), 202);
         return response()->json("Success", 202);
     }
     function getDataPermitToWorks() {
-        $user = User::where('id',19)->with('request_pa')->first();
+        $user = User::where('id',1)->with('request_pa')->first();
         return DataTables::collection(collect($user->request_pa))->addIndexColumn()->toJson();
     }
 }

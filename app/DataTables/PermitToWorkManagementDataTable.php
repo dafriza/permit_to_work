@@ -2,12 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use DB;
+use App\Models\PermitToWork;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Html\SearchPane;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Database\Eloquent\Builder;
 
 class PermitToWorkManagementDataTable extends DataTable
 {
@@ -15,52 +16,86 @@ class PermitToWorkManagementDataTable extends DataTable
     {
         return datatables()
             ->of($query)
-            // ->editColumn('status', 'content.ptw_management.__status_table')
-            // ->addColumn('action', 'content.ptw_management.__edit_table')
-            // ->rawColumns(['action','status'])
+            ->searchPane(
+                'status',
+                fn() => PermitToWork::query()
+                    ->select(
+                        DB::raw('
+                    CASE
+                    WHEN status = 1 THEN "ON GOING"
+                    WHEN status = 2 THEN "SUCCESS"
+                    WHEN status = 3 THEN "REJECTED"
+                    WHEN status = 4 THEN "DRAFT"
+                    END as label,
+                    status as value, count(*) as total, count(*) as count'),
+                    )
+                    ->distinct()
+                    ->groupBy('status')
+                    ->where('request_pa', 2)
+                    ->get(),
+                function (Builder $builder, $values) {
+                    return $builder->whereIn('status', $values);
+                },
+            )
+            ->editColumn('status', function ($value) {
+                return view('content.permit_to_work.ptw_management.__status_table', compact('value'));
+            })
+            ->addColumn('action', function ($value) {
+                return view('content.permit_to_work.ptw_management.__edit_table', compact('value'));
+            })
+            ->rawColumns(['action', 'status'])
             ->addIndexColumn();
     }
-    public function query(User $model)
+    public function query(PermitToWork $model)
     {
-        $user = $model->where('id', 2)->with('request_pa')->first();
-        $user_map = collect($user->request_pa)->map(function ($user_ptw) use ($user) {
-            $user_ptw->name = $user->full_name;
-            return $user_ptw;
-        });
-        return $model->newQuery();
-        // return $user_map;
+        // return $model->where('request_pa', 2)->get();
+        return $model->newQuery()->where('request_pa', 2);
     }
     public function html()
     {
         return $this->builder()
-                    ->setTableId('ptw-management')
-                    ->columns($this->getColumns())
-                    ->parameters([
-                        'dom' => 'Bftrip',
-                        'buttons' => ['searchPanes']
-                    ])
-                    ->minifiedAjax()
-                    ->orderBy(1);
+            ->setTableId('ptw-management')
+            ->columns($this->getColumns())
+            ->addColumnDef([
+                'searchPanes' => [
+                    'show' => true,
+                ],
+                'targets' => [3],
+            ])
+            ->parameters([
+                'language' => [
+                    'searchPanes' => [
+                        'collapse' => [
+                            0 => 'Search Options',
+                            '_' => 'Search (%d)',
+                        ],
+                    ],
+                ],
+                'dom' => 'Bftrip',
+                'buttons' => [
+                    [
+                        'extend' => 'searchPanes',
+                        'className' => 'btn btn-primary mx-2',
+                    ],
+                    'reload',
+                ],
+            ])
+            ->minifiedAjax(route('permit_to_work.management.datatables'))
+            ->orderBy(2);
     }
-
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
     protected function getColumns()
     {
         return [
-            Column::make('DT_RowIndex'),
-            Column::make('id'),
-            Column::make('job_id'),
-            // Column::make('number'),
+            Column::make('DT_RowIndex')->title('No'),
+            // Column::make('id'),
+            // Column::make('job_id'),
+            Column::make('number')->title('project'),
             // Column::make('name'),
-            // Column::make('date_application'),
-            // Column::computed('status')
-            //       ->addClass('text-center'),
-            // Column::computed('action')
-            //       ->addClass('text-center'),
+            Column::make('date_application')->title('start date'),
+            // Column::make('request_pa'),
+            // Column::make('status'),
+            Column::computed('status')->addClass('text-center'),
+            Column::computed('action')->addClass('text-center'),
         ];
     }
 }

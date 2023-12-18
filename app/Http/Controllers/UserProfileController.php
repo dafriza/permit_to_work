@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\DeleteUserProfile;
@@ -19,16 +20,20 @@ class UserProfileController extends Controller
     function index()
     {
         $auth = User::find(1);
-        $roles = $this->getAllRoles();
+        // $roles = $this->getAllRoles();
+        $job_pos = $this->getAllJobPos();
         $if_delete = DeleteUserProfile::with('user')->first();
         // dd($if_delete);
-        return view('content.user_profile.index', compact('auth', 'roles','if_delete'));
+        return view('content.user_profile.index', compact('auth', 'job_pos','if_delete'));
     }
-    function getAllRoles()
-    {
-        return Role::all()->reject(function ($value) {
-            return $value->name == 'superadmin';
-        });
+    // function getAllRoles()
+    // {
+    //     return Role::all()->reject(function ($value) {
+    //         return $value->name == 'superadmin';
+    //     });
+    // }
+    function getAllJobPos() {
+        return Job::all();
     }
     function getDataPermitToWorks()
     {

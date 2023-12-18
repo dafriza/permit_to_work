@@ -2,16 +2,18 @@
 
 namespace App\Services\PermitToWork;
 
+use DataTables;
 use App\Models\User;
 use App\Models\Trade;
 use Illuminate\Http\File;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use App\Models\ToolsEquipment;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
-use DataTables;
 
 class PermitToWorkServices implements PermitToWorkInterface
 {
@@ -93,22 +95,21 @@ class PermitToWorkServices implements PermitToWorkInterface
         Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
         return response()->json($request->validated(), 202);
     }
-    function getDatatable()
+    function deletePermitToWork($id)
     {
-        $user = User::where('id', 2)->with('request_pa')->first();
-        $user_map = collect($user->request_pa)->map(function ($user_ptw) use ($user) {
-            $user_ptw->name = $user->full_name;
-            return $user_ptw;
-        });
-        // return $user;
-        // return $user_map;
-        return DataTables::collection(collect($user_map))
-            ->addColumn('edit', 'content.permit_to_work.ptw_management.__edit_table')
-            ->editColumn('status',function($value){
-                return view('content.permit_to_work.ptw_management.__status_table',compact('value'));
-            })
-            ->rawColumns(['edit','status'])
-            ->addIndexColumn()
-            ->toJson();
+        // $delete = PermitToWork::find($id)->delete();
+        $delete = PermitToWork::find($id)->update([
+            'status' => fake()->randomElement([1, 2, 3, 4]),
+        ]);
+        return response()->json('Success', 200);
+    }
+    function printPermitToWork()
+    {
+        $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite_print');
+        // $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite');
+        return $pdf->stream();
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        // return $pdf->download();
     }
 }

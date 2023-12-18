@@ -11,6 +11,7 @@ Route::controller(PermitToWorkController::class)->group(function () {
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tra', 'tra')->name('tra');
+
             // get_data
             Route::get('get_data_spv', 'getDirectSPV')->name('get_data_spv');
             Route::get('get_data_tools_equipment', 'getToolsEquipment')->name('get_data_tools_equipment');
@@ -18,6 +19,7 @@ Route::controller(PermitToWorkController::class)->group(function () {
             Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
             Route::get('get_total_permits', 'getTotalPermits')->name('get_total_permits');
             Route::get('get_signature/{img}', 'getSignature')->name('get_signature');
+            Route::get('print_permit_to_work', 'printPermitToWork')->name('print_permit_to_work');
 
             // find data
             Route::get('find_data_direct_spv/{id}', 'findDataDirectSPV')->name('find_data_direct_spv');
@@ -32,7 +34,12 @@ Route::controller(PermitToWorkController::class)->group(function () {
                 ->name('management.')
                 ->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
-                    Route::get('get_datatable', 'getDatatable')->name('get_datatable');
+
+                    // del data
+                    Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
+
+                    // datatables
+                    Route::get('datatables', 'datatables')->name('datatables');
                 });
         });
 });

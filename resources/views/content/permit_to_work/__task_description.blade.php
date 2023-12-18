@@ -19,6 +19,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <div class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight"><button class="btn btn-primary" type="button" disabled>Submit</button></div>
                     <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button></div>
                 </div>
         </div>
@@ -32,9 +33,9 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="work_order" class="form-label">Work Order</label>
-                    <input class="form-control permit_to_work work_order" type="text" disabled />
-                    <input class="form-control permit_to_work work_order" type="hidden" id="work_order" value=""
-                        name="work_order" />
+                    <input class="form-control permit_to_work work_order" type="text" name="work_order"/>
+                    {{-- <input class="form-control permit_to_work work_order" type="hidden" id="work_order" value=""
+                        name="work_order" /> --}}
                 </div>
                 <div class="mb-3 col-md-6">
                     <div class="form-group required">

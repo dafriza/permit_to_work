@@ -13,7 +13,8 @@ class UserProfileRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
-            'role' => 'required',
+            // 'role' => 'required',
+            'job_id' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
         ];

@@ -45,14 +45,14 @@
                         </div>
                         <div class="d-flex justify-content-around flex-wrap my-4 py-3">
                             <div class="d-flex align-items-start me-4 mt-3 gap-3">
-                                <span class="badge bg-label-primary p-2 rounded"><i class='bx bx-check bx-sm'></i></span>
+                                <span class="bg-label-primary p-2 px-3 rounded">{{ $auth->request_pa->count() }}</span>
                                 <div>
                                     <h5 class="mb-0">Permit To Work</h5>
                                     <span>Approved</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-start me-5 mt-3 gap-3">
-                                <span class="badge bg-label-primary p-2 rounded"><i class='bx bx-check bx-sm'></i></span>
+                                <span class="bg-label-primary p-2 px-3 rounded">{{ $auth->entry_permit->count() }}</span>
                                 <div>
                                     <h5 class="mb-0">Entry Permit</h5>
                                     <span>Approved</span>
@@ -70,10 +70,14 @@
                                     <span class="fw-medium me-2">Email:</span>
                                     <span class="bio">{{ $auth->email }}</span>
                                 </li>
-                                <li class="mb-3">
+                                {{-- <li class="mb-3">
                                     <span class="fw-medium me-2">Role:</span>
                                     <span
                                         class="bio">{{ $auth->getRoleNames()->first() . ' ' . $auth->role_assignment }}</span>
+                                </li> --}}
+                                <li class="mb-3">
+                                    <span class="fw-medium me-2">Job Position:</span>
+                                    <span class="bio">{{ $auth->job->name }}</span>
                                 </li>
                                 <li class="mb-3">
                                     <span class="fw-medium me-2">Contact:</span>
@@ -125,11 +129,19 @@
                                         <input type="text" id="email" name="email" class="form-control"
                                             placeholder="example@domain.com" />
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    {{-- <div class="col-12 col-md-6">
                                         <label class="form-label" for="role">Role</label>
                                         <select id="role" name="role" class="form-select">
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label" for="job_pos">Job Position</label>
+                                        <select id="job_pos" name="job_id" class="form-select">
+                                            @foreach ($job_pos as $job)
+                                                <option value="{{ $job->id }}">{{ $job->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -230,14 +242,17 @@
         let selector = $(".bio");
         let fullname = selector[0].innerHTML.split(' ');
         let email = selector[1].innerHTML;
-        let role = selector[2].innerHTML.split(' ')[0];
+        // let role = selector[2].innerHTML.split(' ')[0];
+        let job = selector[2].innerHTML.split(' ')[0];
+        // console.log(job);
         let phone_number = selector[3].innerHTML;
         let address = selector[4].innerHTML;
 
         $("#first_name").val(fullname[0]);
         $("#last_name").val(fullname[1]);
         $("#email").val(email);
-        $("#role option[value=" + role + "]").attr('selected', 'selected');
+        // $("#role option[value=" + role + "]").attr('selected', 'selected');
+        $("#job_pos option[value=" + job + "]").attr('selected', 'selected');
         $("#phone_number").val(phone_number);
         $("#address").val(address);
 

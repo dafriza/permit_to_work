@@ -34,7 +34,7 @@ return new class extends Migration
             $table->longText('submission');
             $table->longText('authorization_and_issuing');
             $table->longText('completion');
-            $table->tinyInteger('status')->comment('1 => on going, 2 => success, 3 => rejected');
+            $table->tinyInteger('status')->comment('1 => on going, 2 => success, 3 => rejected, 4 => draft');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -16,19 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5>Permit To Work</h5>
-                        <table id="ptw_management" class="table">
-                            <thead>
-                                <th>NO</th>
-                                <th>PTW ID</th>
-                                <th>PROJECT</th>
-                                <th>EMPLOYEE NAME</th>
-                                <th>START DATE</th>
-                                <th>STATUS</th>
-                                <th>ACTION</th>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                        {{-- {!! $dataTable->table() !!} --}}
+                        {!! $dataTable->table() !!}
                     </div>
                 </div>
             </div>
@@ -44,39 +32,13 @@
     <script src="{{ asset('assets/js/datatables_ext.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
-    {{-- {!! $dataTable->scripts() !!} --}}
+    {!! $dataTable->scripts() !!}
     <script>
-        $("#ptw_management").DataTable({
-            serverSide: true,
-            processing: true,
-            ajax: '{{ route('permit_to_work.management.get_datatable') }}',
-            columns: [{
-                    data: 'DT_RowIndex'
-                },
-                {
-                    data: 'id'
-                },
-                {
-                    data: 'number'
-                },
-                {
-                    data: 'name'
-                },
-                {
-                    data: 'date_application'
-                },
-                {
-                    data: 'status'
-                },
-                {
-                    data: 'edit'
-                }
-            ],
-            deferRender: true,
-            buttons: [
-                'searchPanes'
-            ],
-            dom: 'Bfrtip'
-        })
+        function deletePTW(id) {
+            partDeleteWithAjax(id, "{!! route('permit_to_work.management.delete_permit_to_work', '') !!}" + "/" + id).done(function() {
+                window.LaravelDataTables["ptw-management"].ajax.reload();
+            })
+            // console.log(id);
+        }
     </script>
 @endpush

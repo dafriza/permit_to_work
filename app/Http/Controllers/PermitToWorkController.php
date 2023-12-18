@@ -24,8 +24,12 @@ class PermitToWorkController extends Controller
     }
     function indexManagement(PermitToWorkManagementDataTable $dataTable)
     {
-        // return $dataTable->render('content.permit_to_work.ptw_management.index');
-        return view('content.permit_to_work.ptw_management.index');
+        return $dataTable->render('content.permit_to_work.ptw_management.index');
+        // return view('content.permit_to_work.ptw_management.index');
+    }
+    public function datatables(PermitToWorkManagementDataTable $dataTable)
+    {
+        return $dataTable->ajax();
     }
     function tra()
     {
@@ -73,14 +77,15 @@ class PermitToWorkController extends Controller
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
+    function deletePermitToWork($id)
+    {
+        return $this->permit_to_work->deletePermitToWork($id);
+    }
+    function printPermitToWork() {
+        return $this->permit_to_work->printPermitToWork();
+    }
     function test_image()
     {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
-    }
-    // ptw management
-    function getDatatable(PermitToWorkManagementDataTable $table)
-    {
-        // return $table->render('content.permit_to_work.ptw_management.datatable');
-        return $this->permit_to_work->getDatatable();
     }
 }

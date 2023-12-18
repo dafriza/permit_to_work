@@ -32,6 +32,12 @@ class PermitToWork extends Model
         'rejected' => 'danger,error,x',
         'on going' => 'secondary,warning,info-circle',
     ];
+    const status_desc = [
+        1 => 'ON GOING',
+        2 => 'SUCCESS',
+        3 => 'REJECTED',
+        4 => 'DRAFT',
+    ];
     public function request_pa()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
@@ -59,5 +65,9 @@ class PermitToWork extends Model
                 return self::status_issue;
             },
         );
+    }
+    function statusName(): Attribute
+    {
+        return new Attribute(get: fn() => self::status_desc[$this->status]);
     }
 }

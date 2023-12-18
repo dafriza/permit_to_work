@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\Analytics;
 use App\Http\Controllers\Dashboard\UserProfile;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\form_layouts\HorizontalTestingForm;
 use App\Http\Controllers\form_layouts\H2s;
 use App\Http\Controllers\form_layouts\FormPage2;
@@ -21,11 +22,16 @@ use App\Http\Controllers\form_layouts\FormPage2;
 $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
-Route::get('/', [Analytics::class, 'index'])->name('dashboard');
+// Route::get('/', [Analytics::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
 Route::get('test',function(){
     // return view('content.permit_to_work.test');
-    return view('content.print-ptw.original_worksite');
+    return view('content.permit_to_work.ptw_print.original_worksite');
+});
+Route::get('test_2',function(){
+    // return view('content.permit_to_work.test');
+    return view('content.permit_to_work.ptw_print.original_worksite_print');
 });
 
 

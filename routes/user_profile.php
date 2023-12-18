@@ -9,7 +9,7 @@ Route::prefix('user_profile')
         Route::controller(UserProfileController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             // get data
-            Route::get('get_data_all_roles', 'getAllRoles')->name('get_data_all_roles');
+            // Route::get('get_data_all_roles', 'getAllRoles')->name('get_data_all_roles');
             Route::get('get_data_permit_to_works', 'getDataPermitToWorks')->name('get_data_permit_to_works');
             // store data
             Route::post('update', 'update')->name('update');
