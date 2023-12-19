@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Models\User;
 use App\Models\Trade;
 use Illuminate\Http\File;
@@ -33,6 +34,57 @@ class PermitToWorkServices implements PermitToWorkInterface
         return response()->json(['results' => $get_spv]);
     }
 
+    function getApproveSC(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_sc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($sc) {
+                return [
+                    'id' => $sc->id,
+                    'text' => $sc->first_name . ' ' . $sc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_sc]);
+    }
+    function getApprovePC(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_pc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($pc) {
+                return [
+                    'id' => $pc->id,
+                    'text' => $pc->first_name . ' ' . $pc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_pc]);
+    }
+    function getApproveProc(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_proc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_proc]);
+    }
     function getToolsEquipment(Request $request)
     {
         $param = $request->q;
@@ -67,6 +119,11 @@ class PermitToWorkServices implements PermitToWorkInterface
         return json_decode(Storage::disk('permit_to_work')->get('crc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
     }
 
+    function getHeaderColdWorkAppOne()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('AppOne' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
+
     function getTotalPermits()
     {
         return PermitToWork::get()->count() + 1;
@@ -81,6 +138,25 @@ class PermitToWorkServices implements PermitToWorkInterface
         $direct_spv = User::where('id', $id)->first();
         return $direct_spv;
     }
+    
+    function findDataApproveSC($id)
+    {
+        $approver_name_sc = User::where('id', $id)->first();
+        return $approver_name_sc;
+    }
+
+    function findDataApprovePC($id)
+    {
+        $approver_name_pc = User::where('id', $id)->first();
+        return $approver_name_pc;
+    }
+
+    function findDataApproveProc($id)
+    {
+        $approver_name_procedures = User::where('id', $id)->first();
+        return $approver_name_procedures;
+    }
+
 
     function findDataToolsEquipment($data_tools_equipment)
     {
@@ -118,6 +194,23 @@ class PermitToWorkServices implements PermitToWorkInterface
         // dd($request->validated());
         $crc = 'crc';
         $file_name = $crc .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+    }
+
+    function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
+    {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        $appOne = 'AppOne';
+        $file_name = $appOne .'-'. '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);

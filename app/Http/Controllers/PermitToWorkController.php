@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 use App\Models\User;
 use App\Models\PermitToWork;
@@ -26,6 +27,18 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getDirectSPV($request);
     }
+    function getApproveSC(Request $request)
+    {
+        return $this->permit_to_work->getApproveSC($request);
+    }
+    function getApprovePC(Request $request)
+    {
+        return $this->permit_to_work->getApprovePC($request);
+    }
+    function getApproveProc(Request $request)
+    {
+        return $this->permit_to_work->getApproveProc($request);
+    }
     function getToolsEquipment(Request $request)
     {
         return $this->permit_to_work->getToolsEquipment($request);
@@ -42,6 +55,12 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getHeaderColdWorkCrc();
     }
+
+    function getHeaderColdWorkAppOne()
+    {
+        return $this->permit_to_work->getHeaderColdWorkAppOne();
+    }
+
     function getTotalPermits()
     {
         return $this->permit_to_work->getTotalPermits();
@@ -53,6 +72,21 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataDirectSPV($id);
     }
+
+    function findDataApproveSC($id)
+    {
+        return $this->permit_to_work->findDataApproveSC($id);
+    }
+    function findDataApprovePC($id)
+    {
+        return $this->permit_to_work->findDataApprovePC($id);
+    }
+
+    function findDataApproveProc($id)
+    {
+        return $this->permit_to_work->findDataApproveProc($id);
+    }
+
     function findDataToolsEquipment($data_tools_equipment)
     {
         return $this->permit_to_work->findDataToolsEquipment($data_tools_equipment);
@@ -70,6 +104,10 @@ class PermitToWorkController extends Controller
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
         return $this->permit_to_work->storeHeaderCrc($request);
+    }
+    function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
+    {
+        return $this->permit_to_work->storeHeaderAppOne($request);
     }
     function test_image() {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
