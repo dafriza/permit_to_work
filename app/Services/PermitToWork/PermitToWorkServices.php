@@ -105,7 +105,19 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function printPermitToWork()
     {
+        $customPaper = [0, 0, 1567.0, 1283.8];
+        // $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite_print')->setPaper($customPaper, 'landscape');
         $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite_print');
+        // $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite');
+        return $pdf->stream();
+        // $pdf = App::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
+        // return $pdf->download();
+    }
+    function detailPrintPermitToWork()
+    {
+        // $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite_print')->setPaper($customPaper, 'landscape');
+        $pdf = Pdf::loadView('content.permit_to_work.ptw_print.detail_original_worksite_print');
         // $pdf = Pdf::loadView('content.permit_to_work.ptw_print.original_worksite');
         return $pdf->stream();
         // $pdf = App::make('dompdf.wrapper');

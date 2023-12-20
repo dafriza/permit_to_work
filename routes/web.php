@@ -25,15 +25,18 @@ $controller_path = 'App\Http\Controllers';
 // Route::get('/', [Analytics::class, 'index'])->name('dashboard');
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
-Route::get('test',function(){
+Route::get('test', function () {
     // return view('content.permit_to_work.test');
     return view('content.permit_to_work.ptw_print.original_worksite');
 });
-Route::get('test_2',function(){
+Route::get('test_2', function () {
     // return view('content.permit_to_work.test');
     return view('content.permit_to_work.ptw_print.original_worksite_print');
 });
-
+Route::get('test_3', function () {
+    // return view('content.permit_to_work.test');
+    return view('content.permit_to_work.ptw_print.detail_original_worksite_print');
+});
 
 Route::get('permit_to_work', [HorizontalTestingForm::class, 'index'])->name('permit_to_work');
 Route::get('/form/layouts-horizontaltesting-page2', [FormPage2::class, 'index'])->name('form-layouts-horizontaltesting-page2');

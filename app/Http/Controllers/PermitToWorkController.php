@@ -27,6 +27,11 @@ class PermitToWorkController extends Controller
         return $dataTable->render('content.permit_to_work.ptw_management.index');
         // return view('content.permit_to_work.ptw_management.index');
     }
+    function detailRequest($id)
+    {
+        $detail_request = PermitToWork::find($id);
+        return view('content.permit_to_work.detail_request', compact('detail_request'));
+    }
     public function datatables(PermitToWorkManagementDataTable $dataTable)
     {
         return $dataTable->ajax();
@@ -81,8 +86,13 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->deletePermitToWork($id);
     }
-    function printPermitToWork() {
+    function printPermitToWork()
+    {
         return $this->permit_to_work->printPermitToWork();
+    }
+    function detailPrintPermitToWork()
+    {
+        return $this->permit_to_work->detailPrintPermitToWork();
     }
     function test_image()
     {

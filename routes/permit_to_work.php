@@ -20,6 +20,7 @@ Route::controller(PermitToWorkController::class)->group(function () {
             Route::get('get_total_permits', 'getTotalPermits')->name('get_total_permits');
             Route::get('get_signature/{img}', 'getSignature')->name('get_signature');
             Route::get('print_permit_to_work', 'printPermitToWork')->name('print_permit_to_work');
+            Route::get('detail_print_permit_to_work', 'detailPrintPermitToWork')->name('detail_print_permit_to_work');
 
             // find data
             Route::get('find_data_direct_spv/{id}', 'findDataDirectSPV')->name('find_data_direct_spv');
@@ -34,6 +35,7 @@ Route::controller(PermitToWorkController::class)->group(function () {
                 ->name('management.')
                 ->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
+                    Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
 
                     // del data
                     Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');

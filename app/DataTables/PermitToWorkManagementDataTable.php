@@ -86,7 +86,9 @@ class PermitToWorkManagementDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('DT_RowIndex')->title('No'),
+            Column::make('DT_RowIndex')
+                ->title('No')
+                ->searchable(false),
             // Column::make('id'),
             // Column::make('job_id'),
             Column::make('number')->title('project'),

@@ -40,5 +40,8 @@
             })
             // console.log(id);
         }
+        function editPTW(id){
+            
+        }
     </script>
 @endpush

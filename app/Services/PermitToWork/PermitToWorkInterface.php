@@ -19,4 +19,5 @@ interface PermitToWorkInterface
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);
     function printPermitToWork();
+    function detailPrintPermitToWork();
 }
