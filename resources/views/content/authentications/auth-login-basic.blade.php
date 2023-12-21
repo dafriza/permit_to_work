@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <head>
+    {{-- @push('styles')
         <style>
             .switch {
                 position: relative;
@@ -71,7 +71,8 @@
                 border-radius: 50%;
             }
         </style>
-    </head>
+    @endpush --}}
+
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
@@ -89,7 +90,7 @@
                         <h4 class="mb-2">Login Page</h4>
                         <p class="mb-4">Permit Management</p>
 
-                        <form id="formAuthentication" class="mb-3" action="{{ url('/postLogin') }}" method="POST">
+                        <form id="formAuthentication" class="mb-3" action="{{ url('postLogin') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
@@ -107,7 +108,7 @@
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <div class="d-flex justify-content-end">
                                     Log in as approver &nbsp
                                     <label class="switch">
@@ -115,7 +116,7 @@
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit"
                                     style="padding-left: 2px; padding-right: 2px">Login</button>
