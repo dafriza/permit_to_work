@@ -37,3 +37,27 @@
         <!-- /Account -->
     </div>
 </div>
+@push('scripts')
+    <script>
+        dynamicSelect2('closed_out_pa', '{!! route('permit_to_work.get_data_closed_out_pa') !!}');
+        submitWithAjax('formAccountSettingsAppFour', function() {
+            location.reload();
+        })
+        getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_app_three') }}').done(function(data) {
+            if (data != '') {
+                $("#closed_out_pa").val(data.closed_out_pa);
+                // approval 3
+                getDataWithAjax(
+                    "{!! route('permit_to_work.find_data_closed_out_pa', '') !!}" + "/" + data.closed_out_pa).done(function(data) {
+                    let closed_out_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
+                        true, true);
+                    $('#closed_out_pa').append(closed_out_pa_option).trigger('change');
+                });
+            } else {
+
+                $("#next-7").attr('disabled','disabled');
+            }
+        });
+
+    </script>
+@endpush
