@@ -2,6 +2,8 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
 use App\Models\User;
 use App\Models\Trade;
 use Illuminate\Http\File;
@@ -33,6 +35,94 @@ class PermitToWorkServices implements PermitToWorkInterface
         return response()->json(['results' => $get_spv]);
     }
 
+    function getApproveSC(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_sc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($sc) {
+                return [
+                    'id' => $sc->id,
+                    'text' => $sc->first_name . ' ' . $sc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_sc]);
+    }
+    function getApprovePC(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_pc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($pc) {
+                return [
+                    'id' => $pc->id,
+                    'text' => $pc->first_name . ' ' . $pc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_pc]);
+    }
+    function getApproveProc(Request $request)
+    {
+        $param = $request->q;
+        $get_approve_proc = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_approve_proc]);
+    }
+
+    // approval 2
+    function getIssueAA(Request $request)
+    {
+        $param = $request->q;
+        $get_issue_aa = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_issue_aa]);
+    }
+
+    function getAcceptancePA(Request $request)
+    {
+        $param = $request->q;
+        $get_acceptance_pa = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_acceptance_pa]);
+    }
     function getToolsEquipment(Request $request)
     {
         $param = $request->q;
@@ -60,11 +150,21 @@ class PermitToWorkServices implements PermitToWorkInterface
 
     function getHeaderColdWork()
     {
-        return json_decode(Storage::disk('permit_to_work')->get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('task_desc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
     }
     function getHeaderColdWorkCrc()
     {
         return json_decode(Storage::disk('permit_to_work')->get('crc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
+
+    function getHeaderColdWorkAppOne()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('AppOne' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
+
+    function getHeaderColdWorkAppTwo()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('AppTwo' . '-' . '1' . '-' . 'John Doe' .  '.json'));
     }
 
     function getTotalPermits()
@@ -80,6 +180,35 @@ class PermitToWorkServices implements PermitToWorkInterface
     {
         $direct_spv = User::where('id', $id)->first();
         return $direct_spv;
+    }
+    
+    function findDataApproveSC($id)
+    {
+        $approver_name_sc = User::where('id', $id)->first();
+        return $approver_name_sc;
+    }
+
+    function findDataApprovePC($id)
+    {
+        $approver_name_pc = User::where('id', $id)->first();
+        return $approver_name_pc;
+    }
+
+    function findDataApproveProc($id)
+    {
+        $approver_name_procedures = User::where('id', $id)->first();
+        return $approver_name_procedures;
+    }
+
+    function findDataIssueAA($id)
+    {
+        $issue_aa = User::where('id', $id)->first();
+        return $issue_aa;
+    }
+    function findDataAcceptancePA($id)
+    {
+        $acceptance_pa = User::where('id', $id)->first();
+        return $acceptance_pa;
     }
 
     function findDataToolsEquipment($data_tools_equipment)
@@ -98,12 +227,26 @@ class PermitToWorkServices implements PermitToWorkInterface
 
     function storeHeader(HeaderColdWorkRequest $request)
     {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        $task_desc = 'task_desc';
+        $file_name = $task_desc .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+
         // return $request->fails();
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         
-        $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
-        Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
-        return response()->json($request->validated(), 202);
+        // $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
+        // Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
+        // return response()->json($request->validated(), 202);
     }
 
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
@@ -118,6 +261,40 @@ class PermitToWorkServices implements PermitToWorkInterface
         // dd($request->validated());
         $crc = 'crc';
         $file_name = $crc .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+    }
+
+    function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
+    {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        $appOne = 'AppOne';
+        $file_name = $appOne .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+    }
+
+    function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request)
+    {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        $appTwo = 'AppTwo';
+        $file_name = $appTwo .'-'. '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
