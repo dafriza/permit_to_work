@@ -300,9 +300,9 @@
                                         </div>
                                         <div class="flex-grow-1">
                                             <span class="fw-medium d-block"> {{ auth()->user()->first_name }} </span>
-                                            <small class="text-muted"> 
+                                            <small class="text-muted">
                                                 @foreach(auth()->user()->roles as $role) {{ $role->name }}
-                                                @endforeach 
+                                                @endforeach
                                             </small>
                                         </div>
                                     </div>
