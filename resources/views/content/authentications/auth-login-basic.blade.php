@@ -8,70 +8,18 @@
 @endsection
 
 @section('content')
+    <script type="text/javascript">
+        function preventBack() {
+            window.history.forward();
+        }
 
-    <head>
-        <style>
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 50px;
-                height: 25px;
-            }
+        setTimeout("preventBack()", 0);
 
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 18px;
-                width: 20px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            input:checked+.slider {
-                background-color: #2196F3;
-            }
-
-            input:focus+.slider {
-                box-shadow: 0 0 1px #2196F3;
-            }
-
-            input:checked+.slider:before {
-                -webkit-transform: translateX(26px);
-                -ms-transform: translateX(26px);
-                transform: translateX(26px);
-            }
-
-            /* Rounded sliders */
-            .slider.round {
-                border-radius: 34px;
-            }
-
-            .slider.round:before {
-                border-radius: 50%;
-            }
-        </style>
-    </head>
+        window.onunload = function() {
+            null
+        };
+    </script>
+    
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
@@ -93,10 +41,16 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email or username" autofocus>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="Enter your email or username" autofocus
+                                    required value="{{ old('email') }}">
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            <div class="mb-3 form-password-toggle">
+                            <div class="mb-5 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
                                 </div>
@@ -105,15 +59,6 @@
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-end">
-                                    Log in as approver &nbsp
-                                    <label class="switch">
-                                        <input type="checkbox">
-                                        <span class="slider round"></span>
-                                    </label>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -133,6 +78,5 @@
             </div>
             <!-- /Register -->
         </div>
-    </div>
     </div>
 @endsection

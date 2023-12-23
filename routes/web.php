@@ -29,7 +29,7 @@ Route::get('/form/layouts-horizontaltesting-page2', $controller_path . '\form_la
 Route::get('/form/layouth2s', $controller_path . '\form_layouts\h2s@index')->name('form-layouth2s');
 
 // Auth
-Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('login-basic');
+Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('login-basic')->middleware(('guest'));
 Route::post('postLogin', $controller_path . '\authentications\LoginBasic@postLogin')->name('postLogin');
 Route::get('logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
