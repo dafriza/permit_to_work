@@ -24,15 +24,16 @@ class HeaderColdWorkRequestAppThree extends FormRequest
     public function rules()
     {
         return [
-            'issue_aa' => 'required|integer',
-            'acceptance_pa' => 'required|integer',
+            'closed_out_pa' => 'required|integer',
+            'closed_out_aa' => 'required|integer',
         ];
     }
     function attributes()
     {
         return [
-            'issue_aa' => 'Issue AA',
-            'acceptance_pa' => 'Acceptance PA',
+            'closed_out_pa' => 'Close out PA Approval',
+            'closed_out_aa' => 'Close Out AA Approval',
+
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Services\PermitToWork;
 
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
 use App\Models\User;
 use App\Models\Trade;
@@ -123,6 +124,43 @@ class PermitToWorkServices implements PermitToWorkInterface
             });
         return response()->json(['results' => $get_acceptance_pa]);
     }
+
+    // Approval 3
+    function getClosedOutPA(Request $request)
+    {
+        $param = $request->q;
+        $get_closed_out_pa = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_closed_out_pa]);
+    }
+    function getClosedOutAA(Request $request)
+    {
+        $param = $request->q;
+        $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_closed_out_aa]);
+    }
+    
     function getToolsEquipment(Request $request)
     {
         $param = $request->q;
@@ -167,6 +205,12 @@ class PermitToWorkServices implements PermitToWorkInterface
         return json_decode(Storage::disk('permit_to_work')->get('AppTwo' . '-' . '1' . '-' . 'John Doe' .  '.json'));
     }
 
+    function getHeaderColdWorkAppThree()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('AppThree' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
+
+
     function getTotalPermits()
     {
         return PermitToWork::get()->count() + 1;
@@ -210,6 +254,18 @@ class PermitToWorkServices implements PermitToWorkInterface
         $acceptance_pa = User::where('id', $id)->first();
         return $acceptance_pa;
     }
+    // Approval 3
+    function findDataClosedOutPA($id)
+    {
+        $closed_out_pa = User::where('id', $id)->first();
+        return $closed_out_pa;
+    }
+    function findDataCloseOutAA($id)
+    {
+        $closed_out_aa = User::where('id', $id)->first();
+        return $closed_out_aa;
+    }
+
 
     function findDataToolsEquipment($data_tools_equipment)
     {
@@ -295,6 +351,23 @@ class PermitToWorkServices implements PermitToWorkInterface
         // dd($request->validated());
         $appTwo = 'AppTwo';
         $file_name = $appTwo .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+    }
+
+    function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request)
+    {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        // return $request->fails();
+        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
+        // dd($request->validated());
+        $AppThree = 'AppThree';
+        $file_name = $AppThree .'-'. '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);

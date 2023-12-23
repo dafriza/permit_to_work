@@ -49,15 +49,15 @@
 </div>
 @push('scripts')
     <script>
-        dynamicSelect2('issue_aa', '{!! route('permit_to_work.get_data_sc') !!}');
-        dynamicSelect2('acceptance_pa', '{!! route('permit_to_work.get_data_pc') !!}');
+        dynamicSelect2('issue_aa', '{!! route('permit_to_work.get_data_issue_aa') !!}');
+        dynamicSelect2('acceptance_pa', '{!! route('permit_to_work.get_data_acceptance_pa') !!}');
         submitWithAjax('formAccountSettingsAppTwo', function() {
             location.reload();
         })
         getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_app_two') }}').done(function(data) {
             if (data != '') {
                 $("#issue_aa").val(data.issue_aa);
-                $("#issue_aa").val(data.issue_aa);
+                $("#acceptance_pa").val(data.acceptance_pa);
                 // app[]roval sc,pc,procedure
                 getDataWithAjax(
                     "{!! route('permit_to_work.find_data_issue_aa', '') !!}" + "/" + data.issue_aa).done(function(data) {

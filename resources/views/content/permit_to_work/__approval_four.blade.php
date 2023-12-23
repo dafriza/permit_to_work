@@ -8,13 +8,13 @@
                 <h5>Approval 4</h5>
             </div>
 
-            <form id="formAccountSettings" method="POST" action="{{ route('permit_to_work.store_header') }}">
+            <form id="formAccountSettingsAppFour" method="POST" action="{{ route('permit_to_work.store_header_app_four') }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="mt-2 d-flex justify-content-end">
                     <button type="submit" class="btn btn-outline-secondary me-2">Save</button>
                     <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                </div>
-        </div>
+                </div>        </div>
         <div class="card-body">
             <div class="row">
                 {{-- Registry of Work Completion PA --}}

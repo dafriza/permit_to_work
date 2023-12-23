@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 use App\Models\User;
@@ -49,6 +50,15 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getAcceptancePA($request);
     }
+    // Approval 3
+    function getClosedOutPA(Request $request)
+    {
+        return $this->permit_to_work->getClosedOutPA($request);
+    }
+    function getClosedOutAA(Request $request)
+    {
+        return $this->permit_to_work->getClosedOutAA($request);
+    }
     // cut
     function getToolsEquipment(Request $request)
     {
@@ -75,6 +85,11 @@ class PermitToWorkController extends Controller
     function getHeaderColdWorkAppTwo()
     {
         return $this->permit_to_work->getHeaderColdWorkAppTwo();
+    }
+
+    function getHeaderColdWorkAppThree()
+    {
+        return $this->permit_to_work->getHeaderColdWorkAppThree();
     }
 
 
@@ -113,6 +128,15 @@ class PermitToWorkController extends Controller
         return $this->permit_to_work->findDataAcceptancePA($id);
     }
 
+    // Approval 3
+    function findDataClosedOutPA($id)
+    {
+        return $this->permit_to_work->findDataClosedOutPA($id);
+    }
+    function findDataCloseOutAA($id)
+    {
+        return $this->permit_to_work->findDataCloseOutAA($id);
+    }
     function findDataToolsEquipment($data_tools_equipment)
     {
         return $this->permit_to_work->findDataToolsEquipment($data_tools_equipment);
@@ -138,6 +162,10 @@ class PermitToWorkController extends Controller
     function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request)
     {
         return $this->permit_to_work->storeHeaderAppTwo($request);
+    }
+    function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request)
+    {
+        return $this->permit_to_work->storeHeaderAppThree($request);
     }
     function test_image() {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
