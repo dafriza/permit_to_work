@@ -13,7 +13,6 @@
     "barryvdh/laravel-dompdf": "^2.0",
     "fruitcake/laravel-cors": "^3.0",
     "guzzlehttp/guzzle": "^7.2",
-    "kyslik/column-sortable": "^6.5",
     "laravel/framework": "^9.0",
     "laravel/sanctum": "^2.14",
     "laravel/tinker": "^2.7",
