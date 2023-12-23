@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
           UserSeeder::class,
           EntryPermitSeeder::class,
           PermitToWorkSeeder::class,
+          PtwDummySeeder::class,
       ]);
     }
 }

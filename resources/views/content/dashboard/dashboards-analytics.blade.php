@@ -12,7 +12,6 @@
 
 @section('page-script')
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
-
 @endsection
 
 
@@ -300,8 +299,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <span class="fw-medium d-block">Manabu Mikami</span>
-                                            <small class="text-muted">HRD</small>
+                                            <span class="fw-medium d-block"> {{ auth()->user()->first_name }} </span>
+                                            <small class="text-muted">
+                                                @foreach(auth()->user()->roles as $role) {{ $role->name }}
+                                                @endforeach
+                                            </small>
                                         </div>
                                     </div>
                                 </a>
@@ -320,7 +322,7 @@
                                 <div class="dropdown-divider"></div>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                                <a class="dropdown-item" href="{{ route('logout') }}">
                                     <i class="bx bx-power-off me-2"></i>
                                     <span class="align-middle">Log Out</span>
                                 </a>

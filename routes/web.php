@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\PtwDummyController;
+use App\Models\PtwDummy;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\Analytics;
 use App\Http\Controllers\Dashboard\UserProfile;
@@ -38,6 +41,22 @@ Route::get('test_3', function () {
     return view('content.permit_to_work.ptw_print.detail_original_worksite_print');
 });
 
-Route::get('permit_to_work', [HorizontalTestingForm::class, 'index'])->name('permit_to_work');
-Route::get('/form/layouts-horizontaltesting-page2', [FormPage2::class, 'index'])->name('form-layouts-horizontaltesting-page2');
-Route::get('/form/layouth2s', [H2s::class, 'index'])->name('form-layouth2s');
+// Auth
+Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('login-basic')->middleware(('guest'));
+Route::post('postLogin', $controller_path . '\authentications\LoginBasic@postLogin')->name('postLogin');
+Route::get('logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
+
+
+Route::group(['middleware' => ['auth', 'role:superadmin|supervisor|employee']], function () {
+    $controller_path = 'App\Http\Controllers';
+    // Dashboard
+    Route::get('/dashboard', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
+    Route::get('/dashboard/user-profile', $controller_path . '\dashboard\UserProfile@index')->name('user-profile');
+});
+
+Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
+    $controller_path = 'App\Http\Controllers';
+    // Ptw Management
+    Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
+    Route::get('my_ptw_dummy', 'PtwDummyController@index');
+});
