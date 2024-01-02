@@ -15,9 +15,11 @@ class DashboardController extends Controller
     }
     function index()
     {
-        $permit_to_work_auth = $this->dashboard->getMapPermitToWork();
-        // return response()->json($permit_to_work_auth);
-        return view('content.dashboard.index', compact('permit_to_work_auth'));
+        $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
+        $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
+        // dd($activityPTW['authorisation']);
+        // return response()->json($activityPTW);
+        return view('content.dashboard.index', compact('activityPTW','datePTW'));
     }
     function getDataPermitToWork()
     {

@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermitToWorkController;
 use App\Services\PermitToWork\PermitToWorkInterface;
 
-Route::controller(PermitToWorkController::class)->group(function () {
-    Route::prefix('permit_to_work')
-        ->name('permit_to_work.')
-        ->group(function () {
+Route::middleware(['role:supervisor|employee'])
+    ->controller(PermitToWorkController::class)
+    ->prefix('permit_to_work')
+    ->name('permit_to_work.')
+    ->group(function () {
+        Route::middleware('permission:read permit_to_work_cold')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tra', 'tra')->name('tra');
 
@@ -26,22 +28,27 @@ Route::controller(PermitToWorkController::class)->group(function () {
             Route::get('find_data_direct_spv/{id}', 'findDataDirectSPV')->name('find_data_direct_spv');
             Route::get('find_data_tools_equipment/{data_tools_equipment}', 'findDataToolsEquipment')->name('find_data_tools_equipment');
             Route::get('find_data_trades/{data_trades}', 'findDataTrades')->name('find_data_trades');
+        });
 
-            // store
+        Route::middleware('permission:create permit_to_work_cold')->group(function () {
             Route::post('store_header', 'storeHeader')->name('store_header');
+        });
+        // store
 
-            // PTW Management
-            Route::prefix('management')
-                ->name('management.')
-                ->group(function () {
+        // PTW Management
+        Route::prefix('management')
+            ->name('management.')
+            ->group(function () {
+                Route::middleware('permission:read permit_to_work_cold')->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
                     Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
-
-                    // del data
-                    Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
-
                     // datatables
                     Route::get('datatables', 'datatables')->name('datatables');
                 });
-        });
-});
+
+                Route::middleware('permission:delete permit_to_work_cold')->group(function () {
+                    // del data
+                    Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
+                });
+            });
+    });

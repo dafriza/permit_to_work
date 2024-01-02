@@ -19,7 +19,7 @@
             null
         };
     </script>
-    
+
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
@@ -61,18 +61,6 @@
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
                             </div>
-<<<<<<< HEAD
-=======
-                            {{-- <div class="mb-3">
-                                <div class="d-flex justify-content-end">
-                                    Log in as approver &nbsp
-                                    <label class="switch">
-                                        <input type="checkbox">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div> --}}
->>>>>>> ae8c39c32136d134fec0338fd90e9001216beb80
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit"
                                     style="padding-left: 2px; padding-right: 2px">Login</button>

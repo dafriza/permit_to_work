@@ -26,7 +26,7 @@ $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
 // Route::get('/', [Analytics::class, 'index'])->name('dashboard');
-Route::get('/', [DashboardController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/dashboard/user-profile', [UserProfile::class, 'index'])->name('user-profile');
 Route::get('test', function () {
     // return view('content.permit_to_work.test');

@@ -1,9 +1,11 @@
 <?php
 namespace Database\Seeders;
-use App\Helper\RolesAndPermissionsHelper;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Helper\RolesAndPermissionsHelper;
+
 class RolesAndPermissionsSeeder extends Seeder
 {
     private $role_and_permission_helper, $get_all_permissions;
@@ -14,10 +16,11 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run()
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $this->linkedPermissions();
         $this->createPermission();
-        $this->createRole();
+        $this->userBindPermission();
+        // $this->roleBindPermissions();
     }
 
     function linkedPermissions()
@@ -33,23 +36,86 @@ class RolesAndPermissionsSeeder extends Seeder
             }
         }
     }
-    function createRole()
+    // function roleBindPermissions()
+    // {
+    //     $roles = $this->role_and_permission_helper::roles;
+    //     $permissions = $this->get_all_permissions;
+
+    //     // superadmin
+    //     $this->superadminRolesBind($roles, $permissions);
+
+    //     // employee
+    //     $this->employeeRolesBind($roles, $permissions);
+
+    //     // spv
+    //     $this->spvRolesBind($roles, $permissions);
+    // }
+
+    function userBindPermission()
     {
-        $roles = $this->role_and_permission_helper->roles;
+        $roles = $this->role_and_permission_helper::roles;
         $permissions = $this->get_all_permissions;
-
-        // superadmin
-        $this->roleLinkPermissions($roles[0], [$permissions['employee_management'], $permissions['permit_to_work'], $permissions['entry_permit'], $permissions['choose_reponsibility'], $permissions['demand_work_request'], $permissions['demand_entry_permit']]);
-
-        // employee
-        $this->roleLinkPermissions($roles[1], [$permissions['permit_to_work_request'], $permissions['entry_permit_request'], $permissions['edit_profile'], $permissions['request_delete_account']]);
-
-        // spv
-        $this->roleLinkPermissions($roles[2], [$permissions['demand_work_request'], $permissions['demand_entry_permit'], $permissions['edit_profile'], $permissions['request_delete_account']]);
+        $employees = User::role('employee')->get();
+        $supervisor = User::role('supervisor')->get();
+        $this->userGivePermissionsTo($employees, [
+            $permissions['permit_to_work_cold'],
+            $permissions['permit_to_work_hot'],
+            $permissions['entry_permit_request'],
+            $permissions['user_profile'],
+            // $permissions['request_delete_account'],
+            $permissions['dashboard_user'],
+        ]);
+        $this->userGivePermissionsTo($supervisor,[
+            $permissions['demand_work_request'],
+            $permissions['demand_entry_permit'],
+            $permissions['user_profile'],
+            // $permissions['request_delete_account'],
+            $permissions['dashboard_user'],
+        ]);
+        $this->superadminRolesBind($roles, $permissions);
     }
-
+    function userGivePermissionsTo($users, $permissions)
+    {
+        foreach ($users as $user) {
+            $user->givePermissionTo($permissions);
+        }
+    }
+    function spvRolesBind($roles, $permissions)
+    {
+        $this->roleLinkPermissions($roles[2], [
+            $permissions['demand_work_request'],
+            $permissions['demand_entry_permit'],
+            $permissions['user_profile'],
+            // $permissions['request_delete_account'],
+            $permissions['dashboard_user'],
+        ]);
+    }
+    function employeeRolesBind($roles, $permissions)
+    {
+        $this->roleLinkPermissions($roles[1], [
+            $permissions['permit_to_work_cold'],
+            $permissions['permit_to_work_hot'],
+            $permissions['entry_permit_request'],
+            $permissions['user_profile'],
+            // $permissions['request_delete_account'],
+            $permissions['dashboard_user'],
+        ]);
+    }
+    function superadminRolesBind($roles, $permissions)
+    {
+        $this->roleLinkPermissions($roles[0], [
+            $permissions['employee_management'],
+            // $permissions['permit_to_work'],
+            $permissions['entry_permit'],
+            $permissions['choose_reponsibility'],
+            $permissions['demand_work_request'],
+            $permissions['demand_entry_permit'],
+            $permissions['dashboard_admin'],
+        ]);
+    }
     function roleLinkPermissions($role, $permissions)
     {
-        Role::create(['name' => $role])->givePermissionTo($permissions);
+        // Role::create(['name' => $role])->givePermissionTo($permissions);
+        Role::findByName($role)->givePermissionTo($permissions);
     }
 }

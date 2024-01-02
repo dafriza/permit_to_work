@@ -12,9 +12,9 @@
             "slug": "permit_to_work",
             "submenu": [
                 {
-                    "url": "permit_to_work",
+                    "url": "permit_to_work/management/",
                     "name": "Cold PTW",
-                    "slug": "permit_to_work.index"
+                    "slug": "permit_to_work_management_index"
                 },
                 {
                     "url": "permit_to_work",

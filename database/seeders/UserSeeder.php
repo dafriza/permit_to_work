@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use DB;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use App\Helper\RolesAndPermissionsHelper;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
@@ -16,13 +18,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $roles = RolesAndPermissionsHelper::roles;
+        foreach ($roles as $role) {
+            Role::create(['name' => $role]);
+        }
         User::factory(9)
             ->create()
             ->each(function ($user) {
                 $user->assignRole(fake()->randomElement(['employee', 'supervisor']));
-                if($user->getRoleNames()->first() == 'supervisor'){
-                    $user->update(['role_assignment' => fake()->randomElement(['authorisation','permit_registry','site_gas_test','issue','acceptance','close_out'])]);
-                }else{
+                if ($user->getRoleNames()->first() == 'supervisor') {
+                    $user->update(['role_assignment' => fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out'])]);
+                } else {
                     $user->update(['role_assignment' => 'employee']);
                 }
             });

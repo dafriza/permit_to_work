@@ -41,4 +41,8 @@ class User extends Authenticatable
     {
         return new Attribute(get: fn() => $this->first_name . ' ' . $this->last_name);
     }
+    function roleName(): Attribute
+    {
+        return new Attribute(get: fn() => ucfirst($this->getRoleNames()->first()));
+    }
 }

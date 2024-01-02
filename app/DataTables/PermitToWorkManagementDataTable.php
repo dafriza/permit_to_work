@@ -6,6 +6,7 @@ use DB;
 use App\Models\PermitToWork;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\SearchPane;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,7 +32,7 @@ class PermitToWorkManagementDataTable extends DataTable
                     )
                     ->distinct()
                     ->groupBy('status')
-                    ->where('request_pa', 2)
+                    ->where('request_pa', Auth::id())
                     ->get(),
                 function (Builder $builder, $values) {
                     return $builder->whereIn('status', $values);
@@ -49,7 +50,7 @@ class PermitToWorkManagementDataTable extends DataTable
     public function query(PermitToWork $model)
     {
         // return $model->where('request_pa', 2)->get();
-        return $model->newQuery()->where('request_pa', 2);
+        return $model->newQuery()->where('request_pa', Auth::id());
     }
     public function html()
     {
@@ -88,7 +89,8 @@ class PermitToWorkManagementDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')
                 ->title('No')
-                ->searchable(false),
+                ->searchable(false)
+                ->orderable(false),
             // Column::make('id'),
             // Column::make('job_id'),
             Column::make('number')->title('project'),

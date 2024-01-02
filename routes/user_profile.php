@@ -2,17 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserProfileController;
-
-Route::prefix('user_profile')
+$access = 'user_profile';
+Route::middleware(['role:employee|supervisor'])
+    ->controller(UserProfileController::class)
+    ->prefix('user_profile')
     ->name('user_profile.')
-    ->group(function () {
-        Route::controller(UserProfileController::class)->group(function () {
-            Route::get('/', 'index')->name('index');
+    ->group(function () use ($access) {
+        Route::middleware(['permission:read ' . $access])->group(function () {
             // get data
+            Route::get('/', 'index')->name('index');
             // Route::get('get_data_all_roles', 'getAllRoles')->name('get_data_all_roles');
             Route::get('get_data_permit_to_works', 'getDataPermitToWorks')->name('get_data_permit_to_works');
+        });
+
+        Route::middleware(['permission:update ' . $access])->group(function () {
             // store data
             Route::post('update', 'update')->name('update');
+        });
+
+        Route::middleware(['permission:delete ' . $access])->group(function () {
             Route::post('delete', 'delete')->name('delete');
         });
     });

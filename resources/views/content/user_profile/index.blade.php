@@ -2,17 +2,6 @@
 
 @section('title', 'User - Profile')
 
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
-@endsection
-
-@section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
-@endsection
 
 @section('content')
 
@@ -64,7 +53,8 @@
                             <ul class="list-unstyled">
                                 <li class="mb-3">
                                     <span class="fw-medium me-2">Full Name: </span>
-                                    <span class="bio">{{ $auth->full_name }}</span>
+                                    <span class="bio" data-first-name="{{ $auth->first_name }}"
+                                        data-last-name="{{ $auth->last_name }}">{{ $auth->full_name }}</span>
                                 </li>
                                 <li class="mb-3">
                                     <span class="fw-medium me-2">Email:</span>
@@ -89,8 +79,9 @@
                                 </li>
                             </ul>
                             <div class="d-flex justify-content-center pt-3">
-                                <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser"
-                                    data-bs-toggle="modal">Edit</a>
+                                <a href="javascript:;"
+                                    class="btn btn-primary me-3 {{ $if_delete != null ? 'disabled' : '' }}"
+                                    data-bs-target="#editUser" data-bs-toggle="modal">Edit</a>
                                 <a href="javascript:;" class="btn btn-danger {{ $if_delete != null ? 'disabled' : '' }}"
                                     data-bs-target="#deleteUser" data-bs-toggle="modal">Delete this Account</a>
                             </div>
@@ -100,106 +91,11 @@
                 <!-- /User Card -->
 
                 <!-- Edit User Modal -->
-                <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                        <div class="modal-content p-3 p-md-5">
-                            <div class="modal-body">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                                <div class="text-center mb-4">
-                                    <h3>Edit User Information</h3>
-                                    <p>Updating user details will receive a privacy audit.</p>
-                                </div>
-                                <form id="editUserForm" class="row g-3" method="POST"
-                                    action="{{ route('user_profile.update') }}">
-                                    @csrf
-                                    <input type="hidden" value="{{ $auth->id }}" name="id">
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="first_name">First Name</label>
-                                        <input type="text" id="first_name" name="first_name" class="form-control"
-                                            placeholder="John" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="last_name">Last Name</label>
-                                        <input type="text" id="last_name" name="last_name" class="form-control"
-                                            placeholder="Doe" />
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="email">Email</label>
-                                        <input type="text" id="email" name="email" class="form-control"
-                                            placeholder="example@domain.com" />
-                                    </div>
-                                    {{-- <div class="col-12 col-md-6">
-                                        <label class="form-label" for="role">Role</label>
-                                        <select id="role" name="role" class="form-select">
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="job_pos">Job Position</label>
-                                        <select id="job_pos" name="job_id" class="form-select">
-                                            @foreach ($job_pos as $job)
-                                                <option value="{{ $job->id }}">{{ $job->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="phone_number">Phone Number</label>
-                                        <div class="input-group input-group-merge">
-                                            {{-- <span class="input-group-text">+1</span> --}}
-                                            <input type="text" id="phone_number" name="phone_number"
-                                                class="form-control phone-number-mask" placeholder="202 555 0111" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label" for="address">Address</label>
-                                        <input type="text" id="address" name="address"
-                                            class="form-control modal-edit-address"
-                                            placeholder="State Route 46, Australia" />
-                                    </div>
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                                            aria-label="Close">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @include('content.user_profile.__edit_user_modal')
                 <!--/ Edit User Modal -->
 
                 <!-- Delete User Modal -->
-                <div class="modal fade" id="deleteUser" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form id="deleteUserForm" class="modal-content" method="post"
-                            action="{{ route('user_profile.delete') }}">
-                            @csrf
-                            <input type="hidden" value="{{ $auth->id }}" name="id">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalTopTitle">Delete Account Validation</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="nameSlideTop" class="form-label">Are You Sure To Delete This
-                                            Account Permanently?</label>
-                                        <h6>Delete Account {{ $auth->full_name }} (by system)</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-label-secondary"
-                                    data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">OK</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                @include('content.user_profile.__delete_user_modal')
                 <!--/ Delete User Modal -->
             </div>
             <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
@@ -240,7 +136,9 @@
     <script>
         // Integration edit
         let selector = $(".bio");
-        let fullname = selector[0].innerHTML.split(' ');
+        // let fullname = selector[0].innerHTML.split(' ');
+        let first_name = $(".bio")[0].attributes[1].nodeValue;
+        let last_name = $(".bio")[0].attributes[2].nodeValue;
         let email = selector[1].innerHTML;
         // let role = selector[2].innerHTML.split(' ')[0];
         let job = selector[2].innerHTML.split(' ')[0];
@@ -248,8 +146,8 @@
         let phone_number = selector[3].innerHTML;
         let address = selector[4].innerHTML;
 
-        $("#first_name").val(fullname[0]);
-        $("#last_name").val(fullname[1]);
+        $("#first_name").val(first_name);
+        $("#last_name").val(last_name);
         $("#email").val(email);
         // $("#role option[value=" + role + "]").attr('selected', 'selected');
         $("#job_pos option[value=" + job + "]").attr('selected', 'selected');
@@ -261,7 +159,9 @@
             userModal.toggle()
             $(document.body).removeClass("modal-open");
             $(".modal-backdrop").remove();
-            location.reload();
+            setTimeout(function() {
+                location.reload();
+            }, 1500);
             // userModal.hide()
         })
 
@@ -274,7 +174,7 @@
                     data: 'DT_RowIndex'
                 },
                 {
-                    data: 'equipment_id'
+                    data: 'number'
                 },
                 {
                     data: 'created_at'

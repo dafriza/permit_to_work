@@ -26,22 +26,17 @@ class PermitToWork extends Model
         'close_out_pa' => 'object',
         'close_out_aa' => 'object',
         'registry_of_work_completion' => 'object',
+        'created_at' => 'date:Y-m-d',
         // 'submission' => 'object',
         // 'authorization_and_issuing' => 'object',
         // 'completion' => 'object',
     ];
-    const main_issue = [
-        'site_controller' => 'Authorization',
-        'permit_controller' => 'Permit Registry',
-        'authorized_gas_tester' => 'Site Gast Test',
-        'performing_authority' => 'Acceptance',
-        'area_authority' => 'Issue',
+    private const status_issue = [
+        'failure' => 'danger,error,x,Rejected',
+        'draft' => 'secondary,warning,info-circle,Draft',
+        'success' => 'success,success,check,Success',
     ];
-    const status_issue = [
-        'rejected' => 'danger,error,x',
-        'on going' => 'secondary,warning,info-circle',
-    ];
-    const status_desc = [
+    private const status_desc = [
         1 => 'ON GOING',
         2 => 'SUCCESS',
         3 => 'REJECTED',
@@ -55,28 +50,24 @@ class PermitToWork extends Model
     {
         return $this->belongsTo(User::class, 'direct_spv', 'id');
     }
-    function mainIssue(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                $main_issue = [];
-                foreach ($this->authorization_and_issuing as $key => $value) {
-                    $main_issue[] = self::main_issue[$key];
-                }
-                return $main_issue;
-            },
-        );
-    }
     function statusIssue(): Attribute
     {
-        return new Attribute(
-            get: function () {
-                return self::status_issue;
-            },
-        );
+        return Attribute::make(set: fn($value) => self::status_issue[$value], get: fn($value) => $value);
     }
     function statusName(): Attribute
     {
-        return new Attribute(get: fn() => self::status_desc[$this->status]);
+        return Attribute::make(set: fn($value) => self::status_desc[$this->status], get: fn($value) => $value);
+    }
+    function dateConvert(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => date_format(date_create($value), 'Y-m-d'),
+            get: function ($value) {
+                $dateNow = now();
+                $datePTW = $value;
+                $resultDate = $dateNow->diffInDays($datePTW);
+                return $resultDate;
+            },
+        );
     }
 }

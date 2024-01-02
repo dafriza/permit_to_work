@@ -134,12 +134,14 @@ class PermitToWorkFactory extends Factory
                 'designation' => 'site_controller',
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'permit_registry' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'site_gas_test' => [
                 'flammable' => 0,
@@ -149,18 +151,21 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'issue' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'acceptance' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'close_out_pa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -170,6 +175,7 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'close_out_aa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -178,12 +184,14 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'registry_of_work_completion' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
+                'status' => fake()->randomElement(['success','failure','draft'])
             ],
             'status' => fake()->randomElement([1, 2, 3, 4]),
             // 'submission' => [

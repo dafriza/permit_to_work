@@ -6,7 +6,7 @@ use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\DeleteUserProfile;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use App\Services\UserProfile\UserProfileInterface;
 use App\Http\Requests\UserProfile\UserProfileRequest;
 
@@ -19,12 +19,10 @@ class UserProfileController extends Controller
     }
     function index()
     {
-        $auth = User::find(1);
-        // $roles = $this->getAllRoles();
+        $auth = Auth::user();
         $job_pos = $this->getAllJobPos();
         $if_delete = DeleteUserProfile::with('user')->first();
-        // dd($if_delete);
-        return view('content.user_profile.index', compact('auth', 'job_pos','if_delete'));
+        return view('content.user_profile.index', compact('auth', 'job_pos', 'if_delete'));
     }
     // function getAllRoles()
     // {
@@ -32,7 +30,8 @@ class UserProfileController extends Controller
     //         return $value->name == 'superadmin';
     //     });
     // }
-    function getAllJobPos() {
+    function getAllJobPos()
+    {
         return Job::all();
     }
     function getDataPermitToWorks()
@@ -45,10 +44,6 @@ class UserProfileController extends Controller
     }
     function delete(Request $request)
     {
-        DeleteUserProfile::create([
-            'user_id' => $request->id,
-            'status' => 1,
-        ]);
-        return response()->json('Success', 202);
+        $this->user->delete($request);
     }
 }
