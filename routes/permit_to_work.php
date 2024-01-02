@@ -5,12 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermitToWorkController;
 use App\Services\PermitToWork\PermitToWorkInterface;
 
-Route::middleware(['role:supervisor|employee'])
-    ->controller(PermitToWorkController::class)
+Route::controller(PermitToWorkController::class)
     ->prefix('permit_to_work')
     ->name('permit_to_work.')
     ->group(function () {
-        Route::middleware('permission:read permit_to_work_cold')->group(function () {
+        Route::middleware(['permission:read permit_to_work_cold', 'role:supervisor|employee'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tra', 'tra')->name('tra');
 
@@ -30,7 +29,7 @@ Route::middleware(['role:supervisor|employee'])
             Route::get('find_data_trades/{data_trades}', 'findDataTrades')->name('find_data_trades');
         });
 
-        Route::middleware('permission:create permit_to_work_cold')->group(function () {
+        Route::middleware(['permission:create permit_to_work_cold', 'role:supervisor|employee'])->group(function () {
             Route::post('store_header', 'storeHeader')->name('store_header');
         });
         // store
@@ -39,14 +38,18 @@ Route::middleware(['role:supervisor|employee'])
         Route::prefix('management')
             ->name('management.')
             ->group(function () {
-                Route::middleware('permission:read permit_to_work_cold')->group(function () {
+                Route::middleware(['permission:read permit_to_work_cold', 'role:supervisor|employee'])->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
                     Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
                     // datatables
                     Route::get('datatables', 'datatables')->name('datatables');
                 });
 
-                Route::middleware('permission:delete permit_to_work_cold')->group(function () {
+                Route::middleware(['role:supervisor|superadmin', 'read permit_to_work_management'])->group(function () {
+                    Route::get('user', 'userManagement')->name('user');
+                });
+
+                Route::middleware(['permission:delete permit_to_work_cold', 'role:supervisor|employee'])->group(function () {
                     // del data
                     Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
                 });

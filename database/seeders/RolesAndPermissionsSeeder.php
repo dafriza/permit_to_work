@@ -65,10 +65,12 @@ class RolesAndPermissionsSeeder extends Seeder
             // $permissions['request_delete_account'],
             $permissions['dashboard_user'],
         ]);
-        $this->userGivePermissionsTo($supervisor,[
+        $this->userGivePermissionsTo($supervisor, [
             $permissions['demand_work_request'],
             $permissions['demand_entry_permit'],
+            $permissions['entry_permit_request'],
             $permissions['user_profile'],
+            $permissions['permit_to_work_management'],
             // $permissions['request_delete_account'],
             $permissions['dashboard_user'],
         ]);
@@ -106,10 +108,11 @@ class RolesAndPermissionsSeeder extends Seeder
         $this->roleLinkPermissions($roles[0], [
             $permissions['employee_management'],
             // $permissions['permit_to_work'],
-            $permissions['entry_permit'],
+            // $permissions['entry_permit'],
             $permissions['choose_reponsibility'],
             $permissions['demand_work_request'],
             $permissions['demand_entry_permit'],
+            $permissions['permit_to_work_management'],
             $permissions['dashboard_admin'],
         ]);
     }

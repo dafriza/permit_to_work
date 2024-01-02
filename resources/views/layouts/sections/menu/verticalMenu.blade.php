@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="menu-inner-shadow"></div>
+    {{-- <div class="menu-inner-shadow"></div> --}}
 
     <ul class="menu-inner py-1">
         @foreach ($menuData[0]->menu as $menu)
@@ -47,15 +47,16 @@
 
                 {{-- main menu --}}
                 <li class="menu-item {{ $activeClass }}">
-                    <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
-                        class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
-                        @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-                        @isset($menu->icon)
-                            <i class="{{ $menu->icon }}"></i>
-                        @endisset
-                        <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-                    </a>
-
+                    @can($menu->permission ?? null)
+                        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
+                            class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
+                            @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
+                            @isset($menu->icon)
+                                <i class="{{ $menu->icon }}"></i>
+                            @endisset
+                            <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
+                        </a>
+                    @endcan
                     {{-- submenu --}}
                     @isset($menu->submenu)
                         @include('layouts.sections.menu.submenu', ['menu' => $menu->submenu])

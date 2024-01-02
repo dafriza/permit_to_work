@@ -8,6 +8,7 @@ class RolesAndPermissionsHelper
         'permit_to_work_hot',
         'entry_permit',
         'employee_management',
+        'permit_to_work_management',
         'choose_reponsibility',
         'demand_work_request',
         'demand_entry_permit',

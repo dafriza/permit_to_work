@@ -4,7 +4,8 @@
             "name": "Dashboard",
             "icon": "menu-icon tf-icons bx bx-home-circle",
             "slug": "dashboard",
-            "url": "dashboard"
+            "url": "dashboard",
+            "permission": "read dashboard_user"
         },
         {
             "name": "Permit To Work",
@@ -12,14 +13,22 @@
             "slug": "permit_to_work",
             "submenu": [
                 {
+                    "url": "permit_to_work/management/user",
+                    "name": "Management User",
+                    "slug": "permit_to_work.management.user",
+                    "permission": "read permit_to_work_management"
+                },
+                {
                     "url": "permit_to_work/management/",
                     "name": "Cold PTW",
-                    "slug": "permit_to_work_management_index"
+                    "slug": "permit_to_work.management.index",
+                    "permission": "read permit_to_work_cold"
                 },
                 {
                     "url": "permit_to_work",
                     "name": "Hot PTW",
-                    "slug": ""
+                    "slug": "",
+                    "permission": "read permit_to_work_hot"
                 }
             ]
         },
