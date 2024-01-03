@@ -45,7 +45,7 @@ Route::controller(PermitToWorkController::class)
                     Route::get('datatables', 'datatables')->name('datatables');
                 });
 
-                Route::middleware(['role:supervisor|superadmin', 'read permit_to_work_management'])->group(function () {
+                Route::middleware(['role:supervisor|superadmin', 'permission:read permit_to_work_management'])->group(function () {
                     Route::get('user', 'userManagement')->name('user');
                 });
 

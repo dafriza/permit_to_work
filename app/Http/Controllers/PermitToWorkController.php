@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\PermitToWorkManagementDataTable;
 use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use App\Models\ToolsEquipment;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\PermitToWork\PermitToWorkInterface;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
+use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
+use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
 
 class PermitToWorkController extends Controller
 {
@@ -26,6 +28,10 @@ class PermitToWorkController extends Controller
     {
         return $dataTable->render('content.permit_to_work.ptw_management.index');
         // return view('content.permit_to_work.ptw_management.index');
+    }
+    function userManagement(PermitToWorkManagementUserDatatable $dataTable)
+    {
+        return $dataTable->render('content.permit_to_work.ptw_management.user.index');
     }
     function detailRequest($id)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables;
+namespace App\DataTables\PermitToWork;
 
 use DB;
 use App\Models\PermitToWork;

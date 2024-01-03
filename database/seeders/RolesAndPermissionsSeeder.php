@@ -85,6 +85,9 @@ class RolesAndPermissionsSeeder extends Seeder
     function spvRolesBind($roles, $permissions)
     {
         $this->roleLinkPermissions($roles[2], [
+            $permissions['permit_to_work_cold'],
+            $permissions['permit_to_work_hot'],
+            $permissions['entry_permit_request'],
             $permissions['demand_work_request'],
             $permissions['demand_entry_permit'],
             $permissions['user_profile'],

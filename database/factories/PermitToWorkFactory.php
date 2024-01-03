@@ -32,7 +32,7 @@ class PermitToWorkFactory extends Factory
         return [
             'number' => 'HCML/' . fake()->randomElement($romanize) . '/2023' . '/' . fake()->randomDigit(),
             'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
-            'request_pa' => $employee['id'],
+            'request_pa' => fake()->randomElement([$employee['id'], $supervisor['id']]),
             'date_application' => fake()->dateTimeBetween(),
             'sign_pa' => fake()->imageUrl(360, 360, 'signature', true),
             'direct_spv' => $supervisor['id'],
@@ -134,14 +134,20 @@ class PermitToWorkFactory extends Factory
                 'designation' => 'site_controller',
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'permit_registry' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'site_gas_test' => [
                 'flammable' => 0,
@@ -151,21 +157,30 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'issue' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'acceptance' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'close_out_pa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -175,7 +190,10 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'close_out_aa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -184,14 +202,20 @@ class PermitToWorkFactory extends Factory
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'registry_of_work_completion' => [
                 'name' => 'Lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'date' => fake()->dateTimeBetween(),
                 'time' => fake()->time(),
-                'status' => fake()->randomElement(['success','failure','draft'])
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role('supervisor')
+                ->get()
+                ->random()['id']
             ],
             'status' => fake()->randomElement([1, 2, 3, 4]),
             // 'submission' => [
