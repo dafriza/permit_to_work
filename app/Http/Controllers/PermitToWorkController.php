@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
@@ -59,6 +60,11 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getClosedOutAA($request);
     }
+    // Approval 4
+    function getRegisWorkPA(Request $request)
+    {
+        return $this->permit_to_work->getRegisWorkPA($request);
+    }
     // cut
     function getToolsEquipment(Request $request)
     {
@@ -90,6 +96,10 @@ class PermitToWorkController extends Controller
     function getHeaderColdWorkAppThree()
     {
         return $this->permit_to_work->getHeaderColdWorkAppThree();
+    }
+    function getHeaderColdWorkAppFour()
+    {
+        return $this->permit_to_work->getHeaderColdWorkAppFour();
     }
 
 
@@ -137,6 +147,12 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataCloseOutAA($id);
     }
+
+    // approval 4
+    function findDataRegisWorkPA($id)
+    {
+        return $this->permit_to_work->findDataRegisWorkPA($id);
+    }
     function findDataToolsEquipment($data_tools_equipment)
     {
         return $this->permit_to_work->findDataToolsEquipment($data_tools_equipment);
@@ -166,6 +182,11 @@ class PermitToWorkController extends Controller
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request)
     {
         return $this->permit_to_work->storeHeaderAppThree($request);
+    }
+    
+    function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request)
+    {
+        return $this->permit_to_work->storeHeaderAppFour($request);
     }
     function test_image() {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));

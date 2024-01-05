@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
@@ -20,6 +21,8 @@ interface PermitToWorkInterface
     // Approval 3
     function getClosedOutPA(Request $request);
     function getClosedOutAA(Request $request);
+    // Approval 4
+    function getRegisWorkPA(Request $request);
 
 
     function getToolsEquipment(Request $request);
@@ -29,11 +32,13 @@ interface PermitToWorkInterface
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request);
     function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request);
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request);
+    function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request);
     function getHeaderColdWork();
     function getHeaderColdWorkCrc();
     function getHeaderColdWorkAppOne();
     function getHeaderColdWorkAppTwo();
     function getHeaderColdWorkAppThree();
+    function getHeaderColdWorkAppFour();
     function getTotalPermits();
     function getSignature($img);
     function findDataDirectSPV($id);
@@ -47,6 +52,8 @@ interface PermitToWorkInterface
     // Approval 3
     function findDataClosedOutPA($id);
     function findDataCloseOutAA($id);
+    // Approval 4
+    function findDataRegisWorkPA($id);
 
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);

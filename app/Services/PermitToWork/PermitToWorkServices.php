@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
@@ -160,7 +161,24 @@ class PermitToWorkServices implements PermitToWorkInterface
             });
         return response()->json(['results' => $get_closed_out_aa]);
     }
-    
+    // Approval 4
+    function getRegisWorkPA(Request $request)
+    {
+        $param = $request->q;
+        $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
+            ->orWhere('last_name', 'like', "%$param%")
+            ->get()
+            ->filter(function ($user) {
+                return $user->roles->where('name', 'supervisor');
+            })
+            ->map(function ($proc) {
+                return [
+                    'id' => $proc->id,
+                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                ];
+            });
+        return response()->json(['results' => $get_closed_out_aa]);
+    }
     function getToolsEquipment(Request $request)
     {
         $param = $request->q;
@@ -208,6 +226,10 @@ class PermitToWorkServices implements PermitToWorkInterface
     function getHeaderColdWorkAppThree()
     {
         return json_decode(Storage::disk('permit_to_work')->get('AppThree' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+    }
+    function getHeaderColdWorkAppFour()
+    {
+        return json_decode(Storage::disk('permit_to_work')->get('AppFour' . '-' . '1' . '-' . 'John Doe' .  '.json'));
     }
 
 
@@ -265,7 +287,11 @@ class PermitToWorkServices implements PermitToWorkInterface
         $closed_out_aa = User::where('id', $id)->first();
         return $closed_out_aa;
     }
-
+    function findDataRegisWorkPA($id)
+    {
+        $regis_work_pa = User::where('id', $id)->first();
+        return $regis_work_pa;
+    }
 
     function findDataToolsEquipment($data_tools_equipment)
     {
@@ -363,11 +389,22 @@ class PermitToWorkServices implements PermitToWorkInterface
             // Return error response if validation data is not an array
             return response()->json(['error' => 'Invalid data format'], 400);
         }
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        // dd($request->validated());
         $AppThree = 'AppThree';
         $file_name = $AppThree .'-'. '1' . '-' . 'John Doe' . '.json';
+
+        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        return response()->json($validatedData, 202);
+    }
+
+    function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request)
+    {
+        $validatedData = $request->validated();
+        if (!is_array($validatedData)) {
+            // Return error response if validation data is not an array
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+        $AppFour = 'AppFour';
+        $file_name = $AppFour .'-'. '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);

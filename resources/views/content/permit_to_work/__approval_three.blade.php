@@ -24,7 +24,6 @@
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="closed_out_pa" class="form-select permit_to_work" name="closed_out_pa"
                         aria-label="closed_out_pa" data-placeholder="Select Name">
-                        <option>Harold Carter</option>
                     </select>
                 </div>
                 {{-- Closed Out AA --}}
@@ -33,7 +32,6 @@
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="closed_out_aa" class="form-select permit_to_work" name="closed_out_aa"
                         aria-label="closed_out_aa" data-placeholder="Select Name">
-                        <option>Harold Carter</option>
                     </select>
                 </div>
                 </form>

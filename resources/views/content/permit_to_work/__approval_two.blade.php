@@ -24,7 +24,6 @@
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="issue_aa" class="form-select permit_to_work" name="issue_aa"
                         aria-label="issue_aa" data-placeholder="Select Isssuer Name">
-                        <option>Harold Carter</option>
                     </select>
                 </div>
                 {{-- Acceptance PA --}}
@@ -33,7 +32,6 @@
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="acceptance_pa" class="form-select permit_to_work" name="acceptance_pa"
                         aria-label="acceptance_pa" data-placeholder="Select Acceptance Name">
-                        <option>Harold Carter</option>
                     </select>
                 </div>
                 </form>
