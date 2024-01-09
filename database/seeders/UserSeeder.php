@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             ->each(function ($user) {
                 $user->assignRole(fake()->randomElement(['employee', 'supervisor']));
                 if ($user->getRoleNames()->first() == 'supervisor') {
-                    $user->update(['role_assignment' => fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out'])]);
+                    $user->update(['role_assignment' => fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa','close_out_aa','registry_of_work_completion'])]);
                 } else {
                     $user->update(['role_assignment' => 'employee']);
                 }

@@ -43,6 +43,7 @@ class DashboardServices implements DashboardInterface
     }
     function getMapPermitToWork()
     {
+        // dd('jelen');
         $this->permitToWorkSigns = collect($this->permitToWorkSigns);
         $permitToWork = $this->getPermitToWorkByUserIdLatest();
         foreach (self::statuses as $status) {
@@ -72,6 +73,7 @@ class DashboardServices implements DashboardInterface
         $dateNow = now();
         $datePTW = $permitToWork->created_at;
         $resultDate = $dateNow->diffInDays($datePTW);
+        // $resultDate = 0;
         $this->permitToWorkSigns->put('date', $resultDate);
         // dd($this->permitToWorkSigns);
         return $this->permitToWorkSigns;

@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
         $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
-        // dd($activityPTW['authorisation']);
+        // dd($activityPTW);
         // return response()->json($activityPTW);
         return view('content.dashboard.index', compact('activityPTW','datePTW'));
     }

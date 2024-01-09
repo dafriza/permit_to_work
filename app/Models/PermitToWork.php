@@ -65,9 +65,176 @@ class PermitToWork extends Model
             get: function ($value) {
                 $dateNow = now();
                 $datePTW = $value;
-                $resultDate = $dateNow->diffInDays($datePTW);
+                $resultDate = $dateNow->diffInDays($datePTW) . ' hari';
+                $realDate = $dateNow->diffInDays($datePTW);
+                if ($realDate > 7) {
+                    $minggu = floor($realDate / 7);
+                    $hari = $realDate % 7;
+                    $resultDate = $minggu . ' minggu ' . $hari . ' hari';
+                    if ($realDate > 30) {
+                        $bulan = floor($realDate / 30);
+                        $minggu = $bulan > 7 ? floor($bulan / 7) : 0;
+                        $hari = $minggu < 7 ? $minggu : $bulan % 7;
+                        $resultDate = $bulan . ' bulan ' . $minggu . ' minggu ' . $hari . ' hari';
+                    }
+                }
                 return $resultDate;
             },
         );
+    }
+    function dateDetailRequest(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return date_format(date_create($this->date), 'd/m/Y');
+            },
+        );
+    }
+    function getPAName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->request_pa);
+            },
+        );
+    }
+    function getSPVName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->direct_spv);
+            },
+        );
+    }
+    function getAuthorisationName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->authorisation->approver);
+            },
+        );
+    }
+    function getPermitRegistryName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->permit_registry->approver);
+            },
+        );
+    }
+    function getSiteGasTestName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->site_gas_test->approver);
+            },
+        );
+    }
+    function getIssueName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->issue->approver);
+            },
+        );
+    }
+    function getAcceptanceName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->acceptance->approver);
+            },
+        );
+    }
+    function getCloseOutPAName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->close_out_pa->approver);
+            },
+        );
+    }
+    function getCloseOutAAName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->close_out_aa->approver);
+            },
+        );
+    }
+    function getRegistryName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getFullNameUserById($this->registry_of_work_completion->approver);
+            },
+        );
+    }
+    function getFullNameUserById($id)
+    {
+        return User::where('id', $id)->first()->full_name;
+    }
+    function getToolsEquipment(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->convertToolsOrTrade($this->tools_equipment);
+            },
+        );
+    }
+    function getTrades(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->convertToolsOrTrade($this->trades);
+            },
+        );
+    }
+    function convertToolsOrTrade($array)
+    {
+        $arrayData = array_map(function ($data) {
+            return $data['name'];
+        }, $array);
+        return implode(', ', $arrayData);
+    }
+    function getHazards(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $hazards = collect($this->hazard)->except('hazard_other');
+                return $this->convertCheckbox($hazards);
+            },
+        );
+    }
+    function getControls(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $controls = collect($this->controls)->except('controls_other');
+                return $this->convertCheckbox($controls);
+            },
+        );
+    }
+    function getSSCR(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $sscrs = collect($this->sscr);
+                return $this->convertCheckbox($sscrs);
+            },
+        );
+    }
+    function convertCheckbox($data)
+    {
+        $filterData = $data
+            ->filter(function ($value, $key) {
+                return $value != 0;
+            })
+            ->keys()
+            ->map(function ($value) {
+                return ucfirst(str_replace('_', ' ', $value));
+            });
+        // $filterData->push($this->hazard->hazard_other);
+        return implode(', ', $filterData->toArray());
     }
 }

@@ -66,6 +66,7 @@ class RolesAndPermissionsSeeder extends Seeder
             $permissions['dashboard_user'],
         ]);
         $this->userGivePermissionsTo($supervisor, [
+            // $permissions['permit_to_work_cold'],
             $permissions['demand_work_request'],
             $permissions['demand_entry_permit'],
             $permissions['entry_permit_request'],

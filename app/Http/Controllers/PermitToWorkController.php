@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use App\Models\ToolsEquipment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\PermitToWork\PermitToWorkInterface;
@@ -36,7 +37,11 @@ class PermitToWorkController extends Controller
     function detailRequest($id)
     {
         $detail_request = PermitToWork::find($id);
-        return view('content.permit_to_work.detail_request', compact('detail_request'));
+        $assignment = $this->getAssignment();
+        $if_success = $detail_request->{$assignment}->status;
+        // dd($temp);
+        // dd($if_success != null);
+        return view('content.permit_to_work.detail_request', compact('detail_request', 'if_success'));
     }
     public function datatables(PermitToWorkManagementDataTable $dataTable)
     {
@@ -88,9 +93,31 @@ class PermitToWorkController extends Controller
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
+    function approveRequest(Request $request)
+    {
+        $id = $request->id;
+        $ptwRequest = PermitToWork::find($id);
+        $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment->status = 'success';
+        $ptwRequest->update([$this->getAssignment() => $assignment]);
+        return response()->json('Success', 202);
+    }
+    function rejectRequest(Request $request)
+    {
+        $id = $request->id;
+        $ptwRequest = PermitToWork::find($id);
+        $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment->status = 'failure';
+        $ptwRequest->update([$this->getAssignment() => $assignment]);
+        return response()->json('Success', 202);
+    }
     function deletePermitToWork($id)
     {
         return $this->permit_to_work->deletePermitToWork($id);
+    }
+    function getAssignment()
+    {
+        return Auth::user()->role_assignment;
     }
     function printPermitToWork()
     {

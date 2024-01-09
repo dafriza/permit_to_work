@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-simple modal-edit-user">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 <div class="text-center mb-4">
                     <h3>Edit User Information</h3>
                     <p>Updating user details will receive a privacy audit.</p>
@@ -54,8 +54,8 @@
                     </div>
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <a class="btn btn-secondary" style="color: white" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</a>
                     </div>
                 </form>
             </div>

@@ -20,6 +20,7 @@ Route::controller(PermitToWorkController::class)
             Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
             Route::get('get_total_permits', 'getTotalPermits')->name('get_total_permits');
             Route::get('get_signature/{img}', 'getSignature')->name('get_signature');
+            Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
             Route::get('print_permit_to_work', 'printPermitToWork')->name('print_permit_to_work');
             Route::get('detail_print_permit_to_work', 'detailPrintPermitToWork')->name('detail_print_permit_to_work');
 
@@ -40,13 +41,18 @@ Route::controller(PermitToWorkController::class)
             ->group(function () {
                 Route::middleware(['permission:read permit_to_work_cold', 'role:supervisor|employee'])->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
-                    Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
                     // datatables
                     Route::get('datatables', 'datatables')->name('datatables');
                 });
 
-                Route::middleware(['role:supervisor|superadmin', 'permission:read permit_to_work_management'])->group(function () {
+                Route::middleware(['permission:read permit_to_work_management', 'role:supervisor|superadmin'])->group(function () {
                     Route::get('user', 'userManagement')->name('user');
+                    Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
+                });
+
+                Route::middleware(['permission:create permit_to_work_management', 'role:supervisor|superadmin'])->group(function () {
+                    Route::post('approve_request','approveRequest')->name('approve_request');
+                    Route::post('reject_request','rejectRequest')->name('reject_request');
                 });
 
                 Route::middleware(['permission:delete permit_to_work_cold', 'role:supervisor|employee'])->group(function () {

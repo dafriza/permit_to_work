@@ -25,27 +25,35 @@ class PermitToWorkManagementUserDatatable extends DataTable
     ];
     public function dataTable($query)
     {
-        $user = $this->getUserAssignment();
-        $nextAssignment = array_keys(self::assignment)[self::assignment[$user] + 1];
-        $actionAssignment = isset($nextAssignment) ? $nextAssignment : array_key_last(self::assignment);
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
-            ->addColumn('NEXT ACTION', "<span class=\"btn btn-secondary btn-xs disabled\">" . $actionAssignment . '</span>')
-            ->addColumn('ACTION', "<span href='#'><i class='menu-icon tf-icons bx bx-file'></i></span>")
+            ->editColumn('NEXT ACTION', function ($row) {
+                return "<span class=\"btn btn-secondary btn-xs disabled\">" . $row['NEXT ACTION'] . '</span>';
+            })
+            ->addColumn('ACTION', function ($row) {
+                return "<a href='" . route('permit_to_work.management.detail_request', ['id' => $row['PTW ID']]) . "' target='_blank'><i class='menu-icon tf-icons bx bx-file'></i></a>";
+            })
             ->rawColumns(['NEXT ACTION', 'ACTION']);
     }
     public function query(PermitToWork $model)
     {
-        //     select ptw.id as "PTW ID", work_order as "PROJECT", concat(pa.first_name,' ',pa.last_name) as "PA NAME", date_format(json_value(json_value(authorisation,"$.date"),"$.date"),"%d %M %Y") as "START DATE", case when json_value(ptw.authorisation,"$.status") = "success" THEN "PERMIT REGISTRY" ELSE "AUTHORISATION" END AS "NEXT ACTION"
+        //sql = select ptw.id as "PTW ID", work_order as "PROJECT", concat(pa.first_name,' ',pa.last_name) as "PA NAME", date_format(json_value(json_value(authorisation,"$.date"),"$.date"),"%d %M %Y") as "START DATE", case when json_value(ptw.authorisation,"$.status") = "success" THEN "PERMIT REGISTRY" ELSE "AUTHORISATION" END AS "NEXT ACTION"
         // from permit_to_works ptw
         // join users u on json_value(ptw.authorisation,"$.approver") = u.id
         // left join users pa on request_pa = pa.id
         // where u.id = 1;
+        $user = $this->getUserAssignment();
+        $nextAssignment = array_keys(self::assignment)[self::assignment[$user] + 1];
+        $actionAssignment = isset($nextAssignment) ? str_replace('_', ' ', ucfirst($nextAssignment)) : array_key_last(self::assignment);
         $assignment = $this->getUserAssignment();
         $res = $model
             ->newQuery()
-            ->select(['permit_to_works.id as PTW ID', 'work_order as PROJECT', DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'), 'permit_to_works.created_at as START DATE'])
+            ->select(['permit_to_works.id as PTW ID',
+            'work_order as PROJECT',
+            DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'),
+            'permit_to_works.created_at as START DATE',
+            DB::raw('case when json_value(permit_to_works.' . $assignment . ',"$.status") = "success" THEN "' . $actionAssignment . '" ELSE "' . ucfirst(str_replace('_', ' ', $assignment)) . '" END AS "NEXT ACTION"')])
             ->join('users', 'users.id', '=', 'permit_to_works.' . $assignment . '->approver')
             ->leftJoin('users as pa', 'request_pa', '=', 'pa.id')
             ->where('users.id', Auth::id());
