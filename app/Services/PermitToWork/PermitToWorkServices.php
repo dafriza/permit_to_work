@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Events\PermitToWorkEvent;
 use DataTables;
 use App\Models\User;
 use App\Models\Trade;
@@ -95,6 +96,26 @@ class PermitToWorkServices implements PermitToWorkInterface
         Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
         return response()->json($request->validated(), 202);
     }
+    function approveRequest(Request $request)
+    {
+        $id = $request->id;
+        $ptwRequest = PermitToWork::find($id);
+        $receiver = $ptwRequest->request_pa_relation;
+        $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment->status = 'success';
+        $ptwRequest->update([$this->getAssignment() => $assignment]);
+        event(new PermitToWorkEvent($receiver, Auth::user(), $ptwRequest));
+        return response()->json('Success', 202);
+    }
+    function rejectRequest(Request $request)
+    {
+        $id = $request->id;
+        $ptwRequest = PermitToWork::find($id);
+        $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment->status = 'failure';
+        $ptwRequest->update([$this->getAssignment() => $assignment]);
+        return response()->json('Success', 202);
+    }
     function deletePermitToWork($id)
     {
         // $delete = PermitToWork::find($id)->delete();
@@ -123,5 +144,9 @@ class PermitToWorkServices implements PermitToWorkInterface
         // $pdf = App::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
         // return $pdf->download();
+    }
+    function getAssignment()
+    {
+        return Auth::user()->role_assignment;
     }
 }

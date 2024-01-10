@@ -3,7 +3,7 @@
         {
             "name": "Dashboard",
             "icon": "menu-icon tf-icons bx bx-home-circle",
-            "slug": "dashboard",
+            "slug": "dashboard.index",
             "url": "dashboard",
             "permission": "read dashboard_user"
         },

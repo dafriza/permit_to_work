@@ -201,7 +201,7 @@
                                 method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $detail_request->id }}">
-                                <button class="btn btn-success {{ $if_success == null ? '' : 'disabled' }}"
+                                <button class="btn btn-success {{ $if_success == 'draft' ? '' : 'disabled' }}"
                                     type="submit">Approve</button>
                                 {{-- <button class="btn btn-success" type="submit">Approve</button> --}}
                             </form>
@@ -211,7 +211,7 @@
                                 method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $detail_request->id }}">
-                                <button class="btn btn-danger {{ $if_success == null ? '' : 'disabled' }}"
+                                <button class="btn btn-danger {{ $if_success == 'draft' ? '' : 'disabled' }}"
                                     type="submit">Reject</button>
                                 {{-- <button class="btn btn-danger" type="submit">Reject</button> --}}
                             </form>

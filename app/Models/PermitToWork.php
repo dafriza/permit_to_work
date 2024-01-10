@@ -42,7 +42,7 @@ class PermitToWork extends Model
         3 => 'REJECTED',
         4 => 'DRAFT',
     ];
-    public function request_pa()
+    public function request_pa_relation()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
     }

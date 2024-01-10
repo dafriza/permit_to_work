@@ -39,7 +39,7 @@ class PermitToWorkController extends Controller
         $detail_request = PermitToWork::find($id);
         $assignment = $this->getAssignment();
         $if_success = $detail_request->{$assignment}->status;
-        // dd($temp);
+        // dd(Auth::user());
         // dd($if_success != null);
         return view('content.permit_to_work.detail_request', compact('detail_request', 'if_success'));
     }
@@ -95,29 +95,15 @@ class PermitToWorkController extends Controller
     }
     function approveRequest(Request $request)
     {
-        $id = $request->id;
-        $ptwRequest = PermitToWork::find($id);
-        $assignment = $ptwRequest->{$this->getAssignment()};
-        $assignment->status = 'success';
-        $ptwRequest->update([$this->getAssignment() => $assignment]);
-        return response()->json('Success', 202);
+        return $this->permit_to_work->approveRequest($request);
     }
     function rejectRequest(Request $request)
     {
-        $id = $request->id;
-        $ptwRequest = PermitToWork::find($id);
-        $assignment = $ptwRequest->{$this->getAssignment()};
-        $assignment->status = 'failure';
-        $ptwRequest->update([$this->getAssignment() => $assignment]);
-        return response()->json('Success', 202);
+        return $this->permit_to_work->rejectRequest($request);
     }
     function deletePermitToWork($id)
     {
         return $this->permit_to_work->deletePermitToWork($id);
-    }
-    function getAssignment()
-    {
-        return Auth::user()->role_assignment;
     }
     function printPermitToWork()
     {
@@ -130,5 +116,9 @@ class PermitToWorkController extends Controller
     function test_image()
     {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
+    }
+    function getAssignment()
+    {
+        return Auth::user()->role_assignment;
     }
 }

@@ -20,8 +20,10 @@ class DashboardServices implements DashboardInterface
     function getDataPermitToWork()
     {
         $role = Auth::user()->role_name;
-        if ($role != 'superadmin') {
+        if ($role == 'employee') {
             return $this->dashboardUser();
+        }else if($role == 'Supervisor'){
+            return $this->dashboardSpv();
         }
         $permitToWorks = PermitToWork::all();
         $permitToWorksMap = $permitToWorks
@@ -34,7 +36,16 @@ class DashboardServices implements DashboardInterface
     }
     function dashboardUser()
     {
-        $permitToWorkUser = $this->getPermitToWorkByUserId();
+        $permitToWorkUser = $this->getPermitToWorkByEmployeeId();
+        $permitToWorkMap = $permitToWorkUser->groupBy('status')->flatMap(function ($permitToWork, $key) {
+            return [self::statusDesc[$key] => $permitToWork->count()];
+        });
+        return $permitToWorkMap;
+        // return $permitToWorkUser;
+    }
+    function dashboardSpv()
+    {
+        $permitToWorkUser = $this->getPermitToWorkBySpvId();
         $permitToWorkMap = $permitToWorkUser->groupBy('status')->flatMap(function ($permitToWork, $key) {
             return [self::statusDesc[$key] => $permitToWork->count()];
         });
@@ -45,7 +56,12 @@ class DashboardServices implements DashboardInterface
     {
         // dd('jelen');
         $this->permitToWorkSigns = collect($this->permitToWorkSigns);
-        $permitToWork = $this->getPermitToWorkByUserIdLatest();
+        $permitToWork = $this->getPermitToWorkByEmployeeIdLatest();
+        $role_name = $this->getRoleName();
+        if($role_name == 'Supervisor'){
+            $permitToWork = $this->getPermitToWorkBySpvIdLatest();
+        }
+        // dd($permitToWork);
         foreach (self::statuses as $status) {
             $statusKey = str_replace('_', ' ', ucwords($status, '_'));
             $permitToWork->status_issue = $permitToWork->{$status}->status;
@@ -99,7 +115,7 @@ class DashboardServices implements DashboardInterface
         // return $statuses;
     }
 
-    function getPermitToWorkByUserIdLatest()
+    function getPermitToWorkByEmployeeIdLatest()
     {
         return PermitToWork::query()
             ->where('request_pa', Auth::id())
@@ -107,8 +123,24 @@ class DashboardServices implements DashboardInterface
             // ->take( 5)
             ->first();
     }
-    function getPermitToWorkByUserId()
+    function getPermitToWorkBySpvIdLatest()
+    {
+        return PermitToWork::query()
+            ->where('direct_spv', Auth::id())
+            ->latest()
+            // ->take( 5)
+            ->first();
+    }
+    function getPermitToWorkByEmployeeId()
     {
         return PermitToWork::where('request_pa', Auth::id())->get();
+    }
+    function getPermitToWorkBySpvId()
+    {
+        return PermitToWork::where('direct_spv', Auth::id())->get();
+    }
+    function getRoleName() {
+        $role = Auth::user()->role_name;
+        return $role;
     }
 }

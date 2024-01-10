@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\PermitToWork;
-use App\Services\Dashboard\DashboardInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Services\Dashboard\DashboardInterface;
 
 class DashboardController extends Controller
 {
