@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helper\RolesAndPermissionsHelper;
 use App\Models\User;
 use App\Models\Trade;
 use App\Models\ToolsEquipment;
@@ -22,20 +23,22 @@ class PermitToWorkFactory extends Factory
         // $site_controller = fake()->randomNumber(6, 10);
         // $area_authoriry = fake()->randomNumber(6, 10);
         // $permit_controller = fake()->randomNumber(6, 10);
-        $supervisor = User::role('supervisor')
+        $roleHelper = new RolesAndPermissionsHelper();
+        $approver = User::role($roleHelper::roles[2])
             ->get()
             ->random();
-        $employee = User::role('employee')
+        $employee = User::role($roleHelper::roles[1])
             ->get()
             ->random();
         $romanize = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
         return [
             'number' => 'HCML/' . fake()->randomElement($romanize) . '/2023' . '/' . fake()->randomDigit(),
             'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
-            'request_pa' => fake()->randomElement([$employee['id'], $supervisor['id']]),
+            // 'request_pa' => fake()->randomElement([$employee['id'], $approver['id']]),
+            'request_pa' => fake()->randomElement([$employee['id']]),
             'date_application' => fake()->dateTimeBetween('-1 months'),
             'sign_pa' => fake()->imageUrl(360, 360, 'signature', true),
-            'direct_spv' => $supervisor['id'],
+            'direct_spv' => $approver['id'],
             'sign_spv' => fake()->imageUrl(360, 360, 'signature', true),
             'location' => fake()->address(),
             'task_description' => 'test',
@@ -135,7 +138,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -145,7 +148,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -158,7 +161,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -168,7 +171,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -178,7 +181,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -191,7 +194,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -203,7 +206,7 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
@@ -213,15 +216,15 @@ class PermitToWorkFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 months'),
                 'time' => fake()->time(),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
-                'approver' => User::role('supervisor')
+                'approver' => User::role($roleHelper::roles[2])
                 ->get()
                 ->random()['id']
             ],
             'status' => fake()->randomElement([1, 2, 3, 4]),
             // 'submission' => [
-            //     'site_controller' => $supervisor['id'],
-            //     'area_authoriry' => $supervisor['id'],
-            //     'permit_controller' => $supervisor['id'],
+            //     'site_controller' => $approver['id'],
+            //     'area_authoriry' => $approver['id'],
+            //     'permit_controller' => $approver['id'],
             // ],
             // 'authorization_and_issuing' => [
             //     'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),

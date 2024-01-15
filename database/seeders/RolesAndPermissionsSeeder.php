@@ -55,8 +55,8 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         $roles = $this->role_and_permission_helper::roles;
         $permissions = $this->get_all_permissions;
-        $employees = User::role('employee')->get();
-        $supervisor = User::role('supervisor')->get();
+        $employees = User::role($roles[1])->get();
+        $approvers = User::role($roles[2])->get();
         $this->userGivePermissionsTo($employees, [
             $permissions['permit_to_work_cold'],
             $permissions['permit_to_work_hot'],
@@ -65,7 +65,7 @@ class RolesAndPermissionsSeeder extends Seeder
             // $permissions['request_delete_account'],
             $permissions['dashboard_user'],
         ]);
-        $this->userGivePermissionsTo($supervisor, [
+        $this->userGivePermissionsTo($approvers, [
             // $permissions['permit_to_work_cold'],
             $permissions['demand_work_request'],
             $permissions['demand_entry_permit'],

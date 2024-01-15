@@ -8,13 +8,6 @@ function submitWithAjax(target_id, ifSuccess = null) {
             data: form.serialize(),
             success: function (data, textStatus, xhr) {
                 if (textStatus == 'success') {
-                    // Swal.fire({
-                    // title: 'Success!',
-                    // text: "Berhasil simpan data!",
-                    // icon: 'success',
-                    // showConfirmButton: false,
-                    // timer: 1500
-                    // })
                     if (ifSuccess != null) {
                         ifSuccess()
                     }
@@ -35,6 +28,26 @@ function submitWithAjax(target_id, ifSuccess = null) {
         });
         // console.log($(this).attr('action'));
     });
+}
+
+function postWithAjax(urlData, token) {
+    $.ajax({
+        url: urlData,
+        type: 'POST',
+        data : {
+            "_token" : token
+        },
+        success: function (data, textStatus, xhr) {
+            if (textStatus == 'success') {
+                // swal_usage_ok('Success!', "Berhasil!", 'success')
+            }
+        },
+        error: function (xhr, textStatus, err) {
+            if (textStatus == 'error') {
+                // swal_usage_ok("Error!", xhr.responseJSON.message, 'error')
+            }
+        }
+    })
 }
 
 function getDataWithAjax(url_data) {

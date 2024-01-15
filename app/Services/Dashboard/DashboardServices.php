@@ -2,6 +2,7 @@
 
 namespace App\Services\Dashboard;
 
+use App\Helper\RolesAndPermissionsHelper;
 use App\Models\PermitToWork;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Dashboard\DashboardInterface;
@@ -9,59 +10,47 @@ use Illuminate\Support\Facades\Log;
 
 class DashboardServices implements DashboardInterface
 {
-    private const statusDesc = [
-        1 => 'ON GOING',
-        2 => 'SUCCESS',
-        3 => 'REJECTED',
-        4 => 'DRAFT',
-    ];
-    private const statuses = ['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'];
-    private $permitToWorkSigns = [];
+    private const statuses = ['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'],
+        statusDesc = [
+            1 => 'ON GOING',
+            2 => 'SUCCESS',
+            3 => 'REJECTED',
+            4 => 'DRAFT',
+        ];
+    private $permitToWorkSigns = [],
+        $roleHelper;
+    public function __construct(RolesAndPermissionsHelper $roleHelper)
+    {
+        $this->roleHelper = $roleHelper;
+    }
     function getDataPermitToWork()
     {
         $role = Auth::user()->role_name;
-        if ($role == 'employee') {
-            return $this->dashboardUser();
-        }else if($role == 'Supervisor'){
-            return $this->dashboardSpv();
+        return $this->dashboardByRole($role);
+    }
+    function dashboardByRole($role)
+    {
+        if ($role == $this->roleHelper->getRoleName(0)) {
+            $permitToWorks = PermitToWork::all();
+            $permitToWorksMap = $permitToWorks
+                ->groupBy('status')
+                ->map(function ($permit_to_work) {
+                    return $permit_to_work->count();
+                })
+                ->flatten();
+            return $permitToWorksMap;
         }
-        $permitToWorks = PermitToWork::all();
-        $permitToWorksMap = $permitToWorks
-            ->groupBy('status')
-            ->map(function ($permit_to_work) {
-                return $permit_to_work->count();
-            })
-            ->flatten();
-        return $permitToWorksMap;
-    }
-    function dashboardUser()
-    {
-        $permitToWorkUser = $this->getPermitToWorkByEmployeeId();
+        $permitToWorkUser = PermitToWork::getPermitToWorkByRole($role);
         $permitToWorkMap = $permitToWorkUser->groupBy('status')->flatMap(function ($permitToWork, $key) {
             return [self::statusDesc[$key] => $permitToWork->count()];
         });
         return $permitToWorkMap;
-        // return $permitToWorkUser;
-    }
-    function dashboardSpv()
-    {
-        $permitToWorkUser = $this->getPermitToWorkBySpvId();
-        $permitToWorkMap = $permitToWorkUser->groupBy('status')->flatMap(function ($permitToWork, $key) {
-            return [self::statusDesc[$key] => $permitToWork->count()];
-        });
-        return $permitToWorkMap;
-        // return $permitToWorkUser;
     }
     function getMapPermitToWork()
     {
         // dd('jelen');
         $this->permitToWorkSigns = collect($this->permitToWorkSigns);
-        $permitToWork = $this->getPermitToWorkByEmployeeIdLatest();
-        $role_name = $this->getRoleName();
-        if($role_name == 'Supervisor'){
-            $permitToWork = $this->getPermitToWorkBySpvIdLatest();
-        }
-        // dd($permitToWork);
+        $permitToWork = PermitToWork::getPermitToWorkByRoleLatest();
         foreach (self::statuses as $status) {
             $statusKey = str_replace('_', ' ', ucwords($status, '_'));
             $permitToWork->status_issue = $permitToWork->{$status}->status;
@@ -113,34 +102,5 @@ class DashboardServices implements DashboardInterface
         }
         // dd($statuses);
         // return $statuses;
-    }
-
-    function getPermitToWorkByEmployeeIdLatest()
-    {
-        return PermitToWork::query()
-            ->where('request_pa', Auth::id())
-            ->latest()
-            // ->take( 5)
-            ->first();
-    }
-    function getPermitToWorkBySpvIdLatest()
-    {
-        return PermitToWork::query()
-            ->where('direct_spv', Auth::id())
-            ->latest()
-            // ->take( 5)
-            ->first();
-    }
-    function getPermitToWorkByEmployeeId()
-    {
-        return PermitToWork::where('request_pa', Auth::id())->get();
-    }
-    function getPermitToWorkBySpvId()
-    {
-        return PermitToWork::where('direct_spv', Auth::id())->get();
-    }
-    function getRoleName() {
-        $role = Auth::user()->role_name;
-        return $role;
     }
 }

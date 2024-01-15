@@ -19,7 +19,7 @@ class RolesAndPermissionsHelper
         'dashboard_admin',
         'dashboard_user',
     ];
-    public const roles = ['superadmin', 'employee', 'supervisor'];
+    public const roles = ['superadmin', 'employee', 'approver'];
     public $permissions = [];
 
     function linkPermissions()
@@ -30,5 +30,8 @@ class RolesAndPermissionsHelper
             }
         }
         return $this->permissions;
+    }
+    function getRoleName(int $roleElement) {
+        return ucfirst(self::roles[$roleElement]);
     }
 }

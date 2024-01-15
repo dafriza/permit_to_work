@@ -24,12 +24,12 @@ class UserSeeder extends Seeder
         }
         User::factory(9)
             ->create()
-            ->each(function ($user) {
-                $user->assignRole(fake()->randomElement(['employee', 'supervisor']));
-                if ($user->getRoleNames()->first() == 'supervisor') {
+            ->each(function ($user)use($roles) {
+                $user->assignRole(fake()->randomElement([$roles[1], $roles[2]]));
+                if ($user->getRoleNames()->first() == $roles[2]) {
                     $user->update(['role_assignment' => fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa','close_out_aa','registry_of_work_completion'])]);
                 } else {
-                    $user->update(['role_assignment' => 'employee']);
+                    $user->update(['role_assignment' => $roles[1]]);
                 }
             });
 

@@ -13,7 +13,8 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     <i class="bx bx-bell bx-sm"></i>
-                    <span class="badge bg-danger rounded-pill badge-notifications">{{count(auth()->user()->unreadNotifications)}}</span>
+                    {{-- <span class="badge bg-danger rounded-pill badge-notifications">{{count(auth()->user()->unreadNotifications)}}</span> --}}
+                    <span id="count_notification" class="badge rounded-pill badge-notifications"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end py-0">
                     <li class="dropdown-menu-header border-bottom">
@@ -21,7 +22,7 @@
                             <h5 class="text-body mb-0 me-auto">Notification</h5>
                             <a href="javascript:void(0)" class="dropdown-notifications-all text-body"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i
-                                    class="bx fs-4 bx-envelope-open"></i></a>
+                                    class="bx fs-4 bx-envelope-open notif-all-read"></i></a>
                         </div>
                     </li>
                     <li class="dropdown-notifications-list scrollable-container">
@@ -30,7 +31,8 @@
                                 $userNotif = auth()->user()->notifications;
                             @endphp
                             @foreach (auth()->user()->unreadNotifications as $notif)
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                <li
+                                    class="list-group-item list-group-item-action dropdown-notifications-item notifications">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0 me-3">
                                             <div class="avatar">
@@ -42,16 +44,20 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="mb-1">{{ $notif->data['sender']['first_name'] . ' ' .$notif->data['sender']['last_name']}}</h6>
-                                            <p class="mb-0">{{$notif->data['message']}}</p>
+                                            <h6 class="mb-1">
+                                                {{ $notif->data['sender']['first_name'] . ' ' . $notif->data['sender']['last_name'] }}
+                                            </h6>
+                                            <p class="mb-0">{{ $notif->data['message'] }}</p>
                                             {{-- <small class="text-muted">{{now()->diff($notif->created_at)->format('%Y-%m-%d - %h jam %I menit')}} ago</small> --}}
-                                            <small class="text-muted">{{now()->diffForHumans($notif->created_at)}}</small>
+                                            <small
+                                                class="text-muted">{{ now()->diffForHumans($notif->created_at) }}</small>
                                         </div>
                                         <div class="flex-shrink-0 dropdown-notifications-actions">
                                             <a href="javascript:void(0)" class="dropdown-notifications-read"><span
                                                     class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
+                                            <a href="javascript:void(0)"
+                                                class="dropdown-notifications-archive {{ $loop->iteration }}"
+                                                data-uuid="{{ $notif->id }}"><span class="bx bx-x"></span></a>
                                         </div>
                                     </div>
                                 </li>
@@ -80,7 +86,8 @@
                                     <div>
                                         {{-- <img src="../../assets/img/avatars/1.png" alt --}}
                                         <img src="https://ui-avatars.com/api/?name={{ auth()->user()->full_name }}&background=5f61e6&color=fff"
-                                            alt="{{ auth()->user()->full_name }}" class="w-px-40 h-auto rounded-circle">
+                                            alt="{{ auth()->user()->full_name }}"
+                                            class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
@@ -123,3 +130,42 @@
     </div>
 </nav>
 <!-- / Navbar -->
+@push('scripts')
+    <script>
+        let notifArchive = $(".dropdown-notifications-archive").on('click', function() {
+            // console.log($(this).parent().parent().parent());
+            // console.log($(this).data('uuid'));
+            let getUUID = ($(this).data('uuid'));
+            postWithAjax("{!! route('dashboard.read_notification', '') !!}" + "/" + getUUID, "{{ csrf_token() }}")
+            $(this).parent().parent().parent().remove();
+            getCountNotification();
+        })
+
+        let notifAllRead = $(".notif-all-read").on('click', function() {
+            getDataWithAjax("{!! route('dashboard.get_count_notification') !!}").done(function(data) {
+                if (data == 0) {
+
+                } else {
+                    postWithAjax("{!! route('dashboard.read_all_notification') !!}", "{{ csrf_token() }}")
+                    $(".notifications").remove();
+                    getCountNotification();
+                }
+            })
+        })
+
+        function getCountNotification() {
+            let countNotification = getDataWithAjax("{!! route('dashboard.get_count_notification') !!}").done(function(data) {
+                let badgeNotification = $("#count_notification");
+                if (data == 0) {
+                    badgeNotification.removeClass('bg-danger');
+                    $(".notif-all-read").off('click');
+                } else {
+                    badgeNotification.removeClass('bg-danger');
+                    badgeNotification.addClass('bg-danger');
+                    badgeNotification.html(data);
+                }
+            });
+        }
+        getCountNotification()
+    </script>
+@endpush

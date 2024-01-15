@@ -1,9 +1,12 @@
 <?php
 
+use App\Helper\RolesAndPermissionsHelper;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserProfileController;
+
 $access = 'user_profile';
-Route::middleware(['role:employee|supervisor'])
+$roleHelper = new RolesAndPermissionsHelper();
+Route::middleware(["role:{$roleHelper::roles[1]}|{$roleHelper::roles[2]}"])
     ->controller(UserProfileController::class)
     ->prefix('user_profile')
     ->name('user_profile.')

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helper\RolesAndPermissionsHelper;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -32,16 +34,17 @@ class PermitToWork extends Model
         // 'completion' => 'object',
     ];
     private const status_issue = [
-        'failure' => 'danger,error,x,Rejected',
-        'draft' => 'secondary,warning,info-circle,Draft',
-        'success' => 'success,success,check,Success',
-    ];
-    private const status_desc = [
-        1 => 'ON GOING',
-        2 => 'SUCCESS',
-        3 => 'REJECTED',
-        4 => 'DRAFT',
-    ];
+            'failure' => 'danger,error,x,Rejected',
+            'draft' => 'secondary,warning,info-circle,Draft',
+            'success' => 'success,success,check,Success',
+        ],
+        status_desc = [
+            1 => 'ON GOING',
+            2 => 'SUCCESS',
+            3 => 'REJECTED',
+            4 => 'DRAFT',
+        ];
+    private $roleHelper;
     public function request_pa_relation()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
@@ -49,6 +52,44 @@ class PermitToWork extends Model
     public function direct_spv_relation()
     {
         return $this->belongsTo(User::class, 'direct_spv', 'id');
+    }
+    function getInstanceRoleHelper() : RolesAndPermissionsHelper {
+        $roleHelper = new RolesAndPermissionsHelper();
+        return $roleHelper;
+    }
+    function scopeGetPermitToWorkByRoleLatest()
+    {
+        $role = Auth::user()->role_name;
+        if ($role == $this->getInstanceRoleHelper()->getRoleName(0)) {
+            return self::all()->random();
+        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
+            return $this->getPermitToWorkByRoleIdLatest('direct_spv');
+        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(1)) {
+            return $this->getPermitToWorkByRoleIdLatest('request_pa');
+        }
+    }
+    function scopeGetPermitToWorkByRole()
+    {
+        $role = Auth::user()->role_name;
+        if ($role == $this->getInstanceRoleHelper()->getRoleName(0)) {
+            return self::all();
+        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
+            return $this->getPermitToWorkByRoleId('direct_spv');
+        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(1)) {
+            return $this->getPermitToWorkByRoleId('request_pa');
+        }
+    }
+    function getPermitToWorkByRoleIdLatest($relationRole)
+    {
+        return self::query()
+            ->where($relationRole, Auth::id())
+            ->latest()
+            // ->take( 5)
+            ->first();
+    }
+    function getPermitToWorkByRoleId($roleRelation)
+    {
+        return self::where($roleRelation, Auth::id())->get();
     }
     function statusIssue(): Attribute
     {

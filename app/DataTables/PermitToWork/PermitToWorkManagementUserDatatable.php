@@ -44,7 +44,7 @@ class PermitToWorkManagementUserDatatable extends DataTable
         // left join users pa on request_pa = pa.id
         // where u.id = 1;
         $user = $this->getUserAssignment();
-        $nextAssignment = array_keys(self::assignment)[self::assignment[$user] + 1];
+        $nextAssignment = array_keys(self::assignment)[self::assignment[$user] + 1 > 7 ? 7 : self::assignment[$user] + 1];
         $actionAssignment = isset($nextAssignment) ? str_replace('_', ' ', ucfirst($nextAssignment)) : array_key_last(self::assignment);
         $assignment = $this->getUserAssignment();
         $res = $model
