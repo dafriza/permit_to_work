@@ -9,7 +9,7 @@ Route::controller(DashboardController::class)
     ->prefix('dashboard')
     ->name('dashboard.')
     ->group(function () use ($roleHelper) {
-        Route::middleware(['permission:read dashboard_user|permission:read dashboard_admin', "role:{$roleHelper::roles[0]}|{$roleHelper::roles[1]}|{$roleHelper::roles[2]}"])->group(function () {
+        Route::middleware(['permission:read dashboard_user|read dashboard_admin', "role:{$roleHelper::roles[0]}|{$roleHelper::roles[1]}|{$roleHelper::roles[2]}"])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('get_data_permit_to_work', 'getDataPermitToWork')->name('get_data_permit_to_work');
             Route::get('get_count_notification', 'getCountNotification')->name('get_count_notification');

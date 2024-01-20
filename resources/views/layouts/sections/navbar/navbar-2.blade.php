@@ -131,6 +131,7 @@
 </nav>
 <!-- / Navbar -->
 @push('scripts')
+    <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script>
         let notifArchive = $(".dropdown-notifications-archive").on('click', function() {
             // console.log($(this).parent().parent().parent());

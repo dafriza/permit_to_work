@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PermitToWork;
 
+use App\Services\Static\SignServices;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +12,7 @@ class HeaderColdWorkRequest extends FormRequest
     {
         return [
             'number' => 'required',
-            'work_order' => 'required',
+            'work_order' => 'required|integer',
             'date_application' => 'required|date',
             'request_pa' => 'required|integer',
             'direct_spv' => 'required|integer',
@@ -52,16 +53,6 @@ class HeaderColdWorkRequest extends FormRequest
     }
     function signConverter()
     {
-        try {
-            $image_parts = explode(';base64,', $this->signature);
-            $image_type_aux = explode('image/', $image_parts[0]);
-            $image_type = $image_type_aux[1];
-            $image_base64 = base64_decode($image_parts[1]);
-            $file = $this->date_application . '-' . '1' . '-' . 'John Doe.' . $image_type;
-            Storage::disk('signature')->put($file, $image_base64);
-            return $file;
-        } catch (\Exception $e) {
-            return $e;
-        }
+        return SignServices::signConverter(null, $this->signature, $this->work_order, $this->date_application, 'signature_employee');
     }
 }

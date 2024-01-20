@@ -8,6 +8,13 @@
             "permission": "read dashboard_user"
         },
         {
+            "name": "Dashboard",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "dashboard.index",
+            "url": "dashboard",
+            "permission": "read dashboard_admin"
+        },
+        {
             "name": "Permit To Work",
             "icon": "menu-icon tf-icons bx bx-folder",
             "slug": "permit_to_work",

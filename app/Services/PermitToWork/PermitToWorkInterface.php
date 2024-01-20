@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
 
@@ -17,8 +18,8 @@ interface PermitToWorkInterface
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);
     function storeHeader(HeaderColdWorkRequest $request);
-    function approveRequest(Request $request);
-    function rejectRequest(Request $request);
+    function approvalRequest(ApprovalRequest $request);
+    // function rejectRequest(Request $request);
     function printPermitToWork();
     function deletePermitToWork($id);
     function detailPrintPermitToWork();

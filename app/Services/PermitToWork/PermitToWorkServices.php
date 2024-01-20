@@ -3,6 +3,7 @@
 namespace App\Services\PermitToWork;
 
 use App\Events\PermitToWorkEvent;
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 use DataTables;
 use App\Models\User;
 use App\Models\Trade;
@@ -61,7 +62,8 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function getHeaderColdWork()
     {
-        return json_decode(Storage::disk('permit_to_work')->get(date_format(now(), 'Y-m-d') . '-' . '1' . '-' . 'John Doe' . '.json'));
+        dd(Storage::disk('permit_to_work')->allFiles());
+        // return json_decode(Storage::disk('permit_to_work')->get(date_format(now(), 'd-m-Y') . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
     function getTotalPermits()
     {
@@ -90,30 +92,28 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function storeHeader(HeaderColdWorkRequest $request)
     {
+        $validated = $request->validated();
         // return $request->fails();
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
-        Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
+        // $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
+        // tanggal sekarang - work order - tanggal propose - id - nama lengkap.png
+        $fileName = date_format(now(), 'd-m-Y') . '-' . $validated['work_order'] . '-' . $validated['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
+        Storage::disk('permit_to_work')->put($fileName, json_encode($request->validated()));
         return response()->json($request->validated(), 202);
     }
-    function approveRequest(Request $request)
+    function approvalRequest(ApprovalRequest $request)
     {
-        $id = $request->id;
+        $validated = $request->validated();
+        $id = $validated['id'];
         $ptwRequest = PermitToWork::find($id);
         $receiver = $ptwRequest->request_pa_relation;
         $assignment = $ptwRequest->{$this->getAssignment()};
-        $assignment->status = 'success';
+        $assignment->status = $validated['status'];
+        $assignment->comment = $validated['comment'];
+        $assignment->signed = $validated['signature'];
+        // dd($assignment);
         $ptwRequest->update([$this->getAssignment() => $assignment]);
         event(new PermitToWorkEvent($receiver, Auth::user(), $ptwRequest));
-        return response()->json('Success', 202);
-    }
-    function rejectRequest(Request $request)
-    {
-        $id = $request->id;
-        $ptwRequest = PermitToWork::find($id);
-        $assignment = $ptwRequest->{$this->getAssignment()};
-        $assignment->status = 'failure';
-        $ptwRequest->update([$this->getAssignment() => $assignment]);
         return response()->json('Success', 202);
     }
     function deletePermitToWork($id)

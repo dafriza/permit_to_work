@@ -13,6 +13,7 @@ use App\Services\PermitToWork\PermitToWorkInterface;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
 use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
 use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 
 class PermitToWorkController extends Controller
 {
@@ -34,18 +35,20 @@ class PermitToWorkController extends Controller
     {
         return $dataTable->render('content.permit_to_work.ptw_management.user.index');
     }
+    public function datatablesIndex(PermitToWorkManagementDataTable $dataTable)
+    {
+        return $dataTable->ajax();
+    }
+    public function datatablesUserManagement(PermitToWorkManagementUserDatatable $dataTable)
+    {
+        return $dataTable->ajax();
+    }
     function detailRequest($id)
     {
         $detail_request = PermitToWork::find($id);
         $assignment = $this->getAssignment();
         $if_success = $detail_request->{$assignment}->status;
-        // dd(Auth::user());
-        // dd($if_success != null);
-        return view('content.permit_to_work.detail_request', compact('detail_request', 'if_success'));
-    }
-    public function datatables(PermitToWorkManagementDataTable $dataTable)
-    {
-        return $dataTable->ajax();
+        return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success'));
     }
     function tra()
     {
@@ -93,13 +96,9 @@ class PermitToWorkController extends Controller
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
-    function approveRequest(Request $request)
+    function approvalRequest(ApprovalRequest $request)
     {
-        return $this->permit_to_work->approveRequest($request);
-    }
-    function rejectRequest(Request $request)
-    {
-        return $this->permit_to_work->rejectRequest($request);
+        return $this->permit_to_work->approvalRequest($request);
     }
     function deletePermitToWork($id)
     {
