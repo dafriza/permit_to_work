@@ -112,6 +112,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         // $file_name = $request->validated() . 'crc' .'-'. '1' . '-' . 'John Doe' . '.json';
         // Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
         return response()->json($request->all(), 202);
+    }
     function approveRequest(Request $request)
     {
         $id = $request->id;

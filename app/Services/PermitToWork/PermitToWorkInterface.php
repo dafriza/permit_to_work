@@ -11,7 +11,6 @@ interface PermitToWorkInterface
     function getDirectSPV(Request $request);
     function getToolsEquipment(Request $request);
     function getTrades(Request $request);
-    function storeHeader(HeaderColdWorkRequest $request);
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request);
 
     function getHeaderColdWork();
