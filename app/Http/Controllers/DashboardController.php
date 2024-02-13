@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\PermitToWork;
-use App\Services\Dashboard\DashboardInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Services\Dashboard\DashboardInterface;
+use Illuminate\Notifications\Notification;
 
 class DashboardController extends Controller
 {
@@ -15,12 +17,37 @@ class DashboardController extends Controller
     }
     function index()
     {
-        $permit_to_work_auth = $this->dashboard->getMapPermitToWork();
-        // return response()->json($permit_to_work_auth);
-        return view('content.dashboard.index', compact('permit_to_work_auth'));
+        $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
+        $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
+        // dd($activityPTW);
+        // return response()->json($activityPTW);
+        return view('content.dashboard.index', compact('activityPTW', 'datePTW'));
     }
     function getDataPermitToWork()
     {
         return $this->dashboard->getDataPermitToWork();
+    }
+    function readNotification($uuid)
+    {
+        $readNotif = Auth::user()
+            ->notifications()
+            ->where('id', $uuid)
+            ->update([
+                'read_at' => now(),
+            ]);
+        return response()->json('success', 202);
+    }
+    function readAllNotification()
+    {
+        $readNotif = Auth::user()
+            ->unreadNotifications()
+            ->update([
+                'read_at' => now(),
+            ]);
+        return response()->json('success', 202);
+    }
+    function getCountNotification()
+    {
+        return count(Auth::user()->unreadNotifications);
     }
 }

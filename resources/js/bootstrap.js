@@ -8,6 +8,11 @@ import axios from 'axios';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+require('bootstrap');
+require('datatables.net-bs4');
+require('datatables.net-buttons-bs4');
+require('datatables.net-select-bs4');
+require('datatables.net-searchpanes-bs4');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

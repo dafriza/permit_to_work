@@ -8,21 +8,14 @@ function submitWithAjax(target_id, ifSuccess = null) {
             data: form.serialize(),
             success: function (data, textStatus, xhr) {
                 if (textStatus == 'success') {
-                    // Swal.fire({
-                    // title: 'Success!',
-                    // text: "Berhasil simpan data!",
-                    // icon: 'success',
-                    // showConfirmButton: false,
-                    // timer: 1500
-                    // })
                     if (ifSuccess != null) {
                         ifSuccess()
                     }
                     swal_usage_ok('Success!', "Berhasil!", 'success')
                 }
-                console.log(data);
-                console.log(textStatus);
-                console.log(xhr);
+                // console.log(data);
+                // console.log(textStatus);
+                // console.log(xhr);
             },
             error: function (xhr, textStatus, err) {
                 if (textStatus == 'error') {
@@ -35,6 +28,26 @@ function submitWithAjax(target_id, ifSuccess = null) {
         });
         // console.log($(this).attr('action'));
     });
+}
+
+function postWithAjax(urlData, token) {
+    $.ajax({
+        url: urlData,
+        type: 'POST',
+        data : {
+            "_token" : token
+        },
+        success: function (data, textStatus, xhr) {
+            if (textStatus == 'success') {
+                // swal_usage_ok('Success!', "Berhasil!", 'success')
+            }
+        },
+        error: function (xhr, textStatus, err) {
+            if (textStatus == 'error') {
+                // swal_usage_ok("Error!", xhr.responseJSON.message, 'error')
+            }
+        }
+    })
 }
 
 function getDataWithAjax(url_data) {
@@ -73,6 +86,24 @@ function swal_usage_img(title, text, image) {
     Swal.fire({
         title: title,
         text: text,
-        html : `<img src="data:image/png;base64, ${image}"></img>`
+        html: `<img src="data:image/png;base64, ${image}"></img>`
     })
+}
+
+function partDeleteWithAjax(id, url_data) {
+    let ajax = $.ajax({
+        url: url_data,
+        type: 'GET',
+        success: function (data, textStatus, xhr) {
+            if (textStatus == 'success') {
+                swal_usage_ok('Success!', "Berhasil!", 'success')
+            }
+        },
+        error: function (xhr, textStatus, err) {
+            if (textStatus == 'error') {
+                swal_usage_ok("Error!", xhr.responseJSON.message, 'error')
+            }
+        }
+    });
+    return ajax;
 }

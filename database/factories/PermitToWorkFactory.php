@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helper\RolesAndPermissionsHelper;
 use App\Models\User;
 use App\Models\Trade;
 use App\Models\ToolsEquipment;
@@ -22,28 +23,33 @@ class PermitToWorkFactory extends Factory
         // $site_controller = fake()->randomNumber(6, 10);
         // $area_authoriry = fake()->randomNumber(6, 10);
         // $permit_controller = fake()->randomNumber(6, 10);
-        $supervisor = User::role('supervisor')
+        $roleHelper = new RolesAndPermissionsHelper();
+        $approver = User::role($roleHelper::roles[2])
             ->get()
             ->random();
-        $employee = User::role('employee')
+        $employee = User::role($roleHelper::roles[1])
             ->get()
             ->random();
-        $romanize = ['XII','I','II','III','IV','V','VI','VII','VIII','IX','X','XI'];
+        $romanize = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
         return [
-            'number' => "HCML/".fake()->randomElement($romanize)."/2023"."/".fake()->randomDigit(),
+            'number' => 'HCML/' . fake()->randomElement($romanize) . '/2023' . '/' . fake()->randomDigit(),
             'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
-            'request_pa' => $employee['id'],
-            'direct_spv' => $supervisor['id'],
-            'date_application' => fake()->dateTimeBetween(),
+            // 'request_pa' => fake()->randomElement([$employee['id'], $approver['id']]),
+            'request_pa' => fake()->randomElement([$employee['id']]),
+            'date_application' => fake()->dateTimeBetween('-1 months'),
+            'sign_pa' => fake()->imageUrl(360, 360, 'signature', true),
+            'direct_spv' => $approver['id'],
+            'sign_spv' => fake()->imageUrl(360, 360, 'signature', true),
             'location' => fake()->address(),
-            'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'task_description' => 'test',
-            // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             'tools_equipment' => [$this->getToolsEquipment(), $this->getToolsEquipment()],
+            // 'equipment_id' => 'T-' . fake()->randomNumber(3, false) . '/' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
+            // 'tools_equipment' => fake()->randomElement(['HandTools', 'Tookit', 'Rope']) . ',' . fake()->randomElement(['HandTools', 'Tookit', 'Rope']),
             // 'trades' => fake()->randomElement(['Operation', 'Commander', 'Executioner']),
             'trades' => [$this->getTrades(), $this->getTrades()],
             'personel_involved' => fake()->randomDigitNotNull(),
-            'tra_level' => fake()->randomElement([1, 2]),
+            'tra_level_1' => fake()->randomElement(['true', 'false']),
+            'tra_level_2' => fake()->randomElement(['true', 'false']),
             'reference_no' => fake()->randomNumber(6),
             'hazard' => [
                 'slipping_hazard' => fake()->randomElement([0, 1]),
@@ -108,29 +114,130 @@ class PermitToWorkFactory extends Factory
                 'controls_other' => fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']) . ',' . fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']),
                 'additional_ppe' => fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']) . ',' . fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']),
             ],
+            'sscr' => [
+                'equipment_depressurised' => fake()->randomElement(['1', '0']),
+                'equipment_drained' => fake()->randomElement(['1', '0']),
+                'equipment_purged' => fake()->randomElement(['1', '0']),
+                'equipment_vented' => fake()->randomElement(['1', '0']),
+                'blind_list_attached' => fake()->randomElement(['1', '0']),
+                'equipment_isolated' => fake()->randomElement(['1', '0']),
+                'closed_valves' => fake()->randomElement(['1', '0']),
+                'double_block' => fake()->randomElement(['1', '0']),
+                'blind' => fake()->randomElement(['1', '0']),
+                'electrical_isolation' => fake()->randomElement(['1', '0']),
+            ],
             'cross_referenced_certificates' => [
                 'permit' => 'Lorem Ipsum',
                 'isolation' => 'Lorem Ipsum',
                 'Others' => 'Lorem Ipsum',
             ],
-            'submission' => [
-                'site_controller' => $supervisor['id'],
-                'area_authoriry' => $supervisor['id'],
-                'permit_controller' => $supervisor['id'],
+            'authorisation' => [
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'designation' => 'site_controller',
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
             ],
-            'authorization_and_issuing' => [
-                'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
-                'permit_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
-                'authorized_gas_tester' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
-                'area_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
-                'performing_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true),'rejected','on going']),
+            'permit_registry' => [
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
             ],
-            'completion' => [
-                'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
-                'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
-                'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
+            'site_gas_test' => [
+                'flammable' => 0,
+                'h2s' => 0,
+                'oxygen' => 0,
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
             ],
-            'status' => fake()->randomElement([1, 2, 3]),
+            'issue' => [
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
+            ],
+            'acceptance' => [
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
+            ],
+            'close_out_pa' => [
+                'complete' => fake()->randomElement([false, true]),
+                'incomplete' => fake()->randomElement([false, true]),
+                'description' => 'lorem',
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
+            ],
+            'close_out_aa' => [
+                'complete' => fake()->randomElement([false, true]),
+                'incomplete' => fake()->randomElement([false, true]),
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
+            ],
+            'registry_of_work_completion' => [
+                'name' => 'Lorem',
+                'signed' => fake()->imageUrl(360, 360, 'signature', true),
+                'date' => fake()->dateTimeBetween('-1 months'),
+                'time' => fake()->time(),
+                'status' => fake()->randomElement(['success', 'failure', 'draft']),
+                'approver' => User::role($roleHelper::roles[2])
+                ->get()
+                ->random()['id']
+            ],
+            'status' => fake()->randomElement([1, 2, 3, 4]),
+            // 'submission' => [
+            //     'site_controller' => $approver['id'],
+            //     'area_authoriry' => $approver['id'],
+            //     'permit_controller' => $approver['id'],
+            // ],
+            // 'authorization_and_issuing' => [
+            //     'site_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),
+            //     'permit_controller' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),
+            //     'authorized_gas_tester' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),
+            //     'area_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),
+            //     'performing_authority' => fake()->randomElement([fake()->imageUrl(360, 360, 'signature', true), 'rejected', 'on going']),
+            // ],
+            // 'completion' => [
+            //     'performing_authority' => fake()->imageUrl(360, 360, 'signature', true),
+            //     'area_authority' => fake()->imageUrl(360, 360, 'signature', true),
+            //     'permit_controller' => fake()->imageUrl(360, 360, 'signature', true),
+            // ],
         ];
     }
     function getToolsEquipment()

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,9 @@ class EntryPermitFactory extends Factory
     public function definition()
     {
         $name = fake()->name();
+        $employee = User::role('employee')
+            ->get()
+            ->random();
         return [
             'number' => fake()->randomNumber(5, true),
             'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
@@ -93,6 +97,7 @@ class EntryPermitFactory extends Factory
                 'date' => fake()->dateTimeBetween('-1 week', '+1 week'),
                 'time' => fake()->time(),
             ]),
+            'user_id' => $employee['id']
         ];
     }
 }

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->longText('regular_gas_testing');
             $table->longText('authorization');
             $table->longText('permit_cancellation');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

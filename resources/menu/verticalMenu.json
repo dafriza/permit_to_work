@@ -1,27 +1,42 @@
 {
-  "menu": [
-    {
-      "url": "/",
-      "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard"
-    },
-    {
-      "name": "Permit To Work",
-      "icon": "menu-icon tf-icons bx bx-folder",
-      "slug": "permit_to_work",
-      "submenu": [
+    "menu": [
         {
-          "url": "permit_to_work",
-          "name": "Cold PTW",
-          "slug": "permit_to_work.index"
+            "name": "Dashboard",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "dashboard.index",
+            "url": "dashboard",
+            "permission": "read dashboard_user"
         },
         {
-          "url": "permit_to_work",
-          "name": "Hot PTW",
-          "slug": ""
+            "name": "Permit To Work",
+            "icon": "menu-icon tf-icons bx bx-folder",
+            "slug": "permit_to_work",
+            "submenu": [
+                {
+                    "url": "permit_to_work/management/user",
+                    "name": "Management User",
+                    "slug": "permit_to_work.management.user",
+                    "permission": "read permit_to_work_management"
+                },
+                {
+                    "url": "permit_to_work/management/",
+                    "name": "Cold PTW",
+                    "slug": "permit_to_work.management.index",
+                    "permission": "read permit_to_work_cold"
+                },
+                {
+                    "url": "permit_to_work",
+                    "name": "Hot PTW",
+                    "slug": "",
+                    "permission": "read permit_to_work_hot"
+                }
+            ]
+        },
+        {
+            "icon": "menu-icon tf-icons bx bx-grid",
+            "url": "ptw-management/ptwmanagement",
+            "name": "PTW Management",
+            "slug": "ptwmanagement"
         }
-      ]
-    }
-  ]
+    ]
 }

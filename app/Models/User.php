@@ -13,6 +13,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+    //protected $fillable = ['name', 'email', 'password'];
+
+    // protected $hidden = ['password', 'remember_token'];
+
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
     protected $guarded = [];
     public function request_pa()
     {
@@ -26,8 +33,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Job::class, 'job_id', 'id');
     }
+    public function entry_permit()
+    {
+        return $this->hasMany(EntryPermit::class, 'user_id', 'id');
+    }
     function fullName(): Attribute
     {
         return new Attribute(get: fn() => $this->first_name . ' ' . $this->last_name);
+    }
+    function roleName(): Attribute
+    {
+        return new Attribute(get: fn() => ucfirst($this->getRoleNames()->first()));
+    }
+    function roleAssignmentName(): Attribute
+    {
+        return new Attribute(get: fn() => ucfirst(str_replace('_', ' ', $this->role_assignment)));
     }
 }

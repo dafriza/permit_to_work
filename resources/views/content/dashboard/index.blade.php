@@ -156,38 +156,33 @@
                     </div>
                     <div class="card-body">
                         <ul class="p-0 m-0">
-                            @foreach ($permit_to_work_auth->authorization_and_issuing as $key => $permit_to_work)
+                            @foreach ($activityPTW as $key => $activity)
                                 @php
-                                    try {
-                                        $status_issue = explode(',', $permit_to_work_auth->status_issue[$permit_to_work]);
-                                        $str = $permit_to_work;
-                                        $pattern = '/https/i';
-                                        $pattern = preg_match($pattern, $str);
-                                        if ($pattern == 1) {
-                                            $permit_to_work = 'success';
-                                        }
-                                    } catch (\Exception $e) {
-                                        $status_issue = ['success', 'success','check-circle'];
-                                    }
+                                    // dd($activity[0]);
+                                    $parseActivity = explode(',', $activity[0]);
+                                    $status = $parseActivity[0];
+                                    $bg = $parseActivity[1];
+                                    $icon = $parseActivity[2];
+                                    $text = $parseActivity[3];
+                                    // dd($parseActivity);
                                 @endphp
                                 <li class="d-flex mb-4 pb-1">
                                     <div class="avatar flex-shrink-0 me-3">
-                                        <span class="avatar-initial rounded bg-label-{{ $status_issue[0] }}">
-                                            <i class="bx bx-{{$status_issue[2]}}"
-                                            {{-- status by approval --}}
-                                                onclick="swal_usage_ok('{{ $permit_to_work }}','Approved','{{ $status_issue[1] }}')"></i>
+                                        <span class="avatar-initial rounded bg-label-{{ $status }}">
+                                            <i class="bx bx-{{ $icon }}" {{-- status by approval --}}
+                                                onclick="swal_usage_ok('{{ $key }}','{{ $text }}','{{ $bg }}')"></i>
                                         </span>
                                     </div>
                                     <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                         <div class="me-2">
-                                            <h6 class="mb-1 fw-normal">{{ $permit_to_work_auth->main_issue[$loop->index] }}
+                                            <h6 class="mb-1 fw-normal">{{ $key }}
                                             </h6>
                                             <small class="text-muted">
                                                 {{ $key }}
                                             </small>
                                         </div>
                                         <div class="user-progress">
-                                            <h6 class="mb-0">16 Day Ago</h6>
+                                            <h6 class="mb-0">{{ $activity[1] }}</h6>
                                         </div>
                                     </div>
                                 </li>
@@ -196,93 +191,6 @@
                     </div>
                 </div>
             </div>
-            <!--/ Activity Timeline -->
-
-            <!-- On Click -->
-            <!-- Success -->
-            <div class="modal fade" id="successactivity" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                    <div class="modal-content p-3 p-md-5">
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;">
-                                    <div class="swal2-success-circular-line-left"
-                                        style="background-color: rgb(255, 255, 255);"></div>
-                                    <span class="swal2-success-line-tip"></span> <span
-                                        class="swal2-success-line-long"></span>
-                                    <div class="swal2-success-ring"></div>
-                                    <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);">
-                                    </div>
-                                    <div class="swal2-success-circular-line-right"
-                                        style="background-color: rgb(255, 255, 255);"></div>
-                                </div>
-                            </div>
-                            <h2 class="swal2-title" id="swal2-title" style="text-align: center">Approved</h2>
-                            <div class="swal2-html-container" id="swal2-html-container" style="text-align: center">Permit
-                                to Work Approved by Khaleed</div>
-                            <p></p>
-                            <form id="editUserForm" class="row g-6" onsubmit="return false">
-                                <div class="col-12 text-center">
-                                    <button type="reset" class="swal2-confirm btn btn-primary" aria-label="Close"
-                                        data-bs-dismiss="modal" style="text-align: center">OK</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Rejected -->
-            <div class="modal fade" id="rejectactivity" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                    <div class="modal-content p-3 p-md-5">
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <div class="swal2-icon swal2-error swal2-icon-show" style="display: flex;"><span
-                                        class="swal2-x-mark">
-                                        <span class="swal2-x-mark-line-left"></span>
-                                        <span class="swal2-x-mark-line-right"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <h2 class="swal2-title" id="swal2-title" style="text-align: center">Rejected</h2>
-                            <div class="swal2-html-container" id="swal2-html-container" style="text-align: center">Permit
-                                to Work Rejected by Khaleed</div>
-                            <p></p>
-                            <form id="editUserForm" class="row g-6" onsubmit="return false">
-                                <div class="col-12 text-center">
-                                    <button type="reset" class="swal2-confirm btn btn-primary" aria-label="Close"
-                                        data-bs-dismiss="modal" style="text-align: center">OK</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- On Going -->
-            <div class="modal fade" id="ongoingactivity" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                    <div class="modal-content p-3 p-md-5">
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
-                                    <div class="swal2-icon-content">!</div>
-                                </div>
-                            </div>
-                            <h2 class="swal2-title" id="swal2-title" style="text-align: center">On Going!</h2>
-                            <div class="swal2-html-container" id="swal2-html-container" style="text-align: center">Permit
-                                to Work Waiting for Approve by Khaleed</div>
-                            <p></p>
-                            <form id="editUserForm" class="row g-6" onsubmit="return false">
-                                <div class="col-12 text-center">
-                                    <button type="reset" class="swal2-confirm btn btn-primary" aria-label="Close"
-                                        data-bs-dismiss="modal" style="text-align: center">OK</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/ On Click -->
         </div>
     </div>
 @endsection
@@ -293,8 +201,8 @@
     <script>
         getDataWithAjax('{{ route('dashboard.get_data_permit_to_work') }}').done(function(data) {
             let dataset = data;
-            doughnutChart("permit_to_work", ["On Going", "Success", "Rejected"], data)
-            doughnutChart("entry_permit", ["On Going", "Success", "Rejected"], data)
+            doughnutChart("permit_to_work", data);
+            // doughnutChart("entry_permit", ["On Going", "Success", "Rejected", "Draft"], data)
         });
     </script>
 @endpush

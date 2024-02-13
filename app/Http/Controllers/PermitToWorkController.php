@@ -7,9 +7,13 @@ use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use App\Models\ToolsEquipment;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\PermitToWork\PermitToWorkInterface;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
+use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
+use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
 
 class PermitToWorkController extends Controller
 {
@@ -21,6 +25,32 @@ class PermitToWorkController extends Controller
     function index()
     {
         return view('content.permit_to_work.index');
+    }
+    function indexManagement(PermitToWorkManagementDataTable $dataTable)
+    {
+        return $dataTable->render('content.permit_to_work.ptw_management.index');
+        // return view('content.permit_to_work.ptw_management.index');
+    }
+    function userManagement(PermitToWorkManagementUserDatatable $dataTable)
+    {
+        return $dataTable->render('content.permit_to_work.ptw_management.user.index');
+    }
+    function detailRequest($id)
+    {
+        $detail_request = PermitToWork::find($id);
+        $assignment = $this->getAssignment();
+        $if_success = $detail_request->{$assignment}->status;
+        // dd(Auth::user());
+        // dd($if_success != null);
+        return view('content.permit_to_work.detail_request', compact('detail_request', 'if_success'));
+    }
+    public function datatables(PermitToWorkManagementDataTable $dataTable)
+    {
+        return $dataTable->ajax();
+    }
+    function tra()
+    {
+        return view('content.permit_to_work.step2');
     }
     function getDirectSPV(Request $request)
     {
@@ -46,7 +76,8 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getTotalPermits();
     }
-    function getSignature($img) {
+    function getSignature($img)
+    {
         return $this->permit_to_work->getSignature($img);
     }
     function findDataDirectSPV($id)
@@ -62,8 +93,8 @@ class PermitToWorkController extends Controller
         return $this->permit_to_work->findDataTrades($data_trades);
     }
     function storeHeader(HeaderColdWorkRequest $request)
-    // function storeHeader(Request $request)
     {
+        // function storeHeader(Request $request)
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
@@ -71,7 +102,32 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->storeHeaderCrc($request);
     }
-    function test_image() {
+    function approveRequest(Request $request)
+    {
+        return $this->permit_to_work->approveRequest($request);
+    }
+    function rejectRequest(Request $request)
+    {
+        return $this->permit_to_work->rejectRequest($request);
+    }
+    function deletePermitToWork($id)
+    {
+        return $this->permit_to_work->deletePermitToWork($id);
+    }
+    function printPermitToWork()
+    {
+        return $this->permit_to_work->printPermitToWork();
+    }
+    function detailPrintPermitToWork()
+    {
+        return $this->permit_to_work->detailPrintPermitToWork();
+    }
+    function test_image()
+    {
         return base64_encode(Storage::disk('signature')->get('2023-12-14-1-John Doe.png'));
+    }
+    function getAssignment()
+    {
+        return Auth::user()->role_assignment;
     }
 }
