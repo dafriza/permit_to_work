@@ -64,25 +64,9 @@
             $("#procedureDesc").val(data.procedureDesc);
 
         } else {
-                getDataWithAjax('{{ route('permit_to_work.get_total_permits') }}').done(function(data) {
-                    console.log("jumlah " + data);
-                    let date_now = new Date();
-                    let month_romanize = romanize(date_now.getMonth() + 1);
-                    $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
-                    $(".work_order").val(data);
-                })
                 $("#next-3").attr('disabled','disabled');
             }
     });
 
-    let sig = $('#sig').signature({
-        syncField: '#signature',
-        syncFormat: 'PNG'
-    });
-    $('#clear').click(function(e) {
-        e.preventDefault();
-        sig.signature('clear');
-        $("#signature64").val('');
-    });
 </script>
 @endpush

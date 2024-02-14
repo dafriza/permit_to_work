@@ -53,7 +53,7 @@
                 <div class="mb-3 col-md-6">
                     <div class="form-group required">
                         <label for="directspv" class="form-label control-label">Direct Supervisor</label>
-                        {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
+                        <input type="text" class="form-control" id="directspv" name="directspv" />
                         <select id="direct_supervisor" class="form-select permit_to_work" name="direct_spv"
                             aria-label="direct_supervisor" data-placeholder="Pilih Supervisor">
                             {{-- <option>Harold Carter</option> --}}
@@ -211,7 +211,7 @@
                     $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
                     $(".work_order").val(data);
                 })
-                $("#next-1").attr('disabled','disabled');
+                // $("#next-1").attr('disabled','disabled');
             }
         });
 
