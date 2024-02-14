@@ -19,7 +19,8 @@
                 enctype="multipart/form-data">
                 @csrf
                 <div class="d-flex flex-row-reverse bd-highlight">
-                    <div class="p-2 bd-highlight"><button class="btn btn-primary" type="button" disabled>Submit</button></div>
+                    <div class="p-2 bd-highlight"><button class="btn btn-primary" type="button"
+                            disabled>Submit</button></div>
                     <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button></div>
                 </div>
         </div>
@@ -33,7 +34,7 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="work_order" class="form-label">Work Order</label>
-                    <input class="form-control permit_to_work work_order" type="text" name="work_order"/>
+                    <input class="form-control permit_to_work work_order" type="text" name="work_order" />
                     {{-- <input class="form-control permit_to_work work_order" type="hidden" id="work_order" value=""
                         name="work_order" /> --}}
                 </div>
@@ -46,9 +47,9 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="reqbypa" class="form-label">Request by PA</label>
-                    <input type="hidden" name="request_pa" value="{{ Auth::id() ?? 1 }}">
+                    <input type="hidden" name="request_pa" value="{{ Auth::id() }}">
                     <input class="form-control permit_to_work" type="text" id="reqbypa"
-                        value="{{ Auth::user()->name ?? 'John Doe' }}" disabled />
+                        value="{{ Auth::user()->full_name }}" disabled />
                 </div>
                 <div class="mb-3 col-md-6">
                     <div class="form-group required">
@@ -125,9 +126,10 @@
                     <span id="show"></span>
                     <textarea id="signature" name="signature" style="display: none"></textarea>
                 </div>
-            </form>
+                </form>
                 <div class="col-auto align-self-end ">
-                    <button id="next-1" class="btn btn-primary" type="button" onclick="stepper1.next()">Next</button>
+                    <button id="next-1" class="btn btn-primary" type="button"
+                        onclick="stepper1.next()">Next</button>
                 </div>
             </div>
         </div>
@@ -148,7 +150,10 @@
         dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
         dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
         submitWithAjax('formAccountSettings', function() {
-            location.reload();
+            // console.log($(this));
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
         })
         getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work') }}').done(function(data) {
             if (data != '') {
@@ -189,7 +194,7 @@
                     })
                 })
                 getDataWithAjax("{!! route('permit_to_work.get_signature', '') !!}" + "/" + data.signature).done(function(data) {
-                    $("#signature").val("data:image/png;base64,"+data);
+                    $("#signature").val("data:image/png;base64," + data);
                     // console.log(data);
                 });
                 $("#personel_involved").val(data.personel_involved);
@@ -211,7 +216,7 @@
                     $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
                     $(".work_order").val(data);
                 })
-                // $("#next-1").attr('disabled','disabled');
+                // $("#next-1").attr('disabled', 'disabled');
             }
         });
 

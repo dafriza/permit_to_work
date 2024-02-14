@@ -88,17 +88,17 @@ Route::controller(PermitToWorkController::class)
                 Route::middleware(['permission:read permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {
                     Route::get('/', 'indexManagement')->name('index');
                     // datatables
-                    Route::get('datatables', 'datatables')->name('datatables');
+                    Route::get('datatables_index', 'datatablesIndex')->name('datatables_index');
                 });
 
                 Route::middleware(['permission:read permit_to_work_management', "role:{$roleHelper::roles[0]}|{$roleHelper::roles[2]}"])->group(function () {
                     Route::get('user', 'userManagement')->name('user');
                     Route::get('detail_request/{id}', 'detailRequest')->name('detail_request');
+                    Route::get('datatables_user_management', 'datatablesUserManagement')->name('datatables_user_management');
                 });
 
-                Route::middleware(['permission:create permit_to_work_management', "role:{$roleHelper::roles[0]}|{$roleHelper::roles[2]}"])->group(function () {
-                    Route::post('approve_request', 'approveRequest')->name('approve_request');
-                    Route::post('reject_request', 'rejectRequest')->name('reject_request');
+                Route::middleware(['permission:update permit_to_work_management', "role:{$roleHelper::roles[0]}|{$roleHelper::roles[2]}"])->group(function () {
+                    Route::post('approval_request', 'approvalRequest')->name('approval_request');
                 });
 
                 Route::middleware(['permission:delete permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {

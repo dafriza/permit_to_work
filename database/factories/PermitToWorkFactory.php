@@ -140,7 +140,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'permit_registry' => [
                 'name' => 'Lorem',
@@ -150,7 +151,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'site_gas_test' => [
                 'flammable' => 0,
@@ -163,7 +165,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'issue' => [
                 'name' => 'Lorem',
@@ -173,7 +176,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'acceptance' => [
                 'name' => 'Lorem',
@@ -183,7 +187,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'close_out_pa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -196,7 +201,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'close_out_aa' => [
                 'complete' => fake()->randomElement([false, true]),
@@ -208,7 +214,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'registry_of_work_completion' => [
                 'name' => 'Lorem',
@@ -218,7 +225,8 @@ class PermitToWorkFactory extends Factory
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                 ->get()
-                ->random()['id']
+                ->random()['id'],
+                'comment' => fake()->randomElement(['Invalid item','Invalid costs','Wrong'])
             ],
             'status' => fake()->randomElement([1, 2, 3, 4]),
             // 'submission' => [

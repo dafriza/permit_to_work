@@ -45,9 +45,14 @@ return [
             'root' => storage_path('app/permit_to_work'),
         ],
 
-        'signature' => [
+        'signature_employee' => [
             'driver' => 'local',
-            'root' => storage_path('app/signature'),
+            'root' => storage_path('app/signature_employee'),
+        ],
+
+        'signature_approver' => [
+            'driver' => 'local',
+            'root' => storage_path('app/signature_approver')
         ],
 
         's3' => [

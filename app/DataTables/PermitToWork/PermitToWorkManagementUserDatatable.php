@@ -49,11 +49,7 @@ class PermitToWorkManagementUserDatatable extends DataTable
         $assignment = $this->getUserAssignment();
         $res = $model
             ->newQuery()
-            ->select(['permit_to_works.id as PTW ID',
-            'work_order as PROJECT',
-            DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'),
-            'permit_to_works.created_at as START DATE',
-            DB::raw('case when json_value(permit_to_works.' . $assignment . ',"$.status") = "success" THEN "' . $actionAssignment . '" ELSE "' . ucfirst(str_replace('_', ' ', $assignment)) . '" END AS "NEXT ACTION"')])
+            ->select(['permit_to_works.id as PTW ID', 'work_order as PROJECT', DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'), 'permit_to_works.created_at as START DATE', DB::raw('case when json_value(permit_to_works.' . $assignment . ',"$.status") = "success" THEN "' . $actionAssignment . '" ELSE "' . ucfirst(str_replace('_', ' ', $assignment)) . '" END AS "NEXT ACTION"')])
             ->join('users', 'users.id', '=', 'permit_to_works.' . $assignment . '->approver')
             ->leftJoin('users as pa', 'request_pa', '=', 'pa.id')
             ->where('users.id', Auth::id());
@@ -64,7 +60,7 @@ class PermitToWorkManagementUserDatatable extends DataTable
         return $this->builder()
             ->setTableId('permit_to_work_management_user')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('permit_to_work.management.datatables_user_management'))
             // ->dom('Bfrtip')
             ->orderBy(1);
     }

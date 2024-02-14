@@ -81,7 +81,7 @@ class PermitToWorkManagementDataTable extends DataTable
                     'reload',
                 ],
             ])
-            ->minifiedAjax(route('permit_to_work.management.datatables'))
+            ->minifiedAjax(route('permit_to_work.management.datatables_index'))
             ->orderBy(2);
     }
     protected function getColumns()
