@@ -131,8 +131,6 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getHeaderColdWorkAppFour();
     }
-
-
     function getTotalPermits()
     {
         return $this->permit_to_work->getTotalPermits();
@@ -145,7 +143,6 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataDirectSPV($id);
     }
-
     function findDataApproveSC($id)
     {
         return $this->permit_to_work->findDataApproveSC($id);
@@ -154,12 +151,10 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataApprovePC($id);
     }
-
     function findDataApproveProc($id)
     {
         return $this->permit_to_work->findDataApproveProc($id);
     }
-
     function findDataIssueAA($id)
     {
         return $this->permit_to_work->findDataIssueAA($id);
@@ -168,7 +163,6 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataAcceptancePA($id);
     }
-
     // Approval 3
     function findDataClosedOutPA($id)
     {
@@ -178,7 +172,6 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataCloseOutAA($id);
     }
-
     // approval 4
     function findDataRegisWorkPA($id)
     {
@@ -201,6 +194,10 @@ class PermitToWorkController extends Controller
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
         return $this->permit_to_work->storeHeaderCrc($request);
+    }
+    function storeHeaderTRA(Request $request)
+    {
+        return null;
     }
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
     {

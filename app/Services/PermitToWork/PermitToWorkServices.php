@@ -308,25 +308,10 @@ class PermitToWorkServices implements PermitToWorkInterface
     function storeHeader(HeaderColdWorkRequest $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        // dd($request->validated());
-        $task_desc = 'task_desc';
-        $file_name = $task_desc .'-'. '1' . '-' . 'John Doe' . '.json';
-
+        $fullName = auth()->user()->first_name . '_' . auth()->user()->last_name;
+        $file_name = $validatedData['date_application'] . '-' . '1' . '-' . $fullName . '.json';
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
-
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-
-        $file_name = $request->validated()['date_application'] . '-' . '1' . '-' . 'John Doe' . '.json';
-        Storage::disk('permit_to_work')->put($file_name, json_encode($request->validated()));
-        return response()->json($request->validated(), 202);
     }
 
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)

@@ -73,6 +73,7 @@ Route::controller(PermitToWorkController::class)
         Route::middleware(['permission:create permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {
             Route::post('store_header', 'storeHeader')->name('store_header');
             Route::post('store_header_crc', 'storeHeaderCrc')->name('store_header_crc');
+            Route::post('store_header_tra', 'storeHeaderTRA')->name('store_header_tra');
             Route::post('store_header_app_one', 'storeHeaderAppOne')->name('store_header_app_one');
             Route::post('store_header_app_two', 'storeHeaderAppTwo')->name('store_header_app_two');
             Route::post('store_header_app_three', 'storeHeaderAppThree')->name('store_header_app_three');
