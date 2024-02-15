@@ -2,12 +2,6 @@
 
 namespace App\Services\PermitToWork;
 
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
-use App\Events\PermitToWorkEvent;
-use App\Http\Requests\PermitToWork\ApprovalRequest;
 use DataTables;
 use App\Models\User;
 use App\Models\Trade;
@@ -16,22 +10,38 @@ use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use App\Models\ToolsEquipment;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Events\PermitToWorkEvent;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Helper\RolesAndPermissionsHelper;
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
-
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 class PermitToWorkServices implements PermitToWorkInterface
 {
+    private $roleHelper = null;
+    function roleHelper(){
+        $roleHelperCurrent = new RolesAndPermissionsHelper();
+        if($this->roleHelper == null){
+            $this->roleHelper = $roleHelperCurrent;
+        }
+        return $this->roleHelper;
+    }
     function getDirectSPV(Request $request)
     {
         $param = $request->q;
+        $roleHelper = $this->roleHelper();
         $get_spv = User::where('first_name', 'like', "%$param%")
             ->orWhere('last_name', 'like', "%$param%")
             ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
+            ->filter(function ($user) use($roleHelper){
+                // return $user->roles->where('name', $roleHelper::roles[2]);
+                return $user->getRoleNames()[0] == $roleHelper::roles[2];
             })
             ->map(function ($spv) {
                 return [
@@ -39,7 +49,8 @@ class PermitToWorkServices implements PermitToWorkInterface
                     'text' => $spv->first_name . ' ' . $spv->last_name,
                 ];
             });
-        return response()->json(['results' => $get_spv]);
+            // dd($get_spv);
+        return response()->json(['results' => $get_spv->values()]);
     }
     function getApproveSC(Request $request)
     {
@@ -209,32 +220,31 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function getHeaderColdWork()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('task_desc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('task_desc' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
     function getHeaderColdWorkCrc()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('crc' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('crc' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
 
     function getHeaderColdWorkAppOne()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('AppOne' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('AppOne' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
 
     function getHeaderColdWorkAppTwo()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('AppTwo' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('AppTwo' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
 
     function getHeaderColdWorkAppThree()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('AppThree' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('AppThree' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
     function getHeaderColdWorkAppFour()
     {
-        return json_decode(Storage::disk('permit_to_work')->get('AppFour' . '-' . '1' . '-' . 'John Doe' .  '.json'));
+        return json_decode(Storage::disk('permit_to_work')->get('AppFour' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
-
 
     function getTotalPermits()
     {
@@ -242,7 +252,7 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function getSignature($img)
     {
-        return base64_encode(Storage::disk('signature')->get($img));
+        return base64_encode(Storage::disk('signature_employee')->get($img));
     }
     function findDataDirectSPV($id)
     {
@@ -309,9 +319,8 @@ class PermitToWorkServices implements PermitToWorkInterface
     function storeHeader(HeaderColdWorkRequest $request)
     {
         $validatedData = $request->validated();
-        $fullName = auth()->user()->first_name . '_' . auth()->user()->last_name;
-        $file_name = $validatedData['date_application'] . '-' . '1' . '-' . $fullName . '.json';
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
+        $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
+        Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
         return response()->json($validatedData, 202);
     }
 
@@ -326,7 +335,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         // dd($request->validated());
         $crc = 'crc';
-        $file_name = $crc .'-'. '1' . '-' . 'John Doe' . '.json';
+        $file_name = $crc . '-' . '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
@@ -343,7 +352,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         // dd($request->validated());
         $appOne = 'AppOne';
-        $file_name = $appOne .'-'. '1' . '-' . 'John Doe' . '.json';
+        $file_name = $appOne . '-' . '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
@@ -361,7 +370,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
         // dd($request->validated());
         $appTwo = 'AppTwo';
-        $file_name = $appTwo .'-'. '1' . '-' . 'John Doe' . '.json';
+        $file_name = $appTwo . '-' . '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
@@ -375,7 +384,7 @@ class PermitToWorkServices implements PermitToWorkInterface
             return response()->json(['error' => 'Invalid data format'], 400);
         }
         $AppThree = 'AppThree';
-        $file_name = $AppThree .'-'. '1' . '-' . 'John Doe' . '.json';
+        $file_name = $AppThree . '-' . '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);
@@ -389,7 +398,7 @@ class PermitToWorkServices implements PermitToWorkInterface
             return response()->json(['error' => 'Invalid data format'], 400);
         }
         $AppFour = 'AppFour';
-        $file_name = $AppFour .'-'. '1' . '-' . 'John Doe' . '.json';
+        $file_name = $AppFour . '-' . '1' . '-' . 'John Doe' . '.json';
 
         Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
         return response()->json($validatedData, 202);

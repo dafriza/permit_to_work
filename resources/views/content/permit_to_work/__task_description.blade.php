@@ -216,7 +216,7 @@
                     $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
                     $(".work_order").val(data);
                 })
-                // $("#next-1").attr('disabled', 'disabled');
+                $("#next-1").attr('disabled', 'disabled');
             }
         });
 
