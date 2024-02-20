@@ -9,12 +9,12 @@ class SignServices
 {
     private static $instance = null;
     public static function getInstance()
-   {
-      if (static::$instance === null) {
-         static::$instance = new SignServices();
-      }
-      return static::$instance;
-   }
+    {
+        if (static::$instance === null) {
+            static::$instance = new SignServices();
+        }
+        return static::$instance;
+    }
     static function signConverter($idPTW = null, $signature, $work_order, $date_application, $storage)
     {
         try {
@@ -25,7 +25,7 @@ class SignServices
             $image_base64 = base64_decode($image_parts[1]);
             // $file = $this->date_application . '-' . '1' . '-' . 'John Doe.' . $image_type;
             // tanggal sekarang - work order - tanggal propose - id - nama lengkap.png
-            $file = $work_order . '-' . date_format(now(), 'd-m-Y')   . '-' . $date_application . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
+            $file = $work_order . '-' . date_format(now(), 'd-m-Y') . '-' . $date_application . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
             if ($idPTW != null) {
                 $file = $idPTW . '-' . $work_order . '-' . date_format(now(), 'd-m-Y') . '-' . $date_application . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
             }

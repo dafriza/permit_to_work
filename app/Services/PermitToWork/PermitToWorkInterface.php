@@ -10,6 +10,7 @@ use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 use App\Http\Requests\PermitToWork\ApprovalRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestTRA;
 
 interface PermitToWorkInterface
 {
@@ -28,11 +29,12 @@ interface PermitToWorkInterface
     function getToolsEquipment(Request $request);
     function getTrades(Request $request);
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request);
+    function storeHeaderTRA(HeaderColdWorkRequestTRA $request);
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request);
     function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request);
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request);
     function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request);
-    function getHeaderColdWork();
+    function getHeaderColdWork($id);
     function getHeaderColdWorkCrc();
     function getHeaderColdWorkAppOne();
     function getHeaderColdWorkAppTwo();
@@ -56,6 +58,7 @@ interface PermitToWorkInterface
     function findDataToolsEquipment($data_tools_equipment);
     function findDataTrades($data_trades);
     function storeHeader(HeaderColdWorkRequest $request);
+    function storeShowHeader(HeaderColdWorkRequest $request);
     function approvalRequest(ApprovalRequest $request);
     // function rejectRequest(Request $request);
     function printPermitToWork();

@@ -11,19 +11,20 @@ class HeaderColdWorkRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'nullable',
             'number' => 'required',
             'work_order' => 'required|integer',
             'date_application' => 'required|date',
             'request_pa' => 'required|integer',
             'direct_spv' => 'required|integer',
             'equipment_id' => 'required|string',
-            'tag_number' => 'required|string',
+            // 'tag_number' => 'required|string',
             'location' => 'required|string',
             'task_description' => 'required|string',
             'tools_equipment' => 'required|array',
             'trades' => 'required|array',
             'personel_involved' => 'required|integer',
-            'signature' => 'required',
+            'sign_pa' => 'required',
 
             // 'permitDesc' => 'required|string',
             // 'isolationDesc' => 'required|string',
@@ -38,7 +39,7 @@ class HeaderColdWorkRequest extends FormRequest
             'direct_spv' => 'supervisor',
             'location' => 'lokasi',
             'trades' => 'keahlian/trades',
-            'signature' => 'tanda tangan',
+            'sign_pa' => 'tanda tangan',
             // 'permitDesc' => 'Permit description',
             // 'isolationDesc' => 'Isolation Description',
             // 'procedureDesc' => 'Procedure Description',
@@ -55,12 +56,12 @@ class HeaderColdWorkRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'signature' => $this->signConverter(),
+            'sign_pa' => $this->signConverter(),
             'equipment_id' => $this->equipment_id . '/' . $this->tag_number,
         ]);
     }
     function signConverter()
     {
-        return SignServices::signConverter(null, $this->signature, $this->work_order, $this->date_application, 'signature_employee');
+        return SignServices::signConverter(null, $this->sign_pa, $this->work_order, $this->date_application, 'signature_employee');
     }
 }

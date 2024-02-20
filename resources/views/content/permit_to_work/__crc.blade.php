@@ -10,7 +10,9 @@
 
             <form id="formAccountSettingsCrc" method="POST" action="{{ route('permit_to_work.store_header_crc') }}"
                 enctype="multipart/form-data">
-            @csrf
+                @csrf
+                <input type="hidden" name="id" value="{{ $id }}">
+                <input type="hidden" name="cross_referenced_certificates">
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button>
                         <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
@@ -23,7 +25,7 @@
                 <h3 class="form-header">PERMIT</h3>
                 <div class="mb-3 col-md-12">
                     <label for="permitDesc" class="form-label required">Permit Description</label>
-                    <input type="text" class="form-control permit_to_work" id="permitDesc" name="permitDesc"
+                    <input type="text" class="form-control permit_to_work" id="permitDesc" name="permit_description"
                         placeholder="Enter Permit Description" />
                 </div>
 
@@ -31,42 +33,35 @@
                 <h3 class="form-header mt-5">ISOLATIONS</h3>
                 <div class="mb-3 col-md-12">
                     <label for="isolationDesc" class="form-label required">Isolations Description</label>
-                    <input type="text" class="form-control permit_to_work" id="isolationDesc" name="isolationDesc"
-                        placeholder="Enter Isolation Description" />
+                    <input type="text" class="form-control permit_to_work" id="isolationDesc"
+                        name="isolation_description" placeholder="Enter Isolation Description" />
                 </div>
 
                 <h3 class="form-header mt-5">PROCEDURS/ MSDS/ LIFTING PLAN/ JSA/ OTHERS</h3>
                 <div class="mb-3 col-md-12">
-                    <label for="procedureDesc" class="form-label required">Procedures/ MSDS/ LIFTING PLAN/ JSA/ Others Description</label>
-                    <input type="text" class="form-control permit_to_work" id="procedureDesc" name="procedureDesc"
-                        placeholder="Enter Procedure Description" />
+                    <label for="procedureDesc" class="form-label required">Procedures/ MSDS/ LIFTING PLAN/ JSA/ Others
+                        Description</label>
+                    <input type="text" class="form-control permit_to_work" id="procedureDesc"
+                        name="procedure_description" placeholder="Enter Procedure Description" />
                 </div>
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
                     <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
-                    <button id="next-3" class="btn btn-primary" type="button" onclick="stepper1.next()">Next</button>
+                    <button id="next-3" class="btn btn-primary" type="button"
+                        onclick="stepper1.next()">Next</button>
                 </div>
             </div>
-            
+
         </div>
         <!-- /Account -->
     </div>
 </div>
 @push('scripts')
-<script>
-    submitWithAjax('formAccountSettingsCrc', function() {
-        location.reload();
-    })
-    getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_crc') }}').done(function(data) {
-        if (data != '') {
-            $("#permitDesc").val(data.permitDesc);
-            $("#isolationDesc").val(data.isolationDesc);
-            $("#procedureDesc").val(data.procedureDesc);
-
-        } else {
-                $("#next-3").attr('disabled','disabled');
-            }
-    });
-
-</script>
+    <script>
+        submitWithAjax('formAccountSettingsCrc', function() {
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        })
+    </script>
 @endpush

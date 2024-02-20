@@ -108,6 +108,7 @@
         })
         var stepper4 = new Stepper(document.querySelector('#stepper4'))
     </script>
+    @include('content.permit_to_work.__get_data_permit_to_work')
     <script>
         // Function to add a new input
         function addInputFieldHazard() {

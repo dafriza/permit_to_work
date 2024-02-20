@@ -13,12 +13,11 @@ Route::controller(PermitToWorkController::class)
     ->name('permit_to_work.')
     ->group(function () use ($roleHelper) {
         Route::middleware(['permission:read permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/', 'indexFirst')->name('index');
+            Route::get('show/{id}', 'show')->name('show');
             Route::get('/tra', 'tra')->name('tra');
-
             // get_data
             Route::get('get_data_spv', 'getDirectSPV')->name('get_data_spv');
-
             Route::get('get_data_sc', 'getApproveSC')->name('get_data_sc');
             Route::get('get_data_pc', 'getApprovePC')->name('get_data_pc');
             Route::get('get_data_proc', 'getApproveProc')->name('get_data_proc');
@@ -30,10 +29,11 @@ Route::controller(PermitToWorkController::class)
             Route::get('get_data_closed_out_aa', 'getClosedOutAA')->name('get_data_closed_out_aa');
             // Approval 4
             Route::get('get_data_regis_work_pa', 'getRegisWorkPA')->name('get_data_regis_work_pa');
-
             Route::get('get_data_tools_equipment', 'getToolsEquipment')->name('get_data_tools_equipment');
             Route::get('get_data_trades', 'getTrades')->name('get_data_trades');
-            Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
+            // Route::get('get_data_header_cold_work', 'getHeaderColdWork')->name('get_data_header_cold_work');
+            Route::get('get_data_header_cold_work/{id}', 'getHeaderColdWork')->name('get_data_header_cold_work');
+            Route::get('get_data_header_cold_work_tra/{id}', 'getHeaderColdWorkTRA')->name('get_data_header_cold_work_tra');
             Route::get('get_data_header_cold_work_crc', 'getHeaderColdWorkCrc')->name('get_data_header_cold_work_crc');
             Route::get('get_data_header_cold_work_app_one', 'getHeaderColdWorkAppOne')->name('get_data_header_cold_work_app_one');
             Route::get('get_data_header_cold_work_app_two', 'getHeaderColdWorkAppTwo')->name('get_data_header_cold_work_app_two');
@@ -72,13 +72,14 @@ Route::controller(PermitToWorkController::class)
         // store
         Route::middleware(['permission:create permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {
             Route::post('store_header', 'storeHeader')->name('store_header');
+            Route::post('store_show_header', 'storeShowHeader')->name('store_show_header');
             Route::post('store_header_crc', 'storeHeaderCrc')->name('store_header_crc');
+            // Route::post('store_header_tra', 'storeHeaderTRA')->name('store_header_tra');
             Route::post('store_header_tra', 'storeHeaderTRA')->name('store_header_tra');
             Route::post('store_header_app_one', 'storeHeaderAppOne')->name('store_header_app_one');
             Route::post('store_header_app_two', 'storeHeaderAppTwo')->name('store_header_app_two');
             Route::post('store_header_app_three', 'storeHeaderAppThree')->name('store_header_app_three');
             Route::post('store_header_app_four', 'storeHeaderAppFour')->name('store_header_app_four');
-
         });
 
         // PTW Management

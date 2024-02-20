@@ -27,8 +27,12 @@
                 @php
                     $activeClass = null;
                     $currentRouteName = Route::currentRouteName();
-
-                    if ($currentRouteName === $menu->slug) {
+                    if (
+                        $currentRouteName === $menu->slug &&
+                        auth()
+                            ->user()
+                            ->hasPermissionTo($menu->permission)
+                    ) {
                         $activeClass = 'active';
                     } elseif (isset($menu->submenu)) {
                         if (gettype($menu->slug) === 'array') {

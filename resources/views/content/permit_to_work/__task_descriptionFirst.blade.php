@@ -17,10 +17,9 @@
             </div>
             {{-- <form id="formColdHeader" method="POST" action="{{ route('permit_to_work.store_header') }}"
                 enctype="multipart/form-data"> --}}
-            <form id="formColdHeader" method="POST" action="{{ route('permit_to_work.store_show_header') }}"
+            <form id="formColdHeader" method="POST" action="{{ route('permit_to_work.store_header') }}"
                 enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="id" value="{{ $id }}">
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <div class="p-2 bd-highlight"><button class="btn btn-primary" type="button"
                             disabled>Submit</button></div>
@@ -140,24 +139,26 @@
     </div>
 </div>
 @push('scripts')
-    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.signature.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2_usage.js') }}"></script>
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script src="{{ asset('assets/js/helperJs.js') }}"></script>
     <script src="{{ asset('assets/js/bs-stepper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.signature.min.js') }}"></script>
     <script>
-        submitWithAjax('formColdHeader', function() {
-            // console.log($(this));
-            setTimeout(() => {
-                location.reload();
-            }, 1500);
-        })
         dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
         dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
         dynamicSelect2('trades', '{!! route('permit_to_work.get_data_trades') !!}');
+        getDataWithAjax('{{ route('permit_to_work.get_total_permits') }}').done(function(data) {
+                    console.log("jumlah " + data);
+                    let date_now = new Date();
+                    let month_romanize = romanize(date_now.getMonth() + 1);
+                    $(".number").val("HCML/" + month_romanize + "/" + date_now.getFullYear() + "/" + data);
+                    $(".work_order").val(data);
+                })
+                $("#next-1").attr('disabled', 'disabled');
 
         let sig = $('#sig').signature({
             syncField: '#sign_pa',

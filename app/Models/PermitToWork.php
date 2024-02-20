@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helper\CRCHelper;
 use App\Helper\RolesAndPermissionsHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +45,6 @@ class PermitToWork extends Model
             3 => 'REJECTED',
             4 => 'DRAFT',
         ];
-    private $roleHelper;
     public function request_pa_relation()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
@@ -53,9 +53,15 @@ class PermitToWork extends Model
     {
         return $this->belongsTo(User::class, 'direct_spv', 'id');
     }
-    function getInstanceRoleHelper() : RolesAndPermissionsHelper {
+    function getInstanceRoleHelper(): RolesAndPermissionsHelper
+    {
         $roleHelper = new RolesAndPermissionsHelper();
         return $roleHelper;
+    }
+    function getInstanceCRCHelper(): CRCHelper
+    {
+        $crcHelper = new CRCHelper();
+        return $crcHelper;
     }
     function scopeGetPermitToWorkByRoleLatest()
     {
@@ -83,8 +89,7 @@ class PermitToWork extends Model
     {
         return self::query()
             ->where($relationRole, Auth::id())
-            ->latest()
-            // ->take( 5)
+            ->latest() // ->take( 5)
             ->first();
     }
     function getPermitToWorkByRoleId($roleRelation)
@@ -219,7 +224,7 @@ class PermitToWork extends Model
     {
         return Attribute::make(
             get: function () {
-                return $this->convertToolsOrTrade($this->tools_equipment);
+                return $this->convertToolsOrTrade($this->tools_equipment, new ToolsEquipment());
             },
         );
     }
@@ -227,14 +232,15 @@ class PermitToWork extends Model
     {
         return Attribute::make(
             get: function () {
-                return $this->convertToolsOrTrade($this->trades);
+                return $this->convertToolsOrTrade($this->trades, new Trade());
             },
         );
     }
-    function convertToolsOrTrade($array)
+    function convertToolsOrTrade($array, $model)
     {
-        $arrayData = array_map(function ($data) {
-            return $data['name'];
+        // return $model;
+        $arrayData = array_map(function ($data) use ($model) {
+            return $model->where('id', $data)->first()->name;
         }, $array);
         return implode(', ', $arrayData);
     }
@@ -242,8 +248,7 @@ class PermitToWork extends Model
     {
         return Attribute::make(
             get: function () {
-                $hazards = collect($this->hazard)->except('hazard_other');
-                return $this->convertCheckbox($hazards);
+                return $this->convertCheckbox($this->hazard->hazard);
             },
         );
     }
@@ -251,8 +256,7 @@ class PermitToWork extends Model
     {
         return Attribute::make(
             get: function () {
-                $controls = collect($this->controls)->except('controls_other');
-                return $this->convertCheckbox($controls);
+                return $this->convertCheckboxAbstract($this->controls->controls);
             },
         );
     }
@@ -267,15 +271,25 @@ class PermitToWork extends Model
     }
     function convertCheckbox($data)
     {
-        $filterData = $data
+        $filterData = collect($data)
             ->filter(function ($value, $key) {
-                return $value != 0;
+                return $value != null;
             })
-            ->keys()
             ->map(function ($value) {
                 return ucfirst(str_replace('_', ' ', $value));
             });
-        // $filterData->push($this->hazard->hazard_other);
         return implode(', ', $filterData->toArray());
+    }
+    function convertCheckboxAbstract($data)
+    {
+        $crcHelper = $this->getInstanceCRCHelper();
+        // return $crcHelper::field;
+        $fieldCRC = collect($data)->filter(function($value, $key){
+            return $value != null;
+        })->map(function($value, $key) use ($crcHelper){
+            return ucfirst(str_replace('_', ' ', $crcHelper::field[$key])).'('.$value.')';
+        });
+        return implode(', ',$fieldCRC->toArray());
+        // return $data;
     }
 }

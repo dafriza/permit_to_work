@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         foreach ($roles as $role) {
             Role::create(['name' => $role]);
         }
-        User::factory(9)
+        User::factory(29)
             ->create()
             ->each(function ($user)use($roles) {
                 $user->assignRole(fake()->randomElement([$roles[1], $roles[2]]));

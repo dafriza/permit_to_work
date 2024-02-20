@@ -34,3 +34,21 @@ function romanize(num) {
     }
     return roman;
 }
+function checkboxChecked(tagByClass, indexValue, data){
+    $.each(tagByClass, function(key, val) {
+        if (val.attributes[indexValue].nodeValue == data) {
+            val.checked = true;
+            // console.log(val.checked);
+            // console.log(data.tra_level + "hehe");
+        }
+    });
+}
+function checkboxCheckedMulti(tagByClass, indexValue, data){
+    $.each(tagByClass, function(tagKey, tagVal) {
+        $.each(data, function(key, val) {
+            if (tagVal.attributes[indexValue].nodeValue == val) {
+                tagVal.checked = true;
+            }
+        });
+    });
+}

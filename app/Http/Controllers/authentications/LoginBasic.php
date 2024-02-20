@@ -20,8 +20,8 @@ class LoginBasic extends Controller
         //dd($request->all());
 
         $credentials = $request->validate([
-            'email' => 'required|email:dns,rfc',
-            //   'email' => 'required',
+            // 'email' => 'required|email:dns,rfc',
+            'email' => 'required',
             'password' => 'required'
         ]);
 

@@ -71,7 +71,7 @@
                 });
             } else {
 
-                $("#next-5").attr('disabled','disabled');
+                // $("#next-5").attr('disabled','disabled');
             }
         });
 

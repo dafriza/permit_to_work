@@ -13,7 +13,7 @@ function submitWithAjax(target_id, ifSuccess = null) {
                     }
                     swal_usage_ok('Success!', "Berhasil!", 'success')
                 }
-                // console.log(data);
+                console.log(data);
                 // console.log(textStatus);
                 // console.log(xhr);
             },

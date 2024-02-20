@@ -22,177 +22,215 @@ use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestTRA;
+
 class PermitToWorkServices implements PermitToWorkInterface
 {
     private $roleHelper = null;
-    function roleHelper(){
+    function roleHelper()
+    {
         $roleHelperCurrent = new RolesAndPermissionsHelper();
-        if($this->roleHelper == null){
+        if ($this->roleHelper == null) {
             $this->roleHelper = $roleHelperCurrent;
         }
         return $this->roleHelper;
     }
     function getDirectSPV(Request $request)
     {
-        $param = $request->q;
-        $roleHelper = $this->roleHelper();
-        $get_spv = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) use($roleHelper){
-                // return $user->roles->where('name', $roleHelper::roles[2]);
-                return $user->getRoleNames()[0] == $roleHelper::roles[2];
-            })
-            ->map(function ($spv) {
-                return [
-                    'id' => $spv->id,
-                    'text' => $spv->first_name . ' ' . $spv->last_name,
-                ];
-            });
-            // dd($get_spv);
-        return response()->json(['results' => $get_spv->values()]);
+        // $param = $request->q;
+        // $roleHelper = $this->roleHelper();
+        // $get_spv = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) use ($roleHelper) {
+        //         // return $user->roles->where('name', $roleHelper::roles[2]);
+        //         return $user->getRoleNames()[0] == $roleHelper::roles[2];
+        //     })
+        //     ->map(function ($spv) {
+        //         return [
+        //             'id' => $spv->id,
+        //             'text' => $spv->first_name . ' ' . $spv->last_name,
+        //         ];
+        //     });
+        // // dd($get_spv);
+        // return response()->json(['results' => $get_spv->values()]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2];
+        });
     }
     function getApproveSC(Request $request)
     {
-        $param = $request->q;
-        $get_approve_sc = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($sc) {
-                return [
-                    'id' => $sc->id,
-                    'text' => $sc->first_name . ' ' . $sc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_approve_sc]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'authorisation';
+        });
     }
     function getApprovePC(Request $request)
     {
-        $param = $request->q;
-        $get_approve_pc = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($pc) {
-                return [
-                    'id' => $pc->id,
-                    'text' => $pc->first_name . ' ' . $pc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_approve_pc]);
+        // $param = $request->q;
+        // $roleHelper = $this->roleHelper();
+        // $get_approve_pc = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) use ($roleHelper) {
+        //         return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry';
+        //     })
+        //     ->map(function ($pc) {
+        //         return [
+        //             'id' => $pc->id,
+        //             'text' => $pc->first_name . ' ' . $pc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_approve_pc]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry';
+        });
     }
     function getApproveProc(Request $request)
     {
-        $param = $request->q;
-        $get_approve_proc = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($proc) {
-                return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_approve_proc]);
+        // $param = $request->q;
+        // $get_approve_proc = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_approve_proc]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'site_gas_test';
+        });
     }
 
     // approval 2
     function getIssueAA(Request $request)
     {
-        $param = $request->q;
-        $get_issue_aa = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($proc) {
-                return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_issue_aa]);
+        // $param = $request->q;
+        // $get_issue_aa = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_issue_aa]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'issue';
+        });
     }
 
     function getAcceptancePA(Request $request)
     {
-        $param = $request->q;
-        $get_acceptance_pa = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($proc) {
-                return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_acceptance_pa]);
+        // $param = $request->q;
+        // $get_acceptance_pa = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_acceptance_pa]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'acceptance';
+        });
     }
 
     // Approval 3
     function getClosedOutPA(Request $request)
     {
-        $param = $request->q;
-        $get_closed_out_pa = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($proc) {
-                return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_closed_out_pa]);
+        // $param = $request->q;
+        // $get_closed_out_pa = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_closed_out_pa]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_pa';
+        });
     }
     function getClosedOutAA(Request $request)
     {
-        $param = $request->q;
-        $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
-            ->orWhere('last_name', 'like', "%$param%")
-            ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
-            })
-            ->map(function ($proc) {
-                return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
-                ];
-            });
-        return response()->json(['results' => $get_closed_out_aa]);
+        // $param = $request->q;
+        // $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_closed_out_aa]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_aa';
+        });
     }
     // Approval 4
     function getRegisWorkPA(Request $request)
     {
+        // $param = $request->q;
+        // $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
+        //     ->orWhere('last_name', 'like', "%$param%")
+        //     ->get()
+        //     ->filter(function ($user) {
+        //         return $user->roles->where('name', 'supervisor');
+        //     })
+        //     ->map(function ($proc) {
+        //         return [
+        //             'id' => $proc->id,
+        //             'text' => $proc->first_name . ' ' . $proc->last_name,
+        //         ];
+        //     });
+        // return response()->json(['results' => $get_closed_out_aa]);
+        return $this->getApproverSelect2($request, function ($user, $roleHelper) {
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'registry_of_work_completion';
+        });
+    }
+    function getApproverSelect2(Request $request, $filter)
+    {
         $param = $request->q;
-        $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
+        $roleHelper = $this->roleHelper();
+        $get_apv = User::where('first_name', 'like', "%$param%")
             ->orWhere('last_name', 'like', "%$param%")
             ->get()
-            ->filter(function ($user) {
-                return $user->roles->where('name', 'supervisor');
+            ->filter(function ($user) use ($roleHelper, $filter) {
+                // return $user->roles->where('name', $roleHelper::roles[2]);
+                // return $user->getRoleNames()[0] == $roleHelper::roles[2];
+                return $filter($user, $roleHelper);
             })
-            ->map(function ($proc) {
+            ->map(function ($apv) {
                 return [
-                    'id' => $proc->id,
-                    'text' => $proc->first_name . ' ' . $proc->last_name,
+                    'id' => $apv->id,
+                    'text' => $apv->first_name . ' ' . $apv->last_name,
                 ];
             });
-        return response()->json(['results' => $get_closed_out_aa]);
+        // dd($get_apv);
+        return response()->json(['results' => $get_apv->values()]);
     }
     function getToolsEquipment(Request $request)
     {
@@ -218,9 +256,11 @@ class PermitToWorkServices implements PermitToWorkInterface
         });
         return response()->json(['results' => $get_trades_map]);
     }
-    function getHeaderColdWork()
+    function getHeaderColdWork($id)
     {
-        return json_decode(Storage::disk('permit_to_work')->get('task_desc' . '-' . '1' . '-' . 'John Doe' . '.json'));
+        // return json_decode(Storage::disk('permit_to_work')->get('task_desc' . '-' . '1' . '-' . 'John Doe' . '.json') ?? null);
+        $getPTWById = PermitToWork::find($id);
+        return $getPTWById;
     }
     function getHeaderColdWorkCrc()
     {
@@ -319,28 +359,39 @@ class PermitToWorkServices implements PermitToWorkInterface
     function storeHeader(HeaderColdWorkRequest $request)
     {
         $validatedData = $request->validated();
-        $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
-        Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
+        $validatedData['status'] = 4;
+        PermitToWork::create($validatedData);
+        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
+        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
         return response()->json($validatedData, 202);
+    }
+    function storeShowHeader(HeaderColdWorkRequest $request)
+    {
+        $validatedData = $request->validated();
+        $validatedData['status'] = 4;
+        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
+        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
+        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
+        // return response()->json($validatedData, 202);
+        return response()->json([], 202);
     }
 
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        // dd($request->validated());
-        $crc = 'crc';
-        $file_name = $crc . '-' . '1' . '-' . 'John Doe' . '.json';
-
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
-        return response()->json($validatedData, 202);
+        $validatedData['status'] = 4;
+        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
+        return response()->json([], 202);
     }
-
+    function storeHeaderTRA(HeaderColdWorkRequestTRA $request)
+    {
+        $validatedData = $request->validated();
+        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
+        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
+        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
+        // return response()->json($validatedData, 202);
+        return response()->json([], 202);
+    }
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
     {
         $validatedData = $request->validated();

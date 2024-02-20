@@ -19,6 +19,7 @@ use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
 use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
 use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
 use App\Http\Requests\PermitToWork\ApprovalRequest;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestTRA;
 
 class PermitToWorkController extends Controller
 {
@@ -27,9 +28,13 @@ class PermitToWorkController extends Controller
     {
         $this->permit_to_work = $permit_to_work;
     }
-    function index()
+    function indexFirst()
     {
-        return view('content.permit_to_work.index');
+        return view('content.permit_to_work.indexFirst');
+    }
+    function show($id)
+    {
+        return view('content.permit_to_work.show', compact('id'));
     }
     function indexManagement(PermitToWorkManagementDataTable $dataTable)
     {
@@ -53,6 +58,7 @@ class PermitToWorkController extends Controller
         $detail_request = PermitToWork::find($id);
         $assignment = $this->getAssignment();
         $if_success = $detail_request->{$assignment}->status;
+        // dd($detail_request->sscr);
         return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success'));
     }
     function tra()
@@ -107,9 +113,9 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->getTrades($request);
     }
-    function getHeaderColdWork()
+    function getHeaderColdWork($id)
     {
-        return $this->permit_to_work->getHeaderColdWork();
+        return $this->permit_to_work->getHeaderColdWork($id);
     }
     function getHeaderColdWorkCrc()
     {
@@ -194,13 +200,19 @@ class PermitToWorkController extends Controller
         // return $request->all();
         return $this->permit_to_work->storeHeader($request);
     }
+    function storeShowHeader(HeaderColdWorkRequest $request)
+    {
+        // function storeHeader(Request $request)
+        // return $request->all();
+        return $this->permit_to_work->storeShowHeader($request);
+    }
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
         return $this->permit_to_work->storeHeaderCrc($request);
     }
-    function storeHeaderTRA(Request $request)
+    function storeHeaderTRA(HeaderColdWorkRequestTRA $request)
     {
-        return null;
+        return $this->permit_to_work->storeHeaderTRA($request);
     }
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
     {

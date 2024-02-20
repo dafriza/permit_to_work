@@ -53,7 +53,7 @@
                     $('#regis_work_pa').append(regis_work_pa_option).trigger('change');
                 });
             } else {
-                $("#next-7").attr('disabled','disabled');
+                // $("#next-7").attr('disabled','disabled');
             }
         });
 
