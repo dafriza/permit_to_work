@@ -6,31 +6,22 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class HeaderColdWorkRequestAppThree extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    // public function authorize()
-    // {
-    //     return false;
-    // }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
+            'id' => 'required',
             'closed_out_pa' => 'required|integer',
+            'work_status_pa' => 'required',
+            'work_description_pa' => 'nullable',
+            'work_status_aa' => 'required',
             'closed_out_aa' => 'required|integer',
         ];
     }
     function attributes()
     {
         return [
+            'work_status_pa' => 'Work Status PA',
+            'work_status_aa' => 'Work Status AA',
             'closed_out_pa' => 'Close out PA Approval',
             'closed_out_aa' => 'Close Out AA Approval',
 

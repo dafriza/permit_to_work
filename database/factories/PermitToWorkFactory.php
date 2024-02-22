@@ -36,7 +36,7 @@ class PermitToWorkFactory extends Factory
             'work_order' => fake()->randomLetter() . '-' . fake()->randomNumber(5, true),
             // 'request_pa' => fake()->randomElement([$employee['id'], $approver['id']]),
             'request_pa' => fake()->randomElement([$employee['id']]),
-            'date_application' => fake()->dateTimeBetween('-1 months'),
+            'date_application' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
             'sign_pa' => fake()->imageUrl(360, 360, 'signature', true),
             'direct_spv' => $approver['id'],
             'sign_spv' => fake()->imageUrl(360, 360, 'signature', true),
@@ -204,7 +204,7 @@ class PermitToWorkFactory extends Factory
             'authorisation' => [
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
                 'designation' => 'site_controller',
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -213,7 +213,7 @@ class PermitToWorkFactory extends Factory
             ],
             'permit_registry' => [
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -225,7 +225,7 @@ class PermitToWorkFactory extends Factory
                 'h2s' => 0,
                 'oxygen' => 0,
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -234,7 +234,7 @@ class PermitToWorkFactory extends Factory
             ],
             'issue' => [
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -243,7 +243,7 @@ class PermitToWorkFactory extends Factory
             ],
             'acceptance' => [
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -254,7 +254,7 @@ class PermitToWorkFactory extends Factory
                 'status_work' => fake()->randomElement(['complete','incomplete']),
                 'description' => 'lorem',
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -264,7 +264,7 @@ class PermitToWorkFactory extends Factory
             'close_out_aa' => [
                 'status_work' => fake()->randomElement(['complete','incomplete']),
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()
@@ -273,7 +273,7 @@ class PermitToWorkFactory extends Factory
             ],
             'registry_of_work_completion' => [
                 'signed' => fake()->imageUrl(360, 360, 'signature', true),
-                'date' => fake()->dateTimeBetween('-1 months'),
+                'date' => date_format(fake()->dateTimeBetween('-1 months'),'Y-m-d h:i:s'),
                 'status' => fake()->randomElement(['success', 'failure', 'draft']),
                 'approver' => User::role($roleHelper::roles[2])
                     ->get()

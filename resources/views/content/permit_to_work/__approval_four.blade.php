@@ -8,13 +8,15 @@
                 <h5>Approval 4</h5>
             </div>
 
-            <form id="formAccountSettingsAppFour" method="POST" action="{{ route('permit_to_work.store_header_app_four') }}"
-                enctype="multipart/form-data">
+            <form id="formAccountSettingsAppFour" method="POST"
+                action="{{ route('permit_to_work.store_header_app_four') }}" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" value="{{ $id }}">
                 <div class="mt-2 d-flex justify-content-end">
                     <button type="submit" class="btn btn-outline-secondary me-2">Save</button>
                     <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                </div>        </div>
+                </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 {{-- Registry of Work Completion PA --}}
@@ -40,22 +42,9 @@
     <script>
         dynamicSelect2('regis_work_pa', '{!! route('permit_to_work.get_data_regis_work_pa') !!}');
         submitWithAjax('formAccountSettingsAppFour', function() {
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
         })
-        getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_app_four') }}').done(function(data) {
-            if (data != '') {
-                $("#regis_work_pa").val(data.regis_work_pa);
-                // approval 3
-                getDataWithAjax(
-                    "{!! route('permit_to_work.find_data_regis_work_pa', '') !!}" + "/" + data.regis_work_pa).done(function(data) {
-                    let regis_work_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
-                        true, true);
-                    $('#regis_work_pa').append(regis_work_pa_option).trigger('change');
-                });
-            } else {
-                // $("#next-7").attr('disabled','disabled');
-            }
-        });
-
     </script>
 @endpush

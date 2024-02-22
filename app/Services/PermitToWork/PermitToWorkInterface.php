@@ -52,7 +52,7 @@ interface PermitToWorkInterface
     function findDataAcceptancePA($id);
     // Approval 3
     function findDataClosedOutPA($id);
-    function findDataCloseOutAA($id);
+    function findDataClosedOutAA($id);
     // Approval 4
     function findDataRegisWorkPA($id);
     function findDataToolsEquipment($data_tools_equipment);

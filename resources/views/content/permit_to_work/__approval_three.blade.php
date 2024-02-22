@@ -7,12 +7,12 @@
                 <h3>Permit To Work Request</h3>
                 <h5>Approval 3</h5>
             </div>
-
-            <form id="formAccountSettingsAppThree" method="POST" action="{{ route('permit_to_work.store_header_app_three') }}"
-                enctype="multipart/form-data">
+            <form id="formAccountSettingsAppThree" method="POST"
+                action="{{ route('permit_to_work.store_header_app_three') }}" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" value="{{ $id }}">
                 <div class="mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-secondary me-2">Save</button>
+                    <button type="submit" class="btn btn-secondary me-2">Save</button>
                     <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
                 </div>
         </div>
@@ -20,16 +20,42 @@
             <div class="row">
                 {{-- Closed Out PA --}}
                 <h3 class="form-header">Closed Out PA</h3>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <div class="btn-group" role="group" aria-label="work status pa toggle button group">
+                            <input type="radio" class="btn-check work_status_pa" id="complete_pa" name="work_status_pa"
+                                value="complete" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="complete_pa">Complete Work</label>
+                            <input type="radio" class="btn-check work_status_pa" id="incomplete_pa" name="work_status_pa"
+                                value="incomplete" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="incomplete_pa">Incomplete Work</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input id="incomplete_description" class="form-control" name="work_description_pa"
+                            type="text" placeholder="Alasan tidak selesai">
+                    </div>
+                </div>
                 <div class="mb-3 col-md-12">
-                    {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="closed_out_pa" class="form-select permit_to_work" name="closed_out_pa"
                         aria-label="closed_out_pa" data-placeholder="Select Name">
                     </select>
                 </div>
                 {{-- Closed Out AA --}}
                 <h3 class="form-header mt-5">Closed Out AA</h3>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <div class="btn-group" role="group" aria-label="work status aa toggle button group">
+                            <input type="radio" class="btn-check work_status_aa" id="complete_aa" name="work_status_aa"
+                                value="complete" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="complete_aa">Complete Work</label>
+                            <input type="radio" class="btn-check work_status_aa" id="incomplete_aa" name="work_status_aa"
+                                value="incomplete" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="incomplete_aa">Incomplete Work</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="mb-3 col-md-12">
-                    {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
                     <select id="closed_out_aa" class="form-select permit_to_work" name="closed_out_aa"
                         aria-label="closed_out_aa" data-placeholder="Select Name">
                     </select>
@@ -37,7 +63,8 @@
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
                     <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
-                    <button id="next-6" class="btn btn-primary" type="button" onclick="stepper1.next()">Next</button>
+                    <button id="next-6" class="btn btn-primary" type="button"
+                        onclick="stepper1.next()">Next</button>
                 </div>
             </div>
 
@@ -50,30 +77,9 @@
         dynamicSelect2('closed_out_pa', '{!! route('permit_to_work.get_data_closed_out_pa') !!}');
         dynamicSelect2('closed_out_aa', '{!! route('permit_to_work.get_data_closed_out_aa') !!}');
         submitWithAjax('formAccountSettingsAppThree', function() {
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
         })
-        getDataWithAjax('{{ route('permit_to_work.get_data_header_cold_work_app_three') }}').done(function(data) {
-            if (data != '') {
-                $("#closed_out_pa").val(data.closed_out_pa);
-                $("#closed_out_aa").val(data.closed_out_aa);
-                // approval 3
-                getDataWithAjax(
-                    "{!! route('permit_to_work.find_data_closed_out_pa', '') !!}" + "/" + data.closed_out_pa).done(function(data) {
-                    let closed_out_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
-                        true, true);
-                    $('#closed_out_pa').append(closed_out_pa_option).trigger('change');
-                });
-                getDataWithAjax(
-                    "{!! route('permit_to_work.find_data_closed_out_aa', '') !!}" + "/" + data.closed_out_aa).done(function(data) {
-                    let closed_out_aa_option = new Option(data.first_name + " " + data.last_name, data.id,
-                        true, true);
-                    $('#closed_out_aa').append(closed_out_aa_option).trigger('change');
-                });
-            } else {
-
-                // $("#next-6").attr('disabled','disabled');
-            }
-        });
-
     </script>
 @endpush

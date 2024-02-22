@@ -92,35 +92,98 @@
         }
         // 4 PTW
         if (data.authorisation != null) {
-            console.log(data.authorisation);
-            $("#designation").val(data.designation);
-            $("#flammable").val(data.flammable);
-            $("#h2s").val(data.h2s);
-            $("#oxygen").val(data.oxygen);
-            $("#approver_name_sc").val(data.approver_name_sc);
-            $("#approver_name_pc").val(data.approver_name_pc);
-            $("#approver_name_procedures").val(data.approver_name_procedures);
+            $("#designation").val(data.authorisation.designation);
+            $("#flammable").val(data.site_gas_test.flammable);
+            $("#h2s").val(data.site_gas_test.h2s);
+            $("#oxygen").val(data.site_gas_test.oxygen);
+            $("#approver_authorisation").val(data.authorisation.approver);
+            $("#approver_permit_registry").val(data.permit_registry.approver);
+            $("#approver_site_gas_test").val(data.site_gas_test.approver);
             // approval sc,pc,procedure
             getDataWithAjax(
-                "{!! route('permit_to_work.find_data_approve_sc', '') !!}" + "/" + data.approver_name_sc).done(function(data) {
+                "{!! route('permit_to_work.find_data_approve_sc', '') !!}" + "/" + data.authorisation.approver).done(function(data) {
                 let approver_sc_option = new Option(data.first_name + " " + data.last_name, data.id,
                     true, true);
-                $('#approver_name_sc').append(approver_sc_option).trigger('change');
+                $('#approver_authorisation').append(approver_sc_option).trigger('change');
             });
             getDataWithAjax(
-                "{!! route('permit_to_work.find_data_approve_pc', '') !!}" + "/" + data.approver_name_pc).done(function(data) {
+                "{!! route('permit_to_work.find_data_approve_pc', '') !!}" + "/" + data.permit_registry.approver).done(function(data) {
                 let approver_pc_option = new Option(data.first_name + " " + data.last_name, data.id,
                     true, true);
-                $('#approver_name_pc').append(approver_pc_option).trigger('change');
+                $('#approver_permit_registry').append(approver_pc_option).trigger('change');
             });
             getDataWithAjax(
-                "{!! route('permit_to_work.find_data_approve_proc', '') !!}" + "/" + data.approver_name_procedures).done(function(data) {
+                "{!! route('permit_to_work.find_data_approve_proc', '') !!}" + "/" + data.site_gas_test.approver).done(function(data) {
                 let approve_proc_option = new Option(data.first_name + " " + data.last_name, data.id,
                     true, true);
-                $('#approver_name_procedures').append(approve_proc_option).trigger('change');
+                $('#approver_site_gas_test').append(approve_proc_option).trigger('change');
             });
         } else {
             // $("#next-4").attr('disabled', 'disabled');
+        }
+        // 5 PTW
+        if (data.issue != '') {
+            $("#issue").val(data.issue.approver);
+            $("#acceptance").val(data.acceptance.approver);
+            // app[]roval sc,pc,procedure
+            getDataWithAjax(
+                "{!! route('permit_to_work.find_data_issue_aa', '') !!}" + "/" + data.issue.approver).done(function(data) {
+                let issue_option = new Option(data.first_name + " " + data.last_name, data.id,
+                    true, true);
+                $('#issue').append(issue_option).trigger('change');
+            });
+            getDataWithAjax(
+                "{!! route('permit_to_work.find_data_acceptance_pa', '') !!}" + "/" + data.acceptance.approver).done(function(data) {
+                let acceptance_option = new Option(data.first_name + " " + data.last_name, data.id,
+                    true, true);
+                $('#acceptance').append(acceptance_option).trigger('change');
+            });
+        } else {
+            $("#next-5").attr('disabled', 'disabled');
+        }
+        // 6 PTW
+        if (data.close_out_pa != '') {
+            $("#closed_out_pa").val(data.close_out_pa.approver);
+            $("#closed_out_aa").val(data.close_out_aa.approver);
+            $.each($('.work_status_pa'), function(key, value) {
+                if (value.attributes[4].nodeValue == data.close_out_pa.status_work) {
+                    console.log();
+                    value.checked = true;
+                }
+            });
+            $.each($('.work_status_aa'), function(key, value) {
+                if (value.attributes[4].nodeValue == data.close_out_aa.status_work) {
+                    value.checked = true;
+                }
+            });
+            // approval 3
+            getDataWithAjax(
+                "{!! route('permit_to_work.find_data_closed_out_pa', '') !!}" + "/" + data.close_out_pa.approver).done(function(data) {
+                let closed_out_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
+                    true, true);
+                $('#closed_out_pa').append(closed_out_pa_option).trigger('change');
+            });
+            getDataWithAjax(
+                "{!! route('permit_to_work.find_data_closed_out_aa', '') !!}" + "/" + data.close_out_aa.approver).done(function(data) {
+                let closed_out_aa_option = new Option(data.first_name + " " + data.last_name, data.id,
+                    true, true);
+                $('#closed_out_aa').append(closed_out_aa_option).trigger('change');
+            });
+        } else {
+            $("#next-6").attr('disabled', 'disabled');
+        }
+        // 7 PTW
+        if (data.regis_work_pa != '') {
+            $("#regis_work_pa").val(data.regis_work_pa.approver);
+            // approval 3
+            getDataWithAjax(
+                "{!! route('permit_to_work.find_data_regis_work_pa', '') !!}" + "/" + data.regis_work_pa.approver).done(function(data) {
+                let regis_work_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
+                    true, true);
+                $('#regis_work_pa').append(regis_work_pa_option).trigger('change');
+            });
+        } else {
+            // $("#next-7").attr('disabled','disabled');
         }
     });
 </script>

@@ -177,9 +177,9 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->findDataClosedOutPA($id);
     }
-    function findDataCloseOutAA($id)
+    function findDataClosedOutAA($id)
     {
-        return $this->permit_to_work->findDataCloseOutAA($id);
+        return $this->permit_to_work->findDataClosedOutAA($id);
     }
     // approval 4
     function findDataRegisWorkPA($id)

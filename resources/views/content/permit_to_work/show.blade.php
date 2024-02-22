@@ -63,6 +63,8 @@
                             @include('content.permit_to_work.__task_description')
                         </div>
                         <div id="test-l-2" class="content">
+                            {{-- @include('content.permit_to_work.__approval_three') --}}
+                            {{-- @include('content.permit_to_work.__task_description') --}}
                             @include('content.permit_to_work.__tra')
                         </div>
                         <div id="test-l-3" class="content">

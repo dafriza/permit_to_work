@@ -23,8 +23,8 @@
                 <h3 class="form-header">Authorization SC</h3>
                 <div class="mb-3 col-md-12">
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                    <select id="approver_name_sc" class="form-select permit_to_work" name="approver_name_sc"
-                        aria-label="approver_name_sc" data-placeholder="Select Approver Name">
+                    <select id="approver_authorisation" class="form-select permit_to_work" name="approver_authorisation"
+                        aria-label="approver_authorisation" data-placeholder="Select Approver Name">
                     </select>
                 </div>
                 <div class="mb-3 col-md-12">
@@ -37,8 +37,8 @@
                 <h3 class="form-header mt-5">Permit Registry PC</h3>
                 <div class="mb-3 col-md-12">
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                    <select id="approver_name_pc" class="form-select permit_to_work" name="approver_name_pc"
-                        aria-label="approver_name_pc" data-placeholder="Select Approver Name">
+                    <select id="approver_permit_registry" class="form-select permit_to_work" name="approver_permit_registry"
+                        aria-label="approver_permit_registry" data-placeholder="Select Approver Name">
                     </select>
                 </div>
 
@@ -46,8 +46,8 @@
                 <h3 class="form-header mt-5">Site Gas Test (Where aplicable) AGT</h3>
                 <div class="mb-3 col-md-12">
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                    <select id="approver_name_procedures" class="form-select permit_to_work"
-                        name="approver_name_procedures" aria-label="approver_name_procedures"
+                    <select id="approver_site_gas_test" class="form-select permit_to_work"
+                        name="approver_site_gas_test" aria-label="approver_site_gas_test"
                         data-placeholder="Select Approver Name">
                     </select>
                 </div>
@@ -96,9 +96,9 @@
 </div>
 @push('scripts')
     <script>
-        dynamicSelect2('approver_name_sc', '{!! route('permit_to_work.get_data_sc') !!}');
-        dynamicSelect2('approver_name_pc', '{!! route('permit_to_work.get_data_pc') !!}');
-        dynamicSelect2('approver_name_procedures', '{!! route('permit_to_work.get_data_proc') !!}');
+        dynamicSelect2('approver_authorisation', '{!! route('permit_to_work.get_data_sc') !!}');
+        dynamicSelect2('approver_permit_registry', '{!! route('permit_to_work.get_data_pc') !!}');
+        dynamicSelect2('approver_site_gas_test', '{!! route('permit_to_work.get_data_proc') !!}');
         submitWithAjax('formAccountSettingsAppOne', function() {
             setTimeout(() => {
                 location.reload();

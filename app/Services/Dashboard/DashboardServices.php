@@ -51,10 +51,12 @@ class DashboardServices implements DashboardInterface
         // dd('jelen');
         $this->permitToWorkSigns = collect($this->permitToWorkSigns);
         $permitToWork = PermitToWork::getPermitToWorkByRoleLatest();
+        // dd($permitToWork);
         foreach (self::statuses as $status) {
             $statusKey = str_replace('_', ' ', ucwords($status, '_'));
-            $permitToWork->status_issue = $permitToWork->{$status}->status;
-            $permitToWork->date_convert = $permitToWork->{$status}->date->date;
+            $permitToWork->status_issue = $permitToWork->{$status}->status ?? 'draft';
+            $permitToWork->date_convert = $permitToWork->{$status}->date ?? null;
+            // dd($permitToWork->date_convert);
             $this->permitToWorkSigns->put($statusKey, [$permitToWork->status_issue, $permitToWork->date_convert]);
         }
         $iterate = 0;

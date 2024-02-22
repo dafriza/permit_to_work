@@ -9,22 +9,23 @@ class HeaderColdWorkRequestAppOne extends FormRequest
     public function rules()
     {
         return [
-            'approver_name_sc' => 'required|integer',
+            'id' => 'required',
+            'approver_authorisation' => 'required|integer',
             'designation' => 'required|string',
-            'approver_name_pc' => 'required|integer',
-            'approver_name_procedures' => 'required|integer',
-            'flammable' => 'required|integer',
-            'h2s' => 'required|integer',
-            'oxygen' => 'required|integer',
+            'approver_permit_registry' => 'required|integer',
+            'approver_site_gas_test' => 'required|integer',
+            'flammable' => 'required',
+            'h2s' => 'required',
+            'oxygen' => 'required',
         ];
     }
     function attributes()
     {
         return [
-            'approver_name_sc' => 'Authorization SC',
+            'approver_authorisation' => 'Authorization SC',
             'designation' => 'Designation',
-            'approver_name_pc' => 'Registry PC',
-            'approver_name_procedures' => 'Approve Procedures Name',
+            'approver_permit_registry' => 'Registry PC',
+            'approver_site_gas_test' => 'Approve Procedures Name',
             'flammable' => 'Flammable',
             'h2s' => 'H2S',
             'oxygen' => 'Oxygen',

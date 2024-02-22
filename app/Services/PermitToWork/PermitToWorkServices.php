@@ -37,23 +37,6 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function getDirectSPV(Request $request)
     {
-        // $param = $request->q;
-        // $roleHelper = $this->roleHelper();
-        // $get_spv = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) use ($roleHelper) {
-        //         // return $user->roles->where('name', $roleHelper::roles[2]);
-        //         return $user->getRoleNames()[0] == $roleHelper::roles[2];
-        //     })
-        //     ->map(function ($spv) {
-        //         return [
-        //             'id' => $spv->id,
-        //             'text' => $spv->first_name . ' ' . $spv->last_name,
-        //         ];
-        //     });
-        // // dd($get_spv);
-        // return response()->json(['results' => $get_spv->values()]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2];
         });
@@ -66,41 +49,12 @@ class PermitToWorkServices implements PermitToWorkInterface
     }
     function getApprovePC(Request $request)
     {
-        // $param = $request->q;
-        // $roleHelper = $this->roleHelper();
-        // $get_approve_pc = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) use ($roleHelper) {
-        //         return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry';
-        //     })
-        //     ->map(function ($pc) {
-        //         return [
-        //             'id' => $pc->id,
-        //             'text' => $pc->first_name . ' ' . $pc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_approve_pc]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry';
         });
     }
     function getApproveProc(Request $request)
     {
-        // $param = $request->q;
-        // $get_approve_proc = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_approve_proc]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'site_gas_test';
         });
@@ -109,20 +63,6 @@ class PermitToWorkServices implements PermitToWorkInterface
     // approval 2
     function getIssueAA(Request $request)
     {
-        // $param = $request->q;
-        // $get_issue_aa = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_issue_aa]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'issue';
         });
@@ -130,20 +70,6 @@ class PermitToWorkServices implements PermitToWorkInterface
 
     function getAcceptancePA(Request $request)
     {
-        // $param = $request->q;
-        // $get_acceptance_pa = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_acceptance_pa]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'acceptance';
         });
@@ -152,40 +78,12 @@ class PermitToWorkServices implements PermitToWorkInterface
     // Approval 3
     function getClosedOutPA(Request $request)
     {
-        // $param = $request->q;
-        // $get_closed_out_pa = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_closed_out_pa]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_pa';
         });
     }
     function getClosedOutAA(Request $request)
     {
-        // $param = $request->q;
-        // $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_closed_out_aa]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_aa';
         });
@@ -193,20 +91,6 @@ class PermitToWorkServices implements PermitToWorkInterface
     // Approval 4
     function getRegisWorkPA(Request $request)
     {
-        // $param = $request->q;
-        // $get_closed_out_aa = User::where('first_name', 'like', "%$param%")
-        //     ->orWhere('last_name', 'like', "%$param%")
-        //     ->get()
-        //     ->filter(function ($user) {
-        //         return $user->roles->where('name', 'supervisor');
-        //     })
-        //     ->map(function ($proc) {
-        //         return [
-        //             'id' => $proc->id,
-        //             'text' => $proc->first_name . ' ' . $proc->last_name,
-        //         ];
-        //     });
-        // return response()->json(['results' => $get_closed_out_aa]);
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
             return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'registry_of_work_completion';
         });
@@ -219,8 +103,6 @@ class PermitToWorkServices implements PermitToWorkInterface
             ->orWhere('last_name', 'like', "%$param%")
             ->get()
             ->filter(function ($user) use ($roleHelper, $filter) {
-                // return $user->roles->where('name', $roleHelper::roles[2]);
-                // return $user->getRoleNames()[0] == $roleHelper::roles[2];
                 return $filter($user, $roleHelper);
             })
             ->map(function ($apv) {
@@ -285,7 +167,6 @@ class PermitToWorkServices implements PermitToWorkInterface
     {
         return json_decode(Storage::disk('permit_to_work')->get('AppFour' . '-' . '1' . '-' . 'John Doe' . '.json'));
     }
-
     function getTotalPermits()
     {
         return PermitToWork::get()->count() + 1;
@@ -299,25 +180,21 @@ class PermitToWorkServices implements PermitToWorkInterface
         $direct_spv = User::where('id', $id)->first();
         return $direct_spv;
     }
-
     function findDataApproveSC($id)
     {
-        $approver_name_sc = User::where('id', $id)->first();
-        return $approver_name_sc;
+        $approver_authorisation = User::where('id', $id)->first();
+        return $approver_authorisation;
     }
-
     function findDataApprovePC($id)
     {
-        $approver_name_pc = User::where('id', $id)->first();
-        return $approver_name_pc;
+        $approver_permit_registry = User::where('id', $id)->first();
+        return $approver_permit_registry;
     }
-
     function findDataApproveProc($id)
     {
-        $approver_name_procedures = User::where('id', $id)->first();
-        return $approver_name_procedures;
+        $approver_procedures = User::where('id', $id)->first();
+        return $approver_procedures;
     }
-
     function findDataIssueAA($id)
     {
         $issue_aa = User::where('id', $id)->first();
@@ -334,7 +211,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         $closed_out_pa = User::where('id', $id)->first();
         return $closed_out_pa;
     }
-    function findDataCloseOutAA($id)
+    function findDataClosedOutAA($id)
     {
         $closed_out_aa = User::where('id', $id)->first();
         return $closed_out_aa;
@@ -361,98 +238,123 @@ class PermitToWorkServices implements PermitToWorkInterface
         $validatedData = $request->validated();
         $validatedData['status'] = 4;
         PermitToWork::create($validatedData);
-        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
-        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
         return response()->json($validatedData, 202);
     }
     function storeShowHeader(HeaderColdWorkRequest $request)
     {
-        $validatedData = $request->validated();
-        $validatedData['status'] = 4;
-        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
-        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
-        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
-        // return response()->json($validatedData, 202);
-        return response()->json([], 202);
+        return $this->storeOrUpdatePermitToWork($request);
     }
-
     function storeHeaderCrc(HeaderColdWorkRequestCrc $request)
     {
-        $validatedData = $request->validated();
-        $validatedData['status'] = 4;
-        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
-        return response()->json([], 202);
+        return $this->storeOrUpdatePermitToWork($request);
     }
     function storeHeaderTRA(HeaderColdWorkRequestTRA $request)
     {
-        $validatedData = $request->validated();
-        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
-        // $fileName = $validatedData['work_order'] . '-' . date_format(now(), 'Y-m-d') . '-' . $validatedData['date_application'] . '-' . Auth::id() . '-' . Auth::user()->full_name . '.json';
-        // Storage::disk('permit_to_work')->put($fileName, json_encode($validatedData));
-        // return response()->json($validatedData, 202);
-        return response()->json([], 202);
+        return $this->storeOrUpdatePermitToWork($request);
     }
     function storeHeaderAppOne(HeaderColdWorkRequestAppOne $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        // dd($request->validated());
-        $appOne = 'AppOne';
-        $file_name = $appOne . '-' . '1' . '-' . 'John Doe' . '.json';
-
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
-        return response()->json($validatedData, 202);
+        $prepareForStore = null;
+        return $this->storeOrUpdatePermitToWork($request, function ($validatedData) {
+            $prepareForStore = [
+                'authorisation' => [
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_authorisation'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'permit_registry' => [
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_permit_registry'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'site_gas_test' => [
+                    'flammable' => $validatedData['flammable'],
+                    'h2s' => $validatedData['h2s'],
+                    'oxygen' => $validatedData['oxygen'],
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_site_gas_test'],
+                    ...$this->prepareForStoreArray(),
+                ],
+            ];
+            PermitToWork::updateOrCreate(['id' => $validatedData['id']], $prepareForStore);
+            return response()->json([], 202);
+        });
     }
-
     function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
-        $validated = $request->validated();
-        // return $request->fails();
-        // $file_name = $request->validated()['date_application'] . '-' . Auth::id() ?? '1' . '-' . Auth::name() ?? 'John Doe' . '.json';
-        // dd($request->validated());
-        $appTwo = 'AppTwo';
-        $file_name = $appTwo . '-' . '1' . '-' . 'John Doe' . '.json';
-
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
-        return response()->json($validatedData, 202);
+        $prepareForStore = null;
+        return $this->storeOrUpdatePermitToWork($request, function ($validatedData) {
+            $prepareForStore = [
+                'issue' => [
+                    'approver' => $validatedData['issue'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'acceptance' => [
+                    'approver' => $validatedData['acceptance'],
+                    ...$this->prepareForStoreArray(),
+                ],
+            ];
+            PermitToWork::updateOrCreate(['id' => $validatedData['id']], $prepareForStore);
+            return response()->json([], 202);
+        });
     }
-
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
-        $AppThree = 'AppThree';
-        $file_name = $AppThree . '-' . '1' . '-' . 'John Doe' . '.json';
-
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
-        return response()->json($validatedData, 202);
+        $prepareForStore = null;
+        return $this->storeOrUpdatePermitToWork($request, function ($validatedData) {
+            $prepareForStore = [
+                'close_out_pa' => [
+                    'status_work' => $validatedData['work_status_pa'],
+                    'description' => $validatedData['work_description_pa'],
+                    'approver' => $validatedData['closed_out_pa'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'close_out_aa' => [
+                    'status_work' => $validatedData['work_status_aa'],
+                    'approver' => $validatedData['closed_out_aa'],
+                    ...$this->prepareForStoreArray(),
+                ],
+            ];
+            PermitToWork::updateOrCreate(['id' => $validatedData['id']], $prepareForStore);
+            return response()->json([], 202);
+        });
     }
-
     function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request)
     {
         $validatedData = $request->validated();
-        if (!is_array($validatedData)) {
-            // Return error response if validation data is not an array
-            return response()->json(['error' => 'Invalid data format'], 400);
+        $prepareForStore = null;
+        return $this->storeOrUpdatePermitToWork($request, function ($validatedData) {
+            $prepareForStore = [
+                'registry_of_work_completion' => [
+                    'approver' => $validatedData['regis_work_pa'],
+                    ...$this->prepareForStoreArray()
+                ]
+            ];
+            PermitToWork::updateOrCreate(['id' => $validatedData['id']], $prepareForStore);
+            return response()->json([], 202);
+        });
+    }
+    function prepareForStoreArray()
+    {
+        return [
+            'signed' => null,
+            'date' => now(),
+            'status' => 'draft',
+            'comment' => 'draft',
+        ];
+    }
+    function storeOrUpdatePermitToWork(Request $request, $prepareForStoreFunction = null)
+    {
+        $validatedData = $request->validated();
+        $validatedData['status'] = 4;
+        if ($prepareForStoreFunction != null) {
+            return $prepareForStoreFunction($validatedData);
         }
-        $AppFour = 'AppFour';
-        $file_name = $AppFour . '-' . '1' . '-' . 'John Doe' . '.json';
-
-        Storage::disk('permit_to_work')->put($file_name, json_encode($validatedData));
-        return response()->json($validatedData, 202);
+        PermitToWork::updateOrCreate(['id' => $validatedData['id']], $validatedData);
+        return response()->json([], 202);
     }
     function approvalRequest(ApprovalRequest $request)
     {
