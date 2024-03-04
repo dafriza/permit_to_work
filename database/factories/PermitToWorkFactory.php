@@ -171,7 +171,7 @@ class PermitToWorkFactory extends Factory
                     fake()->randomElement([null, 12, 10]),
                     fake()->randomElement([null, 12, 10]),
                 ],
-                'controls_other' => fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']) . ',' . fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']),
+                'control_other' => fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']) . ',' . fake()->randomElement(['Buddy Sistem', 'Pre Check Equipment', 'Team Work']),
                 'additional_ppe' => fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']) . ',' . fake()->randomElement(['Hand Glove', 'Ear Plug', 'Helmet']),
             ],
             'sscr' => [

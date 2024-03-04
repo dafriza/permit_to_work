@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Helper\CRCHelper;
-use App\Helper\RolesAndPermissionsHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use App\Helper\RolesAndPermissionsHelper;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,6 +46,16 @@ class PermitToWork extends Model
             3 => 'REJECTED',
             4 => 'DRAFT',
         ];
+    public const assignment = [
+        'authorisation' => 0,
+        'permit_registry' => 1,
+        'site_gas_test' => 2,
+        'issue' => 3,
+        'acceptance' => 4,
+        'close_out_pa' => 5,
+        'close_out_aa' => 6,
+        'registry_of_work_completion' => 7,
+    ];
     public function request_pa_relation()
     {
         return $this->belongsTo(User::class, 'request_pa', 'id');
@@ -144,6 +155,14 @@ class PermitToWork extends Model
             },
         );
     }
+    function getSignPA(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return base64_encode(Storage::disk('signature_employee')->get($this->sign_pa));
+            },
+        );
+    }
     function getSPVName(): Attribute
     {
         return Attribute::make(
@@ -173,6 +192,7 @@ class PermitToWork extends Model
         return Attribute::make(
             get: function () {
                 return $this->getFullNameUserById($this->site_gas_test->approver);
+                // return implode('', explode('_', $this->site_gas_test->approver));
             },
         );
     }
@@ -284,12 +304,14 @@ class PermitToWork extends Model
     {
         $crcHelper = $this->getInstanceCRCHelper();
         // return $crcHelper::field;
-        $fieldCRC = collect($data)->filter(function($value, $key){
-            return $value != null;
-        })->map(function($value, $key) use ($crcHelper){
-            return ucfirst(str_replace('_', ' ', $crcHelper::field[$key])).'('.$value.')';
-        });
-        return implode(', ',$fieldCRC->toArray());
+        $fieldCRC = collect($data)
+            ->filter(function ($value, $key) {
+                return $value != null;
+            })
+            ->map(function ($value, $key) use ($crcHelper) {
+                return ucfirst(str_replace('_', ' ', $crcHelper::field[$key])) . '(' . $value . ')';
+            });
+        return implode(', ', $fieldCRC->toArray());
         // return $data;
     }
 }

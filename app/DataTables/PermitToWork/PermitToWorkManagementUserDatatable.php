@@ -13,16 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class PermitToWorkManagementUserDatatable extends DataTable
 {
-    private const assignment = [
-        'authorisation' => 0,
-        'permit_registry' => 1,
-        'site_gas_test' => 2,
-        'issue' => 3,
-        'acceptance' => 4,
-        'close_out_pa' => 5,
-        'close_out_aa' => 6,
-        'registry_of_work_completion' => 7,
-    ];
+    private const assignment = PermitToWork::assignment;
     public function dataTable($query)
     {
         return datatables()
@@ -49,7 +40,14 @@ class PermitToWorkManagementUserDatatable extends DataTable
         $assignment = $this->getUserAssignment();
         $res = $model
             ->newQuery()
-            ->select(['permit_to_works.id as PTW ID', 'work_order as PROJECT', DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'), 'permit_to_works.created_at as START DATE', DB::raw('case when json_value(permit_to_works.' . $assignment . ',"$.status") = "success" THEN "' . $actionAssignment . '" ELSE "' . ucfirst(str_replace('_', ' ', $assignment)) . '" END AS "NEXT ACTION"')])
+            ->select(['permit_to_works.id as PTW ID',
+            'work_order as PROJECT',
+            DB::raw('concat(pa.first_name,\' \',pa.last_name) as "PA NAME"'),
+            'permit_to_works.created_at as START DATE',
+            DB::raw(
+                'case when json_value(permit_to_works.' . $assignment . ',"$.status") = "success"
+                THEN "' . $actionAssignment .
+                '" ELSE "' . ucfirst(str_replace('_', ' ', $assignment)) . '" END AS "NEXT ACTION"')])
             ->join('users', 'users.id', '=', 'permit_to_works.' . $assignment . '->approver')
             ->leftJoin('users as pa', 'request_pa', '=', 'pa.id')
             ->where('users.id', Auth::id());

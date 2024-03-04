@@ -61,10 +61,10 @@
                             Work Order No :
                         </td>
                         <td style="width:10%">
-                            12
+                            {{ $ptw->number }}
                             {{-- <input type="text" style="width: 50%" value="asadaasdasds"> --}}
                             <br><br>
-                            12a
+                            {{ $ptw->work_order }}
                             {{-- <input type="text" style="width: 50%" value="asdsa"> --}}
                         </td>
                     </tr>
@@ -80,9 +80,12 @@
             <td>
                 <table style="background-color: white;color:black; width:100%; border-collapse: collapse;">
                     <tr>
-                        <td class="bdr-bot" style="padding: 0.5rem;width:35%">Date Application : </td>
-                        <td class="bdr-bot" style="padding: 0.5rem">Requested by PA : </td>
-                        <td class="bdr-bot" style="padding: 0.5rem">Signed : </td>
+                        <td class="bdr-bot" style="padding: 0.5rem;width:35%">Date Application :
+                            {{ $ptw->date_application }} </td>
+                        <td class="bdr-bot" style="padding: 0.5rem">Requested by PA : {{ $ptw->get_pa_name }} </td>
+                        <td class="bdr-bot" style="padding: 0.5rem; width:.1rem; bottom:0">Signed : <img
+                                src="data:image/png;base64, {{ $ptw->get_sign_pa }}" alt="sign_pa">
+                        </td>
                     </tr>
                     <tr>
                         <td class="bdr-bot"></td>

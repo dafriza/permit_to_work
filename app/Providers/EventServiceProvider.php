@@ -4,9 +4,18 @@ namespace App\Providers;
 
 use App\Events\PermitToWorkEvent;
 use Illuminate\Support\Facades\Event;
+use App\Events\SendApproverAssignment;
+use App\Events\SendApproverPTWRequest;
 use Illuminate\Auth\Events\Registered;
-use App\Listeners\SendPermitToWorkToEmployeeNotification;
+use App\Events\SendEmployeePTWDoneEvent;
+use App\Events\SendApproverFirstAssignment;
+use App\Listeners\SendEmployeePTWDoneNotification;
+use App\Notifications\EmployeePTWDoneNotification;
+use App\Listeners\SendPermitToWorkToApproverNotification;
+use App\Listeners\SendPermitToWorkFirstApproverNotification;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Listeners\SendPermitToWorkApproverAssignmentNotification;
+use App\Notifications\PermitToWorkApproverAssignmentNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -20,8 +29,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        PermitToWorkEvent::class => [
-            SendPermitToWorkToEmployeeNotification::class,
+        SendApproverAssignment::class => [
+            SendPermitToWorkApproverAssignmentNotification::class,
+        ],
+        SendApproverFirstAssignment::class => [
+            SendPermitToWorkFirstApproverNotification::class
+        ],
+        SendApproverPTWRequest::class => [
+            SendPermitToWorkToApproverNotification::class
+        ],
+        SendEmployeePTWDoneEvent::class => [
+            // EmployeePTWDoneNotification::class
+            SendEmployeePTWDoneNotification::class
         ],
     ];
 

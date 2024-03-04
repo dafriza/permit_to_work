@@ -32,7 +32,7 @@
                             @endphp
                             @foreach (auth()->user()->unreadNotifications as $notif)
                                 <li
-                                    class="list-group-item list-group-item-action dropdown-notifications-item notifications">
+                                    class="list-group-item list-group-item-action dropdown-notifications-item notifications" data-link="{{$notif->data['link']}}">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0 me-3">
                                             <div class="avatar">
@@ -133,6 +133,14 @@
 @push('scripts')
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script>
+        $('.notifications').on('click',function(){
+            // let getUUID = ($(".dropdown-notifications-archive").data('uuid'));
+            // postWithAjax("{!! route('dashboard.read_notification', '') !!}" + "/" + getUUID, "{{ csrf_token() }}")
+            // $(this).parent().parent().parent().remove();
+            // getCountNotification();
+            // console.log($(this).data('link'));
+            window.location.replace($(this).data('link'));
+        });
         let notifArchive = $(".dropdown-notifications-archive").on('click', function() {
             // console.log($(this).parent().parent().parent());
             // console.log($(this).data('uuid'));

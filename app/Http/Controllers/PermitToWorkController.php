@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
 use App\Models\User;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
@@ -14,12 +9,20 @@ use App\Models\ToolsEquipment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\PermitToWork\RejectRequest;
+use App\Http\Requests\PermitToWork\SignedRequest;
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 use App\Services\PermitToWork\PermitToWorkInterface;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
-use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
-use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
-use App\Http\Requests\PermitToWork\ApprovalRequest;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestPTW;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestTRA;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
+use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
+use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
 
 class PermitToWorkController extends Controller
 {
@@ -34,7 +37,17 @@ class PermitToWorkController extends Controller
     }
     function show($id)
     {
-        return view('content.permit_to_work.show', compact('id'));
+        $detail = PermitToWork::find($id);
+        $if_complete = $detail['status'] == 2 ? true : false;
+        // dd($if_complete);
+        return view('content.permit_to_work.show', compact('id', 'if_complete'));
+    }
+    function detail($id)
+    {
+        $detail_request = PermitToWork::find($id);
+        $if_success = '';
+        $ifSigned = false;
+        return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success', 'ifSigned'));
     }
     function indexManagement(PermitToWorkManagementDataTable $dataTable)
     {
@@ -57,9 +70,10 @@ class PermitToWorkController extends Controller
     {
         $detail_request = PermitToWork::find($id);
         $assignment = $this->getAssignment();
-        $if_success = $detail_request->{$assignment}->status;
-        // dd($detail_request->sscr);
-        return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success'));
+        $approverSigned = $detail_request->direct_spv == Auth::id();
+        $if_success = $detail_request->{$assignment}->status ?? 'draft';
+        $ifSigned = $detail_request->sign_spv == null && $approverSigned ? true : false;
+        return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success', 'ifSigned'));
     }
     function tra()
     {
@@ -226,22 +240,33 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->storeHeaderAppThree($request);
     }
-
     function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request)
     {
         return $this->permit_to_work->storeHeaderAppFour($request);
+    }
+    function storePTWRequest(HeaderColdWorkRequestPTW $request)
+    {
+        return $this->permit_to_work->storePTWRequest($request);
     }
     function approvalRequest(ApprovalRequest $request)
     {
         return $this->permit_to_work->approvalRequest($request);
     }
+    function rejectRequest(RejectRequest $request)
+    {
+        return $this->permit_to_work->rejectRequest($request);
+    }
+    function signedRequest(SignedRequest $request)
+    {
+        return $this->permit_to_work->signedRequest($request);
+    }
     function deletePermitToWork($id)
     {
         return $this->permit_to_work->deletePermitToWork($id);
     }
-    function printPermitToWork()
+    function printPermitToWork($id)
     {
-        return $this->permit_to_work->printPermitToWork();
+        return $this->permit_to_work->printPermitToWork($id);
     }
     function detailPrintPermitToWork()
     {

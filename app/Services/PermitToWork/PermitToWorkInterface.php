@@ -2,15 +2,18 @@
 
 namespace App\Services\PermitToWork;
 
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
-use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
-use App\Http\Requests\PermitToWork\ApprovalRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\PermitToWork\RejectRequest;
+use App\Http\Requests\PermitToWork\SignedRequest;
+use App\Http\Requests\PermitToWork\ApprovalRequest;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequest;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestCrc;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestPTW;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestTRA;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppOne;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppTwo;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
+use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 
 interface PermitToWorkInterface
 {
@@ -34,6 +37,7 @@ interface PermitToWorkInterface
     function storeHeaderAppTwo(HeaderColdWorkRequestAppTwo $request);
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request);
     function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request);
+    function storePTWRequest(HeaderColdWorkRequestPTW $request);
     function getHeaderColdWork($id);
     function getHeaderColdWorkCrc();
     function getHeaderColdWorkAppOne();
@@ -60,8 +64,10 @@ interface PermitToWorkInterface
     function storeHeader(HeaderColdWorkRequest $request);
     function storeShowHeader(HeaderColdWorkRequest $request);
     function approvalRequest(ApprovalRequest $request);
+    function rejectRequest(RejectRequest $request);
+    function signedRequest(SignedRequest $request);
     // function rejectRequest(Request $request);
-    function printPermitToWork();
+    function printPermitToWork($id);
     function deletePermitToWork($id);
     function detailPrintPermitToWork();
 }

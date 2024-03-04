@@ -13,11 +13,7 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $id }}">
                 <input type="hidden" name="cross_referenced_certificates">
-                <div class="d-flex flex-row-reverse bd-highlight">
-                    <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button>
-                        <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                    </div>
-                </div>
+                @include('content.permit_to_work.component.__submit_and_save')
         </div>
         <div class="card-body">
             <div class="row">
@@ -46,7 +42,7 @@
                 </div>
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()" type="button">Previous</button>
                     <button id="next-3" class="btn btn-primary" type="button"
                         onclick="stepper1.next()">Next</button>
                 </div>

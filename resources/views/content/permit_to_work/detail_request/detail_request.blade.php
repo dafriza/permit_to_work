@@ -15,15 +15,17 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="text-center">PERMIT TO WORK <br> DETAIL</h4>
-                        {{-- <br>
+                        <br>
                         <div class="row justify-content-end">
                             <div class="col-auto">
-                                <button class="btn btn-secondary">Print</button>
+                                <a href="{{ route('permit_to_work.print_permit_to_work', ['id' => $detail_request->id]) }}"
+                                    class="btn btn-secondary" target="_blank">Print</a>
+                                {{-- <img src="data:image/png;base64, {{ $detail_request->get_sign_pa }}" alt="sign_pa">;; --}}
                             </div>
-                            <div class="col-auto">
+                            {{-- <div class="col-auto">
                                 <button class="btn btn-primary">Download</button>
-                            </div>
-                        </div> --}}
+                            </div> --}}
+                        </div>
                         {{-- task description --}}
                         @include('content.permit_to_work.detail_request.__task_description')
                         {{-- tra --}}
@@ -33,10 +35,15 @@
                         {{-- circulation --}}
                         @include('content.permit_to_work.detail_request.__circulation')
                     </div>
-                    <div class="row justify-content-end mb-3" style="margin-right:1rem !important">
-                        @include('content.permit_to_work.detail_request.__approve_request')
-                        @include('content.permit_to_work.detail_request.__reject_request')
-                    </div>
+                    @role('approver')
+                        <div class="row justify-content-end mb-3" style="margin-right:1rem !important">
+                            @if ($ifSigned)
+                                @include('content.permit_to_work.detail_request.__signed_request')
+                            @endif
+                            @include('content.permit_to_work.detail_request.__approve_request')
+                            @include('content.permit_to_work.detail_request.__reject_request')
+                        </div>
+                    @endrole
                 </div>
             </div>
         </div>

@@ -11,10 +11,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $id }}">
-                <div class="mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-secondary me-2">Save</button>
-                    <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                </div>
+                @include('content.permit_to_work.component.__submit_and_save')
         </div>
         <div class="card-body">
             <div class="row">
@@ -36,7 +33,7 @@
                 </div>
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()" type="button">Previous</button>
                     <button id="next-5" class="btn btn-primary" type="button"
                         onclick="stepper1.next()">Next</button>
                 </div>

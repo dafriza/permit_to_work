@@ -5,7 +5,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-md-12 mt-5">
-                <h2>Linear stepper</h2>
+                <h2>Cold Permit To Work</h2>
                 <div id="stepper1" class="bs-stepper">
                     <div class="bs-stepper-header">
                         <div class="step" data-target="#test-l-1">
@@ -86,7 +86,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 @push('scripts')
@@ -111,75 +110,4 @@
         var stepper4 = new Stepper(document.querySelector('#stepper4'))
     </script>
     @include('content.permit_to_work.__get_data_permit_to_work')
-    <script>
-        // Function to add a new input
-        function addInputFieldHazard() {
-            var newDiv = $('<div/>', {
-                'class': 'input-group mb-3'
-            });
-            var newInput = $('<input/>', {
-                'class': 'form-control',
-                'type': 'text',
-                'name': 'Hazards[]',
-                'placeholder': 'Air Laut Pasang'
-            });
-
-            var removeBtn = $('<button/>', {
-                'class': 'btn btn-danger',
-                'type': 'button'
-            }).text('-').on('click', function() {
-                $(this).parent().remove();
-            });
-
-            newDiv.append(newInput).append(removeBtn);
-
-            $('#dynamicInputContainer').append(newDiv);
-        };
-
-        function addInputFieldControlOther() {
-            var newDiv = $('<div/>', {
-                'class': 'input-group mb-3'
-            });
-            var newInput = $('<input/>', {
-                'class': 'form-control',
-                'type': 'text',
-                'name': 'ControlOther[]',
-                'placeholder': 'Value'
-            });
-
-            var removeBtn = $('<button/>', {
-                'class': 'btn btn-danger',
-                'type': 'button'
-            }).text('-').on('click', function() {
-                $(this).parent().remove();
-            });
-
-            newDiv.append(newInput).append(removeBtn);
-
-            $('#dynamicInputContainerControlOther').append(newDiv);
-        }
-
-        function addInputFieldAdditionalPPE() {
-            var newDiv = $('<div/>', {
-                'class': 'input-group mb-3'
-            });
-            var newInput = $('<input/>', {
-                'class': 'form-control',
-                'type': 'text',
-                'name': 'AdditionalPPE[]',
-                'placeholder': 'PPE'
-            });
-
-            var removeBtn = $('<button/>', {
-                'class': 'btn btn-danger',
-                'type': 'button'
-            }).text('-').on('click', function() {
-                $(this).parent().remove();
-            });
-
-            newDiv.append(newInput).append(removeBtn);
-
-            $('#dynamicInputContainerAdditionalPPE').append(newDiv);
-        }
-    </script>
 @endpush

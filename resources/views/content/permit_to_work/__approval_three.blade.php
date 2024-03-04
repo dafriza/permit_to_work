@@ -11,10 +11,7 @@
                 action="{{ route('permit_to_work.store_header_app_three') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $id }}">
-                <div class="mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-secondary me-2">Save</button>
-                    <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                </div>
+                @include('content.permit_to_work.component.__submit_and_save')
         </div>
         <div class="card-body">
             <div class="row">
@@ -23,11 +20,11 @@
                 <div class="row mb-3">
                     <div class="col-auto">
                         <div class="btn-group" role="group" aria-label="work status pa toggle button group">
-                            <input type="radio" class="btn-check work_status_pa" id="complete_pa" name="work_status_pa"
-                                value="complete" autocomplete="off">
+                            <input type="radio" class="btn-check work_status_pa" id="complete_pa"
+                                name="work_status_pa" value="complete" autocomplete="off">
                             <label class="btn btn-outline-primary" for="complete_pa">Complete Work</label>
-                            <input type="radio" class="btn-check work_status_pa" id="incomplete_pa" name="work_status_pa"
-                                value="incomplete" autocomplete="off">
+                            <input type="radio" class="btn-check work_status_pa" id="incomplete_pa"
+                                name="work_status_pa" value="incomplete" autocomplete="off">
                             <label class="btn btn-outline-primary" for="incomplete_pa">Incomplete Work</label>
                         </div>
                     </div>
@@ -46,11 +43,11 @@
                 <div class="row mb-3">
                     <div class="col-auto">
                         <div class="btn-group" role="group" aria-label="work status aa toggle button group">
-                            <input type="radio" class="btn-check work_status_aa" id="complete_aa" name="work_status_aa"
-                                value="complete" autocomplete="off">
+                            <input type="radio" class="btn-check work_status_aa" id="complete_aa"
+                                name="work_status_aa" value="complete" autocomplete="off">
                             <label class="btn btn-outline-primary" for="complete_aa">Complete Work</label>
-                            <input type="radio" class="btn-check work_status_aa" id="incomplete_aa" name="work_status_aa"
-                                value="incomplete" autocomplete="off">
+                            <input type="radio" class="btn-check work_status_aa" id="incomplete_aa"
+                                name="work_status_aa" value="incomplete" autocomplete="off">
                             <label class="btn btn-outline-primary" for="incomplete_aa">Incomplete Work</label>
                         </div>
                     </div>
@@ -62,7 +59,7 @@
                 </div>
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()" type="button">Previous</button>
                     <button id="next-6" class="btn btn-primary" type="button"
                         onclick="stepper1.next()">Next</button>
                 </div>

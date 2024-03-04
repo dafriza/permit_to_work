@@ -27,7 +27,7 @@ class SignServices
             // tanggal sekarang - work order - tanggal propose - id - nama lengkap.png
             $file = $work_order . '-' . date_format(now(), 'd-m-Y') . '-' . $date_application . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
             if ($idPTW != null) {
-                $file = $idPTW . '-' . $work_order . '-' . date_format(now(), 'd-m-Y') . '-' . $date_application . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
+                $file = $idPTW . '-' . $work_order . '-' . date_format(now(), 'd-m-Y') . '-' . date_format(date_create($date_application), 'd-m-Y') . '-' . Auth::id() . '-' . Auth::user()->full_name . '.' . $image_type;
             }
             // Storage::disk('signature')->put($file, $image_base64);
             Storage::disk($storage)->put($file, $image_base64);

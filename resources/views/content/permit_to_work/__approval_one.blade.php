@@ -12,10 +12,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $id }}">
-                <div class="mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-secondary me-2">Save</button>
-                    <button id="submit_permit_to_work" class="btn btn-primary me-2 disabled">Submit</button>
-                </div>
+                @include('content.permit_to_work.component.__submit_and_save')
         </div>
         <div class="card-body">
             <div class="row">
@@ -37,8 +34,9 @@
                 <h3 class="form-header mt-5">Permit Registry PC</h3>
                 <div class="mb-3 col-md-12">
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                    <select id="approver_permit_registry" class="form-select permit_to_work" name="approver_permit_registry"
-                        aria-label="approver_permit_registry" data-placeholder="Select Approver Name">
+                    <select id="approver_permit_registry" class="form-select permit_to_work"
+                        name="approver_permit_registry" aria-label="approver_permit_registry"
+                        data-placeholder="Select Approver Name">
                     </select>
                 </div>
 
@@ -46,9 +44,8 @@
                 <h3 class="form-header mt-5">Site Gas Test (Where aplicable) AGT</h3>
                 <div class="mb-3 col-md-12">
                     {{-- <input type="text" class="form-control" id="directspv" name="directspv" /> --}}
-                    <select id="approver_site_gas_test" class="form-select permit_to_work"
-                        name="approver_site_gas_test" aria-label="approver_site_gas_test"
-                        data-placeholder="Select Approver Name">
+                    <select id="approver_site_gas_test" class="form-select permit_to_work" name="approver_site_gas_test"
+                        aria-label="approver_site_gas_test" data-placeholder="Select Approver Name">
                     </select>
                 </div>
 
@@ -84,7 +81,7 @@
 
                 </form>
                 <div class="mt-2 d-flex justify-content-end">
-                    <button class="btn btn-primary me-2" onclick="stepper1.previous()">Previous</button>
+                    <button class="btn btn-primary me-2" onclick="stepper1.previous()" type="button">Previous</button>
                     <button id="next-4" class="btn btn-primary" type="button"
                         onclick="stepper1.next()">Next</button>
                 </div>

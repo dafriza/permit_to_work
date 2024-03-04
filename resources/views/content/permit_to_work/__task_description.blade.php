@@ -22,9 +22,15 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $id }}">
                 <div class="d-flex flex-row-reverse bd-highlight">
-                    <div class="p-2 bd-highlight"><button class="btn btn-primary" type="button"
-                            disabled>Submit</button></div>
-                    <div class="p-2 bd-highlight"><button class="btn btn-secondary" type="submit">Save</button></div>
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-secondary" type="submit"
+                            @if ($if_complete) disabled @endif>Save</button>
+                        @if (!$if_complete)
+                            <a id="submit_ptw" style="color: white; text-decoration: none"
+                                class="btn btn-primary me-2 submit_final disabled" data-bs-toggle="modal"
+                                data-bs-target="#submit_permit_to_work_final">Submit</a>
+                        @endif
+                    </div>
                 </div>
         </div>
         <div class="card-body">
@@ -139,6 +145,14 @@
         <!-- /Account -->
     </div>
 </div>
+<x-modal-bootstrap-form :id="'submit_permit_to_work_final'" :title="'Submit PTW Request'" :formId="'ptw_request_form'" :formMethod="'POST'" :formAction="route('permit_to_work.store_ptw_request')">
+    <input type="hidden" name="id" value="{{ $id }}">
+    <x-slot:buttonSubmit>
+        <x-button-default type="success">
+            Submit
+        </x-button-default>
+    </x-slot>
+</x-modal-bootstrap-form>
 @push('scripts')
     <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.signature.min.js') }}"></script>
@@ -154,6 +168,15 @@
             setTimeout(() => {
                 location.reload();
             }, 1500);
+        })
+        submitWithAjax("ptw_request_form", function() {
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+            let submit_ptw = $("#submit_permit_to_work_final");
+            submit_ptw.toggle()
+            $(document.body).removeClass("modal-open");
+            $(".modal-backdrop").remove();
         })
         dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
         dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');

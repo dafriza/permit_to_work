@@ -57,24 +57,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $permissions = $this->get_all_permissions;
         $employees = User::role($roles[1])->get();
         $approvers = User::role($roles[2])->get();
-        $this->userGivePermissionsTo($employees, [
-            $permissions['permit_to_work_cold'],
-            $permissions['permit_to_work_hot'],
-            $permissions['entry_permit_request'],
-            $permissions['user_profile'],
-            // $permissions['request_delete_account'],
-            $permissions['dashboard_user'],
-        ]);
-        $this->userGivePermissionsTo($approvers, [
-            // $permissions['permit_to_work_cold'],
-            $permissions['demand_work_request'],
-            $permissions['demand_entry_permit'],
-            $permissions['entry_permit_request'],
-            $permissions['user_profile'],
-            $permissions['permit_to_work_management'],
-            // $permissions['request_delete_account'],
-            $permissions['dashboard_user'],
-        ]);
+        $this->employeeRolesBind($roles, $permissions);
+        $this->spvRolesBind($roles, $permissions);
         $this->superadminRolesBind($roles, $permissions);
     }
     function userGivePermissionsTo($users, $permissions)
@@ -89,7 +73,7 @@ class RolesAndPermissionsSeeder extends Seeder
             $permissions['permit_to_work_cold'],
             $permissions['permit_to_work_hot'],
             $permissions['entry_permit_request'],
-            // $permissions['demand_work_request'],
+            $permissions['permit_to_work_management'],
             // $permissions['demand_entry_permit'],
             $permissions['user_profile'],
             // $permissions['request_delete_account'],

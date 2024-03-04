@@ -10,7 +10,7 @@
             </tr>
             <tr>
                 <td>Designation : </td>
-                <td>{{ ucfirst(Auth::user()->role_assignment) }}</td>
+                <td>{{ $detail_request->authorisation->designation }}</td>
             </tr>
             <tr>
                 <td>Permit Registry PC : </td>

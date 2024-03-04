@@ -1,8 +1,10 @@
 <script>
+    let countSubmit = 0;
     getDataWithAjax("{!! route('permit_to_work.get_data_header_cold_work', '') !!}" + "/" + "{{ $id }}").done(function(data) {
-        // console.log(data);
+        console.log(data);
         // 1 PTW
         if (data.date_application != null) {
+            countSubmit++;
             $(".number").val(data.number);
             $(".work_order").val(data.work_order);
             $("#equipment_id").val(data.equipment_id.split('/')[0]);
@@ -66,7 +68,8 @@
         }
         // 2 PTW
         if (data.tra_level != null) {
-            console.log(data);
+            countSubmit++
+            // console.log(data);
             checkboxChecked($('.tra_level'), 3, data.tra_level);
             $("#reference_number").val(data.reference_no);
             checkboxCheckedMulti($('.hazard'), 4, data.hazard.hazard);
@@ -83,7 +86,8 @@
             $("#next-2").attr('disabled', 'disabled');
         }
         // 3 PTW
-        if (data.cross_referenced_certificates.permit_description != '') {
+        if (data.cross_referenced_certificates != null) {
+            countSubmit++;
             $("#permitDesc").val(data.cross_referenced_certificates.permit_description);
             $("#isolationDesc").val(data.cross_referenced_certificates.isolation_description);
             $("#procedureDesc").val(data.cross_referenced_certificates.procedure_description);
@@ -92,6 +96,7 @@
         }
         // 4 PTW
         if (data.authorisation != null) {
+            countSubmit++;
             $("#designation").val(data.authorisation.designation);
             $("#flammable").val(data.site_gas_test.flammable);
             $("#h2s").val(data.site_gas_test.h2s);
@@ -119,10 +124,11 @@
                 $('#approver_site_gas_test').append(approve_proc_option).trigger('change');
             });
         } else {
-            // $("#next-4").attr('disabled', 'disabled');
+            $("#next-4").attr('disabled', 'disabled');
         }
         // 5 PTW
-        if (data.issue != '') {
+        if (data.issue != null) {
+            countSubmit++;
             $("#issue").val(data.issue.approver);
             $("#acceptance").val(data.acceptance.approver);
             // app[]roval sc,pc,procedure
@@ -142,12 +148,12 @@
             $("#next-5").attr('disabled', 'disabled');
         }
         // 6 PTW
-        if (data.close_out_pa != '') {
+        if (data.close_out_pa != null) {
+            countSubmit++;
             $("#closed_out_pa").val(data.close_out_pa.approver);
             $("#closed_out_aa").val(data.close_out_aa.approver);
             $.each($('.work_status_pa'), function(key, value) {
                 if (value.attributes[4].nodeValue == data.close_out_pa.status_work) {
-                    console.log();
                     value.checked = true;
                 }
             });
@@ -173,17 +179,22 @@
             $("#next-6").attr('disabled', 'disabled');
         }
         // 7 PTW
-        if (data.regis_work_pa != '') {
-            $("#regis_work_pa").val(data.regis_work_pa.approver);
+        if (data.registry_of_work_completion != null) {
+            countSubmit++;
+            $("#regis_work_pa").val(data.registry_of_work_completion.approver);
             // approval 3
             getDataWithAjax(
-                "{!! route('permit_to_work.find_data_regis_work_pa', '') !!}" + "/" + data.regis_work_pa.approver).done(function(data) {
+                "{!! route('permit_to_work.find_data_regis_work_pa', '') !!}" + "/" + data.registry_of_work_completion.approver).done(function(data) {
                 let regis_work_pa_option = new Option(data.first_name + " " + data.last_name, data.id,
                     true, true);
                 $('#regis_work_pa').append(regis_work_pa_option).trigger('change');
             });
-        } else {
-            // $("#next-7").attr('disabled','disabled');
+        }
+        if(countSubmit == 7){
+            let submitFinal = $(".submit_final");
+            $.each(submitFinal,function(key, value){
+                value.classList.remove('disabled');
+            })
         }
     });
 </script>

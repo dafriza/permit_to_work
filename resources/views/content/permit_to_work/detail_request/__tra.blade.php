@@ -22,7 +22,8 @@
             </tr>
             <tr>
                 <td>Control Others : </td>
-                <td>{{ $detail_request->controls->controls_other }}</td>
+                {{-- <td>{{ dd($detail_request) }}</td> --}}
+                <td>{{ $detail_request->controls->control_other }}</td>
             </tr>
             <tr>
                 <td>Specific Safety Control Requirements for the job : </td>
