@@ -40,10 +40,11 @@
             ]
         },
         {
-            "icon": "menu-icon tf-icons bx bx-grid",
-            "url": "ptw-management/ptwmanagement",
-            "name": "PTW Management",
-            "slug": "ptwmanagement"
+            "name": "User Management",
+            "icon": "menu-icon tf-icons bx bx-user",
+            "slug": "user_management.index",
+            "url": "user_management",
+            "permission": "read user_management"
         }
     ]
 }

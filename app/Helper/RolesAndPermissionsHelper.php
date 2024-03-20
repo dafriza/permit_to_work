@@ -7,12 +7,12 @@ class RolesAndPermissionsHelper
         'permit_to_work_cold',
         'permit_to_work_hot',
         'entry_permit',
-        'employee_management',
+        'user_management',
         'permit_to_work_management',
-        'choose_reponsibility',
-        'demand_work_request',
-        'demand_entry_permit',
-        'permit_to_work_request',
+        // 'choose_reponsibility',
+        // 'demand_work_request',
+        // 'demand_entry_permit',
+        // 'permit_to_work_request',
         'entry_permit_request',
         'user_profile',
         //   'request_delete_account',
@@ -31,7 +31,12 @@ class RolesAndPermissionsHelper
         }
         return $this->permissions;
     }
-    function getRoleName(int $roleElement) {
+    function getRoleName(int $roleElement)
+    {
         return ucfirst(self::roles[$roleElement]);
+    }
+    function getFullAccessesName(int $accessesElement)
+    {
+        return str()->headline(implode(' ', explode('_', self::accesses[$accessesElement])));
     }
 }

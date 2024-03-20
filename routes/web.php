@@ -58,5 +58,5 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     $controller_path = 'App\Http\Controllers';
     // Ptw Management
     Route::get('/ptw-management/ptwmanagement', $controller_path . '\ptw_management\PtwManagementController@index')->name('ptwmanagement');
-    Route::get('my_ptw_dummy', 'PtwDummyController@index');
+    // Route::get('my_ptw_dummy', 'PtwDummyController@index');
 });

@@ -5,23 +5,20 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/searchPanes.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/datatables_ext.min.css') }}">
 @endpush
-@section('title', ' PTW Management ')
+@section('title', 'Permit To Work Management User')
+@section('titleHead', 'Permit To Work Management User')
 @section('content')
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row">
-            <div class="col-md-12 mt-5">
-                <h2>PTW Management</h2>
-            </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Permit To Work</h5>
-                        {!! $dataTable->table() !!}
-                    </div>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Permit To Work</h5>
+                    {!! $dataTable->table() !!}
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 @push('scripts')

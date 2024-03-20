@@ -13,14 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
-    //protected $fillable = ['name', 'email', 'password'];
-
-    // protected $hidden = ['password', 'remember_token'];
-
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
     protected $guarded = [];
+    public const roleAssignment = ['admin', 'employee', 'authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'];
     public function request_pa()
     {
         return $this->hasMany(PermitToWork::class, 'request_pa', 'id');
@@ -48,5 +42,9 @@ class User extends Authenticatable
     function roleAssignmentName(): Attribute
     {
         return new Attribute(get: fn() => ucfirst(str_replace('_', ' ', $this->role_assignment)));
+    }
+    function getAllRoleAssignment(): Attribute
+    {
+        return new Attribute(get: fn() => self::roleAssignment);
     }
 }

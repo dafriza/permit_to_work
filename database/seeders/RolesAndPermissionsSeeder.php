@@ -22,7 +22,6 @@ class RolesAndPermissionsSeeder extends Seeder
         $this->userBindPermission();
         // $this->roleBindPermissions();
     }
-
     function linkedPermissions()
     {
         $this->get_all_permissions = $this->role_and_permission_helper->linkPermissions();
@@ -36,30 +35,37 @@ class RolesAndPermissionsSeeder extends Seeder
             }
         }
     }
-    // function roleBindPermissions()
-    // {
-    //     $roles = $this->role_and_permission_helper::roles;
-    //     $permissions = $this->get_all_permissions;
-
-    //     // superadmin
-    //     $this->superadminRolesBind($roles, $permissions);
-
-    //     // employee
-    //     $this->employeeRolesBind($roles, $permissions);
-
-    //     // spv
-    //     $this->spvRolesBind($roles, $permissions);
-    // }
-
     function userBindPermission()
     {
         $roles = $this->role_and_permission_helper::roles;
         $permissions = $this->get_all_permissions;
+        // dd($permissions);
+        $admin = User::role($roles[0])->get();
         $employees = User::role($roles[1])->get();
         $approvers = User::role($roles[2])->get();
-        $this->employeeRolesBind($roles, $permissions);
-        $this->spvRolesBind($roles, $permissions);
-        $this->superadminRolesBind($roles, $permissions);
+        // $this->employeeRolesBind($roles, $permissions);
+        $this->userGivePermissionsTo($employees, [
+            $permissions['permit_to_work_cold'],
+            $permissions['permit_to_work_hot'],
+            $permissions['entry_permit_request'],
+            $permissions['user_profile'],
+            $permissions['dashboard_user'],
+        ]);
+        $this->userGivePermissionsTo($approvers, [
+            $permissions['permit_to_work_cold'],
+            $permissions['permit_to_work_hot'],
+            $permissions['entry_permit_request'],
+            $permissions['permit_to_work_management'],
+            $permissions['user_profile'],
+            $permissions['dashboard_user'],
+        ]);
+        $this->userGivePermissionsTo($admin, [
+            $permissions['user_management'],
+            $permissions['permit_to_work_management'],
+            $permissions['dashboard_admin'],
+        ]);
+        // $this->spvRolesBind($roles, $permissions);
+        // $this->superadminRolesBind($roles, $permissions);
     }
     function userGivePermissionsTo($users, $permissions)
     {
@@ -67,46 +73,46 @@ class RolesAndPermissionsSeeder extends Seeder
             $user->givePermissionTo($permissions);
         }
     }
-    function spvRolesBind($roles, $permissions)
-    {
-        $this->roleLinkPermissions($roles[2], [
-            $permissions['permit_to_work_cold'],
-            $permissions['permit_to_work_hot'],
-            $permissions['entry_permit_request'],
-            $permissions['permit_to_work_management'],
-            // $permissions['demand_entry_permit'],
-            $permissions['user_profile'],
-            // $permissions['request_delete_account'],
-            $permissions['dashboard_user'],
-        ]);
-    }
-    function employeeRolesBind($roles, $permissions)
-    {
-        $this->roleLinkPermissions($roles[1], [
-            $permissions['permit_to_work_cold'],
-            $permissions['permit_to_work_hot'],
-            $permissions['entry_permit_request'],
-            $permissions['user_profile'],
-            // $permissions['request_delete_account'],
-            $permissions['dashboard_user'],
-        ]);
-    }
-    function superadminRolesBind($roles, $permissions)
-    {
-        $this->roleLinkPermissions($roles[0], [
-            $permissions['employee_management'],
-            // $permissions['permit_to_work'],
-            // $permissions['entry_permit'],
-            // $permissions['choose_reponsibility'],
-            // $permissions['demand_work_request'],
-            // $permissions['demand_entry_permit'],
-            $permissions['permit_to_work_management'],
-            $permissions['dashboard_admin'],
-        ]);
-    }
-    function roleLinkPermissions($role, $permissions)
-    {
-        // Role::create(['name' => $role])->givePermissionTo($permissions);
-        Role::findByName($role)->givePermissionTo($permissions);
-    }
+    // function spvRolesBind($roles, $permissions)
+    // {
+    //     $this->roleLinkPermissions($roles[2], [
+    //         $permissions['permit_to_work_cold'],
+    //         $permissions['permit_to_work_hot'],
+    //         $permissions['entry_permit_request'],
+    //         $permissions['permit_to_work_management'],
+    //         // $permissions['demand_entry_permit'],
+    //         $permissions['user_profile'],
+    //         // $permissions['request_delete_account'],
+    //         $permissions['dashboard_user'],
+    //     ]);
+    // }
+    // function employeeRolesBind($roles, $permissions)
+    // {
+    //     $this->roleLinkPermissions($roles[1], [
+    //         $permissions['permit_to_work_cold'],
+    //         $permissions['permit_to_work_hot'],
+    //         $permissions['entry_permit_request'],
+    //         $permissions['user_profile'],
+    //         // $permissions['request_delete_account'],
+    //         $permissions['dashboard_user'],
+    //     ]);
+    // }
+    // function superadminRolesBind($roles, $permissions)
+    // {
+    //     $this->roleLinkPermissions($roles[0], [
+    //         $permissions['user_management'],
+    //         // $permissions['permit_to_work'],
+    //         // $permissions['entry_permit'],
+    //         // $permissions['choose_reponsibility'],
+    //         // $permissions['demand_work_request'],
+    //         // $permissions['demand_entry_permit'],
+    //         $permissions['permit_to_work_management'],
+    //         $permissions['dashboard_admin'],
+    //     ]);
+    // }
+    // function roleLinkPermissions($role, $permissions)
+    // {
+    //     // Role::create(['name' => $role])->givePermissionTo($permissions);
+    //     Role::findByName($role)->givePermissionTo($permissions);
+    // }
 }

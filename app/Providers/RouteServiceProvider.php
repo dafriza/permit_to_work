@@ -44,7 +44,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->group([
                     base_path('routes/permit_to_work.php'),
                     base_path('routes/dashboard.php'),
-                    base_path('routes/user_profile.php')
+                    base_path('routes/user_profile.php'),
+                    base_path('routes/user_management.php'),
                 ]);
         });
     }

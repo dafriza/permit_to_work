@@ -22,12 +22,9 @@
 @section('layoutContent')
     <div class="layout-wrapper layout-content-navbar {{ $isMenu ? '' : 'layout-without-menu' }}">
         <div class="layout-container">
-
             @if ($isMenu)
                 @include('layouts/sections/menu/verticalMenu')
             @endif
-
-
             <!-- Layout page -->
             <div class="layout-page">
                 <!-- BEGIN: Navbar-->
@@ -35,12 +32,24 @@
                 <!-- END: Navbar-->
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
-
                     <!-- Content -->
-                    @yield('content')
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            @hasSection('titleHead')
+                                <h4 class="fw-bold py-3 mb-4"><span
+                                        class="text-muted fw-light">{{ str()->headline(request()->path()) }}
+                                    </span> / @yield('titleHead')
+                                </h4>
+                            @endif
+                            @sectionMissing('titleHead')
+                                <h4 class="fw-bold py-3 mb-4">{{ ucwords(implode(' ', explode('_', request()->path()))) }}
+                                </h4>
+                            @endif
+                        </div>
+                        @yield('content')
+                    </div>
                 </div>
                 <!-- / Content -->
-
                 <!-- Footer -->
                 @if ($isFooter)
                     @include('layouts/sections/footer/footer')
