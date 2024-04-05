@@ -409,7 +409,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         $assignment->comment = $validated['comment'];
         $assignment->signed = $validated['signature'];
         $ptwRequest->update([$this->getAssignment() => $assignment]);
-        $ptwRequest->update(['status' => 2]);
+        $ptwRequest->update(['status' => 3]);
         event(new SendEmployeePTWDoneEvent($ptwRequest->request_pa_relation, Auth::user(), $ptwRequest));
         return response()->json('Success', 202);
     }
@@ -423,14 +423,6 @@ class PermitToWorkServices implements PermitToWorkInterface
         $ptwRequest->update($validated);
         event(new SendApproverFirstAssignment($receiver, Auth::user(), $ptwRequest));
         return response()->json('Success', 202);
-    }
-    function deletePermitToWork($id)
-    {
-        // $delete = PermitToWork::find($id)->delete();
-        $delete = PermitToWork::find($id)->update([
-            'status' => fake()->randomElement([1, 2, 3, 4]),
-        ]);
-        return response()->json('Success', 200);
     }
     function printPermitToWork($id)
     {

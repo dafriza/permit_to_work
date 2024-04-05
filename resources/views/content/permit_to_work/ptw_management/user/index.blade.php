@@ -31,15 +31,6 @@
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     {!! $dataTable->scripts() !!}
     <script>
-        function deletePTW(id) {
-            partDeleteWithAjax(id, "{!! route('permit_to_work.management.delete_permit_to_work', '') !!}" + "/" + id).done(function() {
-                window.LaravelDataTables["ptw-management"].ajax.reload();
-            })
-            // console.log(id);
-        }
-
-        function editPTW(id) {
-
-        }
+        $.fn.dataTableExt.oStdClasses.sWrapper = "dataTables_wrapper dt-bootstrap5 table-responsive";
     </script>
 @endpush

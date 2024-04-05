@@ -20,10 +20,10 @@ class PermitToWorkManagementUserDatatable extends DataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->editColumn('NEXT ACTION', function ($row) {
-                return "<span class=\"btn btn-secondary btn-xs disabled\">" . $row['NEXT ACTION'] . '</span>';
+                return "<button class=\"btn btn-primary btn-sm\">" . $row['NEXT ACTION'] . '</button>';
             })
             ->addColumn('ACTION', function ($row) {
-                return "<a href='" . route('permit_to_work.management.detail_request', ['id' => $row['PTW ID']]) . "' target='_blank'><i class='menu-icon tf-icons bx bx-file'></i></a>";
+                return "<a class='btn btn-sm btn-icon btn-primary' href='" . route('permit_to_work.management.detail_request', ['id' => $row['PTW ID']]) . "' target='_blank'><i class='bx bx-file bx-xs'></i></a>";
             })
             ->rawColumns(['NEXT ACTION', 'ACTION']);
     }
@@ -59,7 +59,8 @@ class PermitToWorkManagementUserDatatable extends DataTable
             ->setTableId('permit_to_work_management_user')
             ->columns($this->getColumns())
             ->minifiedAjax(route('permit_to_work.management.datatables_user_management'))
-            // ->dom('Bfrtip')
+            ->dom('Bfrtip')
+            ->buttons(Button::make('reload'))
             ->orderBy(1);
     }
     protected function getColumns()

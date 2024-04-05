@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\EntryPermit;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Dashboard\DashboardInterface;
 use Illuminate\Notifications\Notification;
+use App\Services\Dashboard\DashboardInterface;
 
 class DashboardController extends Controller
 {
@@ -17,6 +19,13 @@ class DashboardController extends Controller
     }
     function index()
     {
+        if (Auth::user()->hasRole('superadmin')) {
+            $totalUser = User::all()->count();
+            $totalPTWCold = PermitToWork::all()->count();
+            $totalPTWHot = PermitToWork::all()->count();
+            $totalEP = EntryPermit::all()->count();
+            return view('content.dashboard.indexAdmin', compact('totalUser', 'totalPTWCold', 'totalPTWHot', 'totalEP'));
+        }
         $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
         $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
         // dd($activityPTW);

@@ -30,16 +30,16 @@ class DashboardServices implements DashboardInterface
     }
     function dashboardByRole($role)
     {
-        if ($role == $this->roleHelper->getRoleName(0)) {
-            $permitToWorks = PermitToWork::all();
-            $permitToWorksMap = $permitToWorks
-                ->groupBy('status')
-                ->map(function ($permit_to_work) {
-                    return $permit_to_work->count();
-                })
-                ->flatten();
-            return $permitToWorksMap;
-        }
+        // if ($role == $this->roleHelper->getRoleName(0)) {
+        //     $permitToWorks = PermitToWork::all();
+        //     $permitToWorksMap = $permitToWorks
+        //         ->groupBy('status')
+        //         ->map(function ($permit_to_work) {
+        //             return $permit_to_work->count();
+        //         })
+        //         ->flatten();
+        //     return $permitToWorksMap;
+        // }
         $permitToWorkUser = PermitToWork::getPermitToWorkByRole($role);
         $permitToWorkMap = $permitToWorkUser->groupBy('status')->flatMap(function ($permitToWork, $key) {
             return [self::statusDesc[$key] => $permitToWork->count()];
@@ -61,6 +61,7 @@ class DashboardServices implements DashboardInterface
         }
         $iterate = 0;
         // dd(count($this->permitToWorkSigns));
+        // dd($this->permitToWorkSigns);
         foreach ($this->permitToWorkSigns as $key => $permitToWorkSign) {
             // dd($permitToWorkSign);
             // dd(explode(',', $permitToWorkSign[0])[0]);
@@ -75,6 +76,24 @@ class DashboardServices implements DashboardInterface
                 break;
             }
             $iterate++;
+        }
+        // refactor
+        if ($permitToWork->id == 3) {
+            $iterate = 0;
+            // dd(count($this->permitToWorkSigns));
+            // dd($this->permitToWorkSigns);
+            foreach ($this->permitToWorkSigns as $key => $permitToWorkSign) {
+                // dd($permitToWorkSign);
+                // dd(explode(',', $permitToWorkSign[0])[0]);
+                try {
+                    $status = explode(',', $permitToWorkSign[0])[0];
+                } catch (\Exception $e) {
+                    Log::debug($e);
+                }
+                // $status = explode(',', $permitToWorkSign[0]);
+                $this->rejectAllSigns($iterate);
+                $iterate++;
+            }
         }
         // Date calculation
         $dateNow = now();

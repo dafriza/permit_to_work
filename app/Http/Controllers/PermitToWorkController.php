@@ -23,6 +23,7 @@ use App\DataTables\PermitToWork\PermitToWorkManagementDataTable;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
+use App\DataTables\PermitToWork\PermitToWorkManagementUserAdminDatatable;
 
 class PermitToWorkController extends Controller
 {
@@ -38,7 +39,8 @@ class PermitToWorkController extends Controller
     function show($id)
     {
         $detail = PermitToWork::find($id);
-        $if_complete = $detail['status'] == 2 ? true : false;
+        $if_complete = $detail['status'] == 1 || $detail['status'] == 2 ? true : false;
+        // $if_complete = null;
         // dd($if_complete);
         return view('content.permit_to_work.show', compact('id', 'if_complete'));
     }
@@ -55,7 +57,13 @@ class PermitToWorkController extends Controller
         // return view('content.permit_to_work.ptw_management.index');
     }
     function userManagement(PermitToWorkManagementUserDatatable $dataTable)
+    // function userManagement(PermitToWork $model)
     {
+        // return dd($model::with(['request_pa_relation','direct_spv_relation'])->newQuery()->get());
+        if(auth()->user()->hasRole('superadmin')){
+            $dataTable = new PermitToWorkManagementUserAdminDatatable();
+            return $dataTable->render('content.permit_to_work.ptw_management.user.index');
+        }
         return $dataTable->render('content.permit_to_work.ptw_management.user.index');
     }
     public function datatablesIndex(PermitToWorkManagementDataTable $dataTable)
@@ -64,6 +72,10 @@ class PermitToWorkController extends Controller
     }
     public function datatablesUserManagement(PermitToWorkManagementUserDatatable $dataTable)
     {
+        if(auth()->user()->hasRole('superadmin')){
+            $dataTable = new PermitToWorkManagementUserAdminDatatable();
+            return $dataTable->ajax();
+        }
         return $dataTable->ajax();
     }
     function detailRequest($id)
@@ -73,6 +85,7 @@ class PermitToWorkController extends Controller
         $approverSigned = $detail_request->direct_spv == Auth::id();
         $if_success = $detail_request->{$assignment}->status ?? 'draft';
         $ifSigned = $detail_request->sign_spv == null && $approverSigned ? true : false;
+        // dd($detail_request->sign_spv == null);
         return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success', 'ifSigned'));
     }
     function tra()
@@ -260,9 +273,15 @@ class PermitToWorkController extends Controller
     {
         return $this->permit_to_work->signedRequest($request);
     }
-    function deletePermitToWork($id)
+    // function deletePermitToWork($id)
+    // {
+    //     return $this->permit_to_work->deletePermitToWork($id);
+    // }
+    function deletePermitToWork(Request $request)
     {
-        return $this->permit_to_work->deletePermitToWork($id);
+        $id = $request->id;
+        PermitToWork::find($id)->delete();
+        return response()->json('success', 202);
     }
     function printPermitToWork($id)
     {

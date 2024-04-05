@@ -12,9 +12,7 @@
         function preventBack() {
             window.history.forward();
         }
-
         setTimeout("preventBack()", 0);
-
         window.onunload = function() {
             null
         };
@@ -30,7 +28,7 @@
                         <div class="app-brand justify-content-start">
                             <a href="{{ url('/') }}" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">@include('_partials.macros', ['width' => 25, 'withbg' => '#696cff'])</span>
-                                <span class="app-brand-text demo text-body fw-bolder">Permit</span>
+                                <span class="app-brand-text demo text-body fw-bolder">Permit To Work</span>
                             </a>
                         </div>
                         <!-- /Logo -->

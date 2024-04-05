@@ -30,7 +30,7 @@
         }
 
         @page {
-            size: 51cm 88.1cm landscape;
+            size: 54.4cm 100cm landscape;
             margin: 0;
         }
     </style>

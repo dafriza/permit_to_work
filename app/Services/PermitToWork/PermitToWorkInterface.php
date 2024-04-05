@@ -68,6 +68,6 @@ interface PermitToWorkInterface
     function signedRequest(SignedRequest $request);
     // function rejectRequest(Request $request);
     function printPermitToWork($id);
-    function deletePermitToWork($id);
+    // function deletePermitToWork($id);
     function detailPrintPermitToWork();
 }

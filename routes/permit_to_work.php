@@ -107,7 +107,8 @@ Route::controller(PermitToWorkController::class)
 
                 Route::middleware(['permission:delete permit_to_work_cold', "role:{$roleHelper::roles[2]}|{$roleHelper::roles[1]}"])->group(function () {
                     // del data
-                    Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
+                    // Route::get('delete_permit_to_work/{id}', 'deletePermitToWork')->name('delete_permit_to_work');
+                    Route::post('delete_permit_to_work', 'deletePermitToWork')->name('delete_permit_to_work');
                 });
             });
     });

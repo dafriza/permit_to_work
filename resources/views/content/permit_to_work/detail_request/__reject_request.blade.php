@@ -11,7 +11,7 @@
         data-bs-toggle="modal" data-bs-target="#{{ $idModal }}">
         Reject
     </button>
-    <x-modal-bootstrap-form :id="$idModal" :title="'Reject Request'" :formId="'reject_request'" :formMethod="'POST'" :formAction="route('permit_to_work.management.approval_request')">
+    <x-modal-bootstrap-form :id="$idModal" :title="'Reject Request'" :formId="'reject_request'" :formMethod="'POST'" :formAction="route('permit_to_work.management.reject_request')">
         <input type="hidden" name="id" value="{{ $detail_request->id }}">
         <input type="hidden" name="status" value="failure">
         <div class="form-floating mb-3">

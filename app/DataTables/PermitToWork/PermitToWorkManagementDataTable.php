@@ -74,11 +74,18 @@ class PermitToWorkManagementDataTable extends DataTable
                 ],
                 'dom' => 'Bftrip',
                 'buttons' => [
+                    'reload',
+                    [
+                        'extend' => 'create',
+                        'action' => "function(e, dt, node, config) {
+                            window.location.replace('" . route('permit_to_work.index') . "')
+                        }",
+                        'className' => 'btn buttons-create btn-success',
+                    ],
                     [
                         'extend' => 'searchPanes',
-                        'className' => 'btn btn-primary mx-2',
+                        'className' => 'btn buttons-searchPanes btn-info',
                     ],
-                    'reload',
                 ],
             ])
             ->minifiedAjax(route('permit_to_work.management.datatables_index'))
@@ -87,10 +94,7 @@ class PermitToWorkManagementDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('DT_RowIndex')
-                ->title('No')
-                ->searchable(false)
-                ->orderable(false),
+            Column::make('DT_RowIndex')->title('No')->searchable(false)->orderable(false),
             // Column::make('id'),
             // Column::make('job_id'),
             Column::make('number')->title('project'),

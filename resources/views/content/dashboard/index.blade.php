@@ -173,6 +173,7 @@
     <script>
         getDataWithAjax('{{ route('dashboard.get_data_permit_to_work') }}').done(function(data) {
             let dataset = data;
+            console.log(data);
             doughnutChart("permit_to_work", data);
             // doughnutChart("entry_permit", ["On Going", "Success", "Rejected", "Draft"], data)
         });

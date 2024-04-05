@@ -20,20 +20,10 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatables.bootstrap5.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/datatables_ext.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     {!! $dataTable->scripts() !!}
-    <script>
-        function deletePTW(id) {
-            partDeleteWithAjax(id, "{!! route('permit_to_work.management.delete_permit_to_work', '') !!}" + "/" + id).done(function() {
-                window.LaravelDataTables["ptw-management"].ajax.reload();
-            })
-            // console.log(id);
-        }
-    </script>
 @endpush

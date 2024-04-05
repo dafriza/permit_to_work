@@ -77,10 +77,9 @@ class PermitToWork extends Model
     function scopeGetPermitToWorkByRoleLatest()
     {
         $role = Auth::user()->role_name;
-        if ($role == $this->getInstanceRoleHelper()->getRoleName(0)) {
-            return self::all()->random();
-        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
+        if ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
             return $this->getPermitToWorkByRoleIdLatest('direct_spv');
+            // return $this->getPermitToWorkByRoleIdLatest('request_pa');
         } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(1)) {
             return $this->getPermitToWorkByRoleIdLatest('request_pa');
         }
@@ -88,10 +87,9 @@ class PermitToWork extends Model
     function scopeGetPermitToWorkByRole()
     {
         $role = Auth::user()->role_name;
-        if ($role == $this->getInstanceRoleHelper()->getRoleName(0)) {
-            return self::all();
-        } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
+        if ($role == $this->getInstanceRoleHelper()->getRoleName(2)) {
             return $this->getPermitToWorkByRoleId('direct_spv');
+            // return $this->getPermitToWorkByRoleId('request_pa');
         } elseif ($role == $this->getInstanceRoleHelper()->getRoleName(1)) {
             return $this->getPermitToWorkByRoleId('request_pa');
         }
