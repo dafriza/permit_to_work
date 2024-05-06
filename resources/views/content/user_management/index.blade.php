@@ -1,5 +1,7 @@
 @extends('layouts/contentNavbarLayout')
 @push('styles')
+    <link href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/datatables.bootstrap5.min.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/searchPanes.min.css') }}"> --}}
@@ -25,10 +27,8 @@
 @push('scripts')
     <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatables.bootstrap5.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/datatables_ext.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     {!! $dataTable->scripts() !!}
 @endpush

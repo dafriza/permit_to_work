@@ -24,7 +24,6 @@ class HeaderColdWorkRequestAppThree extends FormRequest
             'work_status_aa' => 'Work Status AA',
             'closed_out_pa' => 'Close out PA Approval',
             'closed_out_aa' => 'Close Out AA Approval',
-
         ];
     }
 

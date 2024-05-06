@@ -8,7 +8,7 @@
                 <tr>
                     <th scope="row">
                         <div class="p-10">
-                            <input class="form-control" type="input" name="b1" id="b1">
+                            <input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b1" id="b1">
                         </div>
                     </th>
                     <td>
@@ -17,7 +17,7 @@
                         </div>
                     </td>
                     <td>
-                        <input class="form-control" type="input" name="b11" id="b11">
+                        <input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b11" id="b11">
                     </td>
                     <td>
                         <div class="p-10">Continuous gas monitoring in use at
@@ -25,7 +25,7 @@
                             <i>Monitor gas secara kontinyu di area kerja</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b21" id="b21">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b21" id="b21">
                     </td>
                     <td>
                         <div class="p-10">Additional lighting required<br>
@@ -38,7 +38,7 @@
                 {{-- Step 2 --}}
 
                 <tr>
-                    <th scope="row"><input class="form-control" type="input" name="b2"
+                    <th scope="row"><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b2"
                             id="b2"></th>
                     <td>
                         <div class="p-10">Keep worksite free of trip/slip hazards<br>
@@ -46,14 +46,14 @@
                                 tersandung/tergelincir</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b12" id="b12">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b12" id="b12">
                     </td>
                     <td>
                         <div class="p-10">Only insulated tools to be used<br>
                             <i>Hanya gunakan peralatan dengan pelindung</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b22" id="b22">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b22" id="b22">
                     </td>
                     <td>
                         <div class="p-10">Waste to be disposed correctly<br>
@@ -65,7 +65,7 @@
                 {{-- Step 3 --}}
 
                 <tr>
-                    <th scope="row"><input class="form-control" type="input" name="b3"
+                    <th scope="row"><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b3"
                             id="b3"></th>
                     <td>
                         <div class="p-10">Initial gas test and repeat test at
@@ -74,7 +74,7 @@
                             <i>Lakukan tes gas pada awal dan interval tertentu</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b13" id="b13">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b13" id="b13">
                     </td>
                     <td>
                         <div class="p-10">A safe means of access worksite must always
@@ -83,7 +83,7 @@
                                 kerja</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b23" id="b23">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b23" id="b23">
                     </td>
                     <td>
                         <div class="p-10">Safety harness/inertia reel to be worn<br>
@@ -95,14 +95,14 @@
                 {{-- Step 4 --}}
 
                 <tr>
-                    <th scope="row"><input class="form-control" type="input" name="b4"
+                    <th scope="row"><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b4"
                             id="b4"></th>
                     <td>
                         <div class="p-10">Adhere to Specific Procedure<br>
                             <i>Ikuti prosedur yang spesifik</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b14" id="b14">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b14" id="b14">
                     </td>
                     <td>
                         <div class="p-10">Communication with adjacent Performing
@@ -110,7 +110,7 @@
                             <i>Berhubungan dengan Penanggung Jawab Pelaksana</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b24" id="b24">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b24" id="b24">
                     </td>
                     <td>
                         <div class="p-10">Oxygen check required before Work
@@ -124,7 +124,7 @@
                 {{-- Step 5 --}}
 
                 <tr>
-                    <th scope="row"><input class="form-control" type="input" name="b5"
+                    <th scope="row"><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b5"
                             id="b5"></th>
                     <td>
                         <div class="p-10">No electrical enclosure containing live
@@ -135,14 +135,14 @@
                                 saja</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b15" id="b15">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b15" id="b15">
                     </td>
                     <td>
                         <div class="p-10">Make Public Announcements<br>
                             <i>Menyampaikan pengumuman melalui Public Announcements</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b25" id="b25">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b25" id="b25">
                     </td>
                     <td>
                         <div class="p-10">Adhere lifting plan<br>
@@ -154,7 +154,7 @@
                 {{-- Step 6 --}}
 
                 <tr>
-                    <th scope="row"><input class="form-control" type="input" name="b6"
+                    <th scope="row"><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b6"
                             id="b6"></th>
                     <td>
                         <div class="p-10">Ensure lifting equipment certified for
@@ -164,21 +164,21 @@
                                 diangkat</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b16" id="b16">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b16" id="b16">
                     </td>
                     <td>
                         <div class="p-10">Secure loose objects<br>
                             <i>Amankan material lepas</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b26" id="b26">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b26" id="b26">
                     </td>
                     <td>
                         <div class="p-10">Isolation Sheet<br>
                             <i>Lembar Isolasi</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b27" id="b27">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b27" id="b27">
                     </td>
                     <td>
                         <div class="p-10">Isolation Required<br>
@@ -188,7 +188,7 @@
                 </tr>
                 {{-- Step 7 --}}
                 <tr>
-                    <td><input class="form-control" type="input" name="b7" id="b7">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b7" id="b7">
                     </td>
                     <td>
                         <div class="p-10">Check worksite for potential dropped
@@ -196,7 +196,7 @@
                             <i>Cek tempat kerja dari resiko barang jatuh</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b17" id="b17">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b17" id="b17">
                     </td>
                     <td>
                         <div class="p-10">Rubber gloves for appropriate voltage
@@ -206,7 +206,7 @@
                                 ditangani</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b28" id="b28">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b28" id="b28">
                     </td>
                     <td>
                         <div class="p-10">Standard Operating Procedure<br>
@@ -216,7 +216,7 @@
                 </tr>
                 {{-- Step 8 --}}
                 <tr>
-                    <td><input class="form-control" type="input" name="b8" id="b8">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b8" id="b8">
                     </td>
 
                     <td>
@@ -225,7 +225,7 @@
                             <i>Selalu berhubungan radio dengan ruang control</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b18" id="b18">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b18" id="b18">
                     </td>
                     <td>
                         <div class="p-10">Equipment to be isolated when left
@@ -233,7 +233,7 @@
                             <i>Pastikan peralatan diisolasi sebelum ditinggalkan</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b29" id="b29">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b29" id="b29">
                     </td>
                     <td>
                         <div class="p-10">Job Safety Analysis<br>
@@ -244,21 +244,21 @@
 
                 {{-- Step 9 --}}
                 <tr>
-                    <td><input class="form-control" type="input" name="b9" id="b9">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b9" id="b9">
                     </td>
                     <td>
                         <div class="p-10">Use safe maual handling techniques<br>
                             <i>Gunakan teknik pengangkatan yang aman</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b19" id="b19">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b19" id="b19">
                     </td>
                     <td>
                         <div class="p-10">Review and implement MSDS requirement<br>
                             <i>Periksa dan lakukan sesuai persyaratan MSDS</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b30" id="b30">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b30" id="b30">
                     </td>
                     <td>
                         <div class="p-10">Temporary Deviate<br>
@@ -268,14 +268,14 @@
                 </tr>
                 {{-- Step 10 --}}
                 <tr>
-                    <td><input class="form-control" type="input" name="b10" id="b10">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b10" id="b10">
                     </td>
                     <td>
                         <div class="p-10">Standby man to be in attendance<br>
                             <i>Pengawasa harus selalu waspada</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b20" id="b20">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b20" id="b20">
                     </td>
                     <td>
                         <div class="p-10">Sun protection/dringking fluid to be
@@ -283,7 +283,7 @@
                             <i>Sediakan pelindung sinar matahari dan air minum</i>
                         </div>
                     </td>
-                    <td><input class="form-control" type="input" name="b31" id="b31">
+                    <td><input class="form-control" type="number" onkeypress="return isNumberKeyWithMinus(event)" name="b31" id="b31">
                     </td>
                     <td>
                         <div class="p-10">Lock Out Tag Out<br>

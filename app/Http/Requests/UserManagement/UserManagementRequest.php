@@ -14,18 +14,13 @@ class UserManagementRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            // 'password' => 'required',s
             'phone_number' => 'required',
             'address' => 'required',
             'permission' => 'required',
-            'role_assignment' => 'required'
+            'role' => 'required',
+            'role_assignment' => 'required',
         ];
-    }
-    function prepareForValidation()
-    {
-        $this->merge([
-            'password' => Hash::make($this->password)
-        ]);
     }
     function attributes()
     {

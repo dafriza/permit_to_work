@@ -12,7 +12,8 @@ class UserManagementServices implements UserManagementInterface
         // dd($validatedData);
         $user = User::find($validatedData['id']);
         $user->syncPermissions($validatedData['permission']);
-        $user->update(collect($validatedData)->except('permission')->toArray());
+        $user->syncRoles($validatedData['role']);
+        $user->update(collect($validatedData)->except(['permission','role'])->toArray());
         return response()->json('success', 202);
     }
     function createUser(UserManagementRequest $request)

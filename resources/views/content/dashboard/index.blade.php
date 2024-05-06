@@ -1,6 +1,8 @@
 @extends('layouts/contentNavbarLayout')
 @section('title', 'Dashboard')
 @push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+
     <script type="text/javascript" src="{{ asset('assets/js/chart.min.js') }}"></script>
 @endpush
 @section('content')
@@ -79,7 +81,7 @@
         <!--/ Card Border Shadow -->
 
         <!-- chart permit to work -->
-        <div class="col-md-4 col-xxl-4 mb-4 order-4">
+        <div id="chartPTW" class="col-md-4 col-xxl-4 mb-4 order-4">
             <div class="card h-auto">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div class="card-title mb-0">
@@ -94,86 +96,81 @@
         <!--/ cart ptw -->
 
         <!-- chart entry permit -->
-        <div class="col-md-4 col-xxl-4 mb-4 order-4">
+        {{-- <div class="col-md-4 col-xxl-4 mb-4 order-4">
             <div class="card h-auto">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div class="card-title mb-0">
                         <h5 class="m-0 me-2">Entry Permit</h5>
                     </div>
-                    {{-- <div class="dropdown">
-                            <button class="btn p-0" type="button" id="deliveryExceptions" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deliveryExceptions">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
-                        </div> --}}
                 </div>
                 <div class="card-body">
                     <canvas id="entry_permit"></canvas>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!--/ cart entry permit -->
 
         <!-- Activity Timeline -->
-        <div class="col-md-4 col-xxl-4 mb-4 order-4">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div class="card-title mb-0">
-                        <h5 class="m-0 me-2">Activity Timeline</h5>
+        @if ($activityPTW != null)
+            <div class="col-md-4 col-xxl-4 mb-4 order-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-title mb-0">
+                            <h5 class="m-0 me-2">Activity Timeline</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="p-0 m-0">
+                            @foreach ($activityPTW as $key => $activity)
+                                @php
+                                    // dd($activity[0]);
+                                    $parseActivity = explode(',', $activity[0]);
+                                    $status = $parseActivity[0];
+                                    $bg = $parseActivity[1];
+                                    $icon = $parseActivity[2];
+                                    $text = $parseActivity[3];
+                                    // dd($parseActivity);
+                                @endphp
+                                <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                        <span class="avatar-initial rounded bg-label-{{ $status }}">
+                                            <i class="bx bx-{{ $icon }}" {{-- status by approval --}}
+                                                onclick="swal_usage_ok('{{ $key }}','{{ $text }}','{{ $bg }}')"></i>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                            <h6 class="mb-1 fw-normal">{{ $key }}
+                                            </h6>
+                                            <small class="text-muted">
+                                                {{ $key }}
+                                            </small>
+                                        </div>
+                                        <div class="user-progress">
+                                            <h6 class="mb-0">{{ $activity[1] }}</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
-                <div class="card-body">
-                    <ul class="p-0 m-0">
-                        @foreach ($activityPTW as $key => $activity)
-                            @php
-                                // dd($activity[0]);
-                                $parseActivity = explode(',', $activity[0]);
-                                $status = $parseActivity[0];
-                                $bg = $parseActivity[1];
-                                $icon = $parseActivity[2];
-                                $text = $parseActivity[3];
-                                // dd($parseActivity);
-                            @endphp
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-{{ $status }}">
-                                        <i class="bx bx-{{ $icon }}" {{-- status by approval --}}
-                                            onclick="swal_usage_ok('{{ $key }}','{{ $text }}','{{ $bg }}')"></i>
-                                    </span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-1 fw-normal">{{ $key }}
-                                        </h6>
-                                        <small class="text-muted">
-                                            {{ $key }}
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">{{ $activity[1] }}</h6>
-                                    </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
             </div>
-        </div>
+        @endif
     </div>
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/chart_usage.js') }}"></script>
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script>
         getDataWithAjax('{{ route('dashboard.get_data_permit_to_work') }}').done(function(data) {
             let dataset = data;
-            console.log(data);
+            if (data.length == 0) {
+                $("#chartPTW").remove();
+            }
+            // console.log(data.length == 0);
             doughnutChart("permit_to_work", data);
             // doughnutChart("entry_permit", ["On Going", "Success", "Rejected", "Draft"], data)
         });

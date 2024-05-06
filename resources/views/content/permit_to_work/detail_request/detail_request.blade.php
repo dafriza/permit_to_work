@@ -40,8 +40,10 @@
                             @if ($ifSigned)
                                 @include('content.permit_to_work.detail_request.__signed_request')
                             @endif
-                            @include('content.permit_to_work.detail_request.__approve_request')
-                            @include('content.permit_to_work.detail_request.__reject_request')
+                            @if (!$ifSigned)
+                                @include('content.permit_to_work.detail_request.__approve_request')
+                                @include('content.permit_to_work.detail_request.__reject_request')
+                            @endif
                         </div>
                     @endrole
                 </div>

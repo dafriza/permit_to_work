@@ -281,6 +281,7 @@ class PermitToWorkFactory extends Factory
                 'comment' => fake()->randomElement(['Invalid item', 'Invalid costs', 'Wrong']),
             ],
             'status' => fake()->randomElement([1, 2, 3, 4]),
+            'status_ptw' => fake()->randomElement(array_slice(User::roleAssignment,2))
             // 'submission' => [
             //     'site_controller' => $approver['id'],
             //     'area_authoriry' => $approver['id'],

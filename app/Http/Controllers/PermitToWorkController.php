@@ -24,6 +24,7 @@ use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppFour;
 use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 use App\DataTables\PermitToWork\PermitToWorkManagementUserDatatable;
 use App\DataTables\PermitToWork\PermitToWorkManagementUserAdminDatatable;
+use App\Http\Requests\PermitToWork\StorePTWProgressRequest;
 
 class PermitToWorkController extends Controller
 {
@@ -38,11 +39,12 @@ class PermitToWorkController extends Controller
     }
     function show($id)
     {
-        $detail = PermitToWork::find($id);
-        $if_complete = $detail['status'] == 1 || $detail['status'] == 2 ? true : false;
+        $data = $this->permit_to_work->showData($id);
+        // dd($detail['authorisation']);
         // $if_complete = null;
         // dd($if_complete);
-        return view('content.permit_to_work.show', compact('id', 'if_complete'));
+        // return view('content.permit_to_work.show', compact('id', 'if_complete'));
+        return view('content.permit_to_work.ptw_new.show', $data);
     }
     function detail($id)
     {
@@ -57,13 +59,15 @@ class PermitToWorkController extends Controller
         // return view('content.permit_to_work.ptw_management.index');
     }
     function userManagement(PermitToWorkManagementUserDatatable $dataTable)
-    // function userManagement(PermitToWork $model)
     {
+        // function userManagement(PermitToWork $model)
         // return dd($model::with(['request_pa_relation','direct_spv_relation'])->newQuery()->get());
-        if(auth()->user()->hasRole('superadmin')){
+        if (auth()->user()->hasRole('superadmin')) {
             $dataTable = new PermitToWorkManagementUserAdminDatatable();
             return $dataTable->render('content.permit_to_work.ptw_management.user.index');
         }
+        // $nextAssignment = array_keys(self::assignment)[self::assignment[$assignmentStatus] + 1 > 7 ? 7 : self::assignment[$assignmentStatus] + 1];
+        // dd("hehe");
         return $dataTable->render('content.permit_to_work.ptw_management.user.index');
     }
     public function datatablesIndex(PermitToWorkManagementDataTable $dataTable)
@@ -72,7 +76,7 @@ class PermitToWorkController extends Controller
     }
     public function datatablesUserManagement(PermitToWorkManagementUserDatatable $dataTable)
     {
-        if(auth()->user()->hasRole('superadmin')){
+        if (auth()->user()->hasRole('superadmin')) {
             $dataTable = new PermitToWorkManagementUserAdminDatatable();
             return $dataTable->ajax();
         }
@@ -80,13 +84,9 @@ class PermitToWorkController extends Controller
     }
     function detailRequest($id)
     {
-        $detail_request = PermitToWork::find($id);
-        $assignment = $this->getAssignment();
-        $approverSigned = $detail_request->direct_spv == Auth::id();
-        $if_success = $detail_request->{$assignment}->status ?? 'draft';
-        $ifSigned = $detail_request->sign_spv == null && $approverSigned ? true : false;
-        // dd($detail_request->sign_spv == null);
-        return view('content.permit_to_work.detail_request.detail_request', compact('detail_request', 'if_success', 'ifSigned'));
+        $data = $this->permit_to_work->detailRequestData($id);
+        // dd($data);
+        return view('content.permit_to_work.detail_request.detail_request', $data);
     }
     function tra()
     {
@@ -260,6 +260,10 @@ class PermitToWorkController extends Controller
     function storePTWRequest(HeaderColdWorkRequestPTW $request)
     {
         return $this->permit_to_work->storePTWRequest($request);
+    }
+    function storePTWProgress(StorePTWProgressRequest $request)
+    {
+        return $this->permit_to_work->storePTWProgress($request);
     }
     function approvalRequest(ApprovalRequest $request)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\StorePTWProgressRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermitToWork\RejectRequest;
 use App\Http\Requests\PermitToWork\SignedRequest;
@@ -17,6 +18,8 @@ use App\Http\Requests\PermitToWork\HeaderColdWorkRequestAppThree;
 
 interface PermitToWorkInterface
 {
+    function showData($id);
+    function detailRequestData($id);
     function getDirectSPV(Request $request);
     function getApproveSC(Request $request);
     function getApprovePC(Request $request);
@@ -38,6 +41,7 @@ interface PermitToWorkInterface
     function storeHeaderAppThree(HeaderColdWorkRequestAppThree $request);
     function storeHeaderAppFour(HeaderColdWorkRequestAppFour $request);
     function storePTWRequest(HeaderColdWorkRequestPTW $request);
+    function storePTWProgress(StorePTWProgressRequest $request);
     function getHeaderColdWork($id);
     function getHeaderColdWorkCrc();
     function getHeaderColdWorkAppOne();

@@ -7,11 +7,14 @@
         $typeButton = 'danger';
         $idModal = 'reject_ptw_modal';
     @endphp
-    <button type="button" class="btn btn-{{ $typeButton }} {{ $if_success == 'draft' ? '' : 'disabled' }}"
+    {{-- <button type="button" class="btn btn-{{ $typeButton }} {{ $if_success == 'draft' ? '' : 'disabled' }}"
         data-bs-toggle="modal" data-bs-target="#{{ $idModal }}">
         Reject
+    </button> --}}
+    <button type="button" id="rejectRequest" class="btn btn-{{ $typeButton }} {{ $if_success == 'draft' ? '' : 'disabled' }}">
+        Reject
     </button>
-    <x-modal-bootstrap-form :id="$idModal" :title="'Reject Request'" :formId="'reject_request'" :formMethod="'POST'" :formAction="route('permit_to_work.management.reject_request')">
+    {{-- <x-modal-bootstrap-form :id="$idModal" :title="'Reject Request'" :formId="'reject_request'" :formMethod="'POST'" :formAction="route('permit_to_work.management.reject_request')">
         <input type="hidden" name="id" value="{{ $detail_request->id }}">
         <input type="hidden" name="status" value="failure">
         <div class="form-floating mb-3">
@@ -24,29 +27,47 @@
                 Reject
             </x-button-default>
         </x-slot>
-    </x-modal-bootstrap-form>
+    </x-modal-bootstrap-form> --}}
 </div>
 @push('scripts')
     <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script>
-        let sigReject = $("#signature_reject").signature({
-            syncField: "#signature_show_reject",
-            syncFormat: 'PNG'
-        });
-        $("#clearsignature_reject").click(function(e) {
-            e.preventDefault();
-            sigReject.signature('clear');
-            $("#signature64").val('');
-        });
-        submitWithAjax("reject_request", function() {
-            setTimeout(function() {
+        swalPostWithAjax("rejectRequest", "rejectRequestForm", "delete", {
+            html: `<form id="rejectRequestForm" method="POST" action="{{ route('permit_to_work.management.reject_request') }}">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $detail_request->id }}">
+                        <input type="hidden" name="status" value="failure">
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Reject reason ..." id="rejectTextArea" name="comment"></textarea>
+                            <label for="rejectTextArea">Comments</label>
+                        </div>
+                    </form>`,
+            title: "Reject data",
+            text: "Form PTW akan direject",
+            confirmButtonText: "Yes, reject it!"
+        }, function() {
+            setTimeout(() => {
                 location.reload();
             }, 1500);
-            let rejectModal = $("#{{ $idModal }}");
-            rejectModal.toggle()
-            $(document.body).removeClass("modal-open");
-            $(".modal-backdrop").remove();
         })
+        // let sigReject = $("#signature_reject").signature({
+        //     syncField: "#signature_show_reject",
+        //     syncFormat: 'PNG'
+        // });
+        // $("#clearsignature_reject").click(function(e) {
+        //     e.preventDefault();
+        //     sigReject.signature('clear');
+        //     $("#signature64").val('');
+        // });
+        // submitWithAjax("reject_request", function() {
+        //     setTimeout(function() {
+        //         location.reload();
+        //     }, 1500);
+        //     let rejectModal = $("#{{ $idModal }}");
+        //     rejectModal.toggle()
+        //     $(document.body).removeClass("modal-open");
+        //     $(".modal-backdrop").remove();
+        // })
     </script>
 @endpush

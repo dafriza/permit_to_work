@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helper\RolesAndPermissionsHelper;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
     protected $guarded = [];
-    public const roleAssignment = ['admin', 'employee', 'authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'];
+    protected $casts = ['role_assignment' => 'array'];
+    public const roleAssignment = ['superadmin', 'employee', 'authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'];
+    public const roleUser = RolesAndPermissionsHelper::roles;
     public function request_pa()
     {
         return $this->hasMany(PermitToWork::class, 'request_pa', 'id');
@@ -41,10 +44,15 @@ class User extends Authenticatable
     }
     function roleAssignmentName(): Attribute
     {
-        return new Attribute(get: fn() => ucfirst(str_replace('_', ' ', $this->role_assignment)));
+        // return new Attribute(get: fn() => ucfirst(str_replace('_', ' ', $this->role_assignment)));
+        return new Attribute(get: fn() => ucwords(str_replace('_', ' ', implode(', ', $this->role_assignment))));
     }
     function getAllRoleAssignment(): Attribute
     {
         return new Attribute(get: fn() => self::roleAssignment);
+    }
+    function getAllRoleUser(): Attribute
+    {
+        return new Attribute(get: fn() => self::roleUser);
     }
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Helper\RolesAndPermissionsHelper;
 use App\DataTables\UserManagement\UserManagementDataTable;
 use App\Http\Requests\UserManagement\UserManagementRequest;
 use App\Services\Admin\UserManagement\UserManagementInterface;
+use App\Http\Requests\UserManagement\PasswordManagementRequest;
 
 class UserManagementController extends Controller
 {
@@ -35,6 +37,13 @@ class UserManagementController extends Controller
     function updateUser(UserManagementRequest $request)
     {
         return $this->userManagement->updateUser($request);
+    }
+    function updatePassword(PasswordManagementRequest $request)
+    {
+        $password = $request->validated()['password'];
+        $password = Hash::make($password);
+        User::find($request->validated()['id'])->update(['password' => $password]);
+        return response()->json('success', 202);
     }
     function createUser(UserManagementRequest $request)
     {

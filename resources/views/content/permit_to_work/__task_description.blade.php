@@ -6,6 +6,20 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.signature.css') }}">
 @endpush
+@php
+    $buttonTextSubmit = ['Save', 'secondary'];
+    switch ($statusPTW) {
+        case 2:
+            $buttonTextSubmit = ['Complete', 'success'];
+            break;
+        case 3:
+            $buttonTextSubmit = ['Failure', 'danger'];
+            break;
+        default:
+            $buttonTextSubmit = ['Save', 'secondary'];
+            break;
+    }
+@endphp
 <div class="col">
     {{-- <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span>Permit to Work</h4> --}}
     <!-- Basic Layout -->
@@ -23,12 +37,27 @@
                 <input type="hidden" name="id" value="{{ $id }}">
                 <div class="d-flex flex-row-reverse bd-highlight">
                     <div class="p-2 bd-highlight">
-                        <button class="btn btn-secondary" type="submit"
-                            @if ($if_complete) disabled @endif>Save</button>
+                        <button class="btn btn-{{ $buttonTextSubmit[1] }}" type="submit"
+                            @if ($if_complete) disabled @endif>{{ $buttonTextSubmit[0] }}</button>
                         @if (!$if_complete)
-                            <a id="submit_ptw" style="color: white; text-decoration: none"
+                            {{-- <a id="submit_ptw" style="text-decoration: none;color:white"
                                 class="btn btn-primary me-2 submit_final disabled" data-bs-toggle="modal"
-                                data-bs-target="#submit_permit_to_work_final">Submit</a>
+                                data-bs-target="#submit_permit_to_work_final">Submit</a> --}}
+                            {{-- <form class="btn btn-primary" action="{{ route('permit_to_work.store_ptw_request') }}"
+                                method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $id }}"> --}}
+                            <button id="submit_permit_to_work_final" type="button" class="btn btn-primary">
+                                {{-- <i class="bx bx-trash bx-xs"></i> --}}
+                                Submit
+                            </button>
+                            {{-- </form> --}}
+                        @endif
+                        @if ($statusPTW == 3)
+                            <button id="message_failure" type="button" class="btn btn-primary">
+                                {{-- <i class="bx bx-trash bx-xs"></i> --}}
+                                Message
+                            </button>
                         @endif
                     </div>
                 </div>
@@ -43,7 +72,8 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="work_order" class="form-label">Work Order</label>
-                    <input class="form-control permit_to_work work_order" type="text" name="work_order" />
+                    <input class="form-control permit_to_work work_order only-number" type="text" name="work_order"
+                        onkeypress="return isNumberKey(event)" />
                     {{-- <input class="form-control permit_to_work work_order" type="hidden" id="work_order" value=""
                         name="work_order" /> --}}
                 </div>
@@ -145,14 +175,14 @@
         <!-- /Account -->
     </div>
 </div>
-<x-modal-bootstrap-form :id="'submit_permit_to_work_final'" :title="'Submit PTW Request'" :formId="'ptw_request_form'" :formMethod="'POST'" :formAction="route('permit_to_work.store_ptw_request')">
+{{-- <x-modal-bootstrap-form :id="'submit_permit_to_work_final'" :title="'Submit PTW Request'" :formId="'ptw_request_form'" :formMethod="'POST'" :formAction="route('permit_to_work.store_ptw_request')">
     <input type="hidden" name="id" value="{{ $id }}">
     <x-slot:buttonSubmit>
         <x-button-default type="success">
             Submit
         </x-button-default>
     </x-slot>
-</x-modal-bootstrap-form>
+</x-modal-bootstrap-form> --}}
 @push('scripts')
     <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.signature.min.js') }}"></script>
@@ -169,14 +199,25 @@
                 location.reload();
             }, 1500);
         })
-        submitWithAjax("ptw_request_form", function() {
+        // submitWithAjax("ptw_request_form", function() {
+        //     setTimeout(() => {
+        //         location.reload();
+        //     }, 1500);
+        //     let submit_ptw = $("#submit_permit_to_work_final");
+        //     submit_ptw.toggle()
+        //     $(document.body).removeClass("modal-open");
+        //     $(".modal-backdrop").remove();
+        // })
+        swalPostWithAjax("submit_permit_to_work_final", "store_permit_to_work", "submit", {
+            html: `<form id="store_permit_to_work" action="{{ route('permit_to_work.store_ptw_request') }}"
+                                method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $id }}">
+                    </form>`
+        }, function() {
             setTimeout(() => {
                 location.reload();
             }, 1500);
-            let submit_ptw = $("#submit_permit_to_work_final");
-            submit_ptw.toggle()
-            $(document.body).removeClass("modal-open");
-            $(".modal-backdrop").remove();
         })
         dynamicSelect2('tools_equipment', '{!! route('permit_to_work.get_data_tools_equipment') !!}');
         dynamicSelect2('direct_supervisor', '{!! route('permit_to_work.get_data_spv') !!}');
@@ -191,5 +232,21 @@
             sig.signature('clear');
             $("#sign_pa").val('');
         });
+        $("#message_failure").on('click', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{!! $commentFailure[0] !!}",
+                text: "{{ $commentFailure[1] }}"
+            });
+        })
     </script>
 @endpush

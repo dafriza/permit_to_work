@@ -55,6 +55,7 @@ class DashboardServices implements DashboardInterface
         foreach (self::statuses as $status) {
             $statusKey = str_replace('_', ' ', ucwords($status, '_'));
             $permitToWork->status_issue = $permitToWork->{$status}->status ?? 'draft';
+            // dd($permitToWork->status_issue);
             $permitToWork->date_convert = $permitToWork->{$status}->date ?? null;
             // dd($permitToWork->date_convert);
             $this->permitToWorkSigns->put($statusKey, [$permitToWork->status_issue, $permitToWork->date_convert]);
@@ -63,7 +64,6 @@ class DashboardServices implements DashboardInterface
         // dd(count($this->permitToWorkSigns));
         // dd($this->permitToWorkSigns);
         foreach ($this->permitToWorkSigns as $key => $permitToWorkSign) {
-            // dd($permitToWorkSign);
             // dd(explode(',', $permitToWorkSign[0])[0]);
             try {
                 $status = explode(',', $permitToWorkSign[0])[0];
@@ -77,31 +77,12 @@ class DashboardServices implements DashboardInterface
             }
             $iterate++;
         }
-        // refactor
-        if ($permitToWork->id == 3) {
-            $iterate = 0;
-            // dd(count($this->permitToWorkSigns));
-            // dd($this->permitToWorkSigns);
-            foreach ($this->permitToWorkSigns as $key => $permitToWorkSign) {
-                // dd($permitToWorkSign);
-                // dd(explode(',', $permitToWorkSign[0])[0]);
-                try {
-                    $status = explode(',', $permitToWorkSign[0])[0];
-                } catch (\Exception $e) {
-                    Log::debug($e);
-                }
-                // $status = explode(',', $permitToWorkSign[0]);
-                $this->rejectAllSigns($iterate);
-                $iterate++;
-            }
-        }
         // Date calculation
         $dateNow = now();
         $datePTW = $permitToWork->created_at;
         $resultDate = $dateNow->diffInDays($datePTW);
         // $resultDate = 0;
         $this->permitToWorkSigns->put('date', $resultDate);
-        // dd($this->permitToWorkSigns);
         return $this->permitToWorkSigns;
     }
 
@@ -114,7 +95,7 @@ class DashboardServices implements DashboardInterface
             }
             // dd($key);
         });
-        $danger = 'danger,error,x,Invalid';
+        $danger = 'danger,error,x, Invalid';
         // dd($this->permitToWorkSigns['Authorisation'][0]);
         // foreach (self::statuses as $status) {
         foreach ($statuses as $status) {

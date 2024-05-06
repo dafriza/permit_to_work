@@ -25,10 +25,14 @@ class EmployeePTWDoneNotification extends Notification
     }
     public function toArray($notifiable)
     {
+        $message = 'Permit To Work is Done';
+        if ($this->permitToWork->status == 3) {
+            $message = 'Permit To Work is Rejected!';
+        }
         return [
             'sender' => $this->sender,
-            'message' => 'Permit To Work is Done',
-            'link' => route('permit_to_work.show', ['id' => $this->permitToWork]),
+            'message' => $message,
+            'link' => route('permit_to_work.show', ['id' => $this->permitToWork])
         ];
     }
 }

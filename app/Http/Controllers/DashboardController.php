@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\EntryPermit;
 use App\Models\PermitToWork;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use App\Services\Dashboard\DashboardInterface;
@@ -26,9 +27,14 @@ class DashboardController extends Controller
             $totalEP = EntryPermit::all()->count();
             return view('content.dashboard.indexAdmin', compact('totalUser', 'totalPTWCold', 'totalPTWHot', 'totalEP'));
         }
-        $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
-        $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
-        // dd($activityPTW);
+        try {
+            $activityPTW = $this->dashboard->getMapPermitToWork()->except('date');
+            $datePTW = $this->dashboard->getMapPermitToWork()->only('date');
+        } catch (\Exception $e) {
+            Log::debug($e);
+            $activityPTW = null;
+            $datePTW = null;
+        }
         // return response()->json($activityPTW);
         return view('content.dashboard.index', compact('activityPTW', 'datePTW'));
     }

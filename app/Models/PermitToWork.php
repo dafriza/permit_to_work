@@ -39,6 +39,9 @@ class PermitToWork extends Model
             'failure' => 'danger,error,x,Rejected',
             'draft' => 'secondary,warning,info-circle,Draft',
             'success' => 'success,success,check,Success',
+            'ready_to_execute' => 'success,success,check,Success',
+            'working_on_progress' => 'success,success,check,Success',
+            'close_out' => 'success,success,check,Success',
         ],
         status_desc = [
             1 => 'ON GOING',
@@ -96,10 +99,7 @@ class PermitToWork extends Model
     }
     function getPermitToWorkByRoleIdLatest($relationRole)
     {
-        return self::query()
-            ->where($relationRole, Auth::id())
-            ->latest() // ->take( 5)
-            ->first();
+        return self::query()->where($relationRole, Auth::id())->latest()->first();
     }
     function getPermitToWorkByRoleId($roleRelation)
     {

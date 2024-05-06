@@ -2,6 +2,7 @@
 
 namespace App\Services\PermitToWork;
 
+use App\Http\Requests\PermitToWork\StorePTWProgressRequest;
 use DataTables;
 use App\Models\User;
 use App\Models\Trade;
@@ -43,6 +44,55 @@ class PermitToWorkServices implements PermitToWorkInterface
         }
         return $this->roleHelper;
     }
+    function showData($id)
+    {
+        $assignments = PermitToWork::assignment;
+        $detail = PermitToWork::find($id);
+        $if_complete = $detail['status'] == 1 || $detail['status'] == 2 || $detail['status'] == 3 ? true : false;
+        $statusPTW = $detail['status'];
+        $commentFailure = ['error','error'];
+        foreach ($assignments as $assignment => $value) {
+            if ($detail[$assignment]->status == 'failure') {
+                $commentFailure[0] = ucwords($assignment);
+                $commentFailure[1] = $detail[$assignment]->comment;
+            }
+        }
+        return compact('id', 'if_complete', 'statusPTW', 'commentFailure');
+    }
+    function detailRequestData($id)
+    {
+        $detail_request = PermitToWork::find($id);
+        $statusAssignment = PermitToWork::assignment;
+        $assignment = $this->getAssignment();
+        $approverSigned = $detail_request->direct_spv == Auth::id();
+        $permitStatus = collect($detail_request)->only($assignment)->pluck('status')->toArray();
+        $if_success = in_array('draft', $permitStatus);
+        if (in_array('failure', $permitStatus)) {
+            $if_success = false;
+        }
+        // dd($permitStatus);
+        // $if_success = $detail_request->{$assignment}->status ?? 'draft';
+        $ifSigned = $detail_request->sign_spv == null && $approverSigned ? true : false;
+        $statusAssignmentApprove = [];
+        foreach ($statusAssignment as $key => $assignment) {
+            if ($detail_request[$key]->status == 'success') {
+                $statusAssignmentApprove[$key] = 'success';
+            } elseif ($detail_request[$key]->status == 'draft') {
+                $statusAssignmentApprove[$key] = 'draft';
+            } elseif ($detail_request[$key]->status == 'ready_to_execute') {
+                $statusAssignmentApprove[$key] = 'ready_to_execute';
+            } elseif ($detail_request[$key]->status == 'working_on_progress') {
+                $statusAssignmentApprove[$key] = 'working_on_progress';
+            } elseif ($detail_request[$key]->status == 'close_out') {
+                $statusAssignmentApprove[$key] = 'close_out';
+            } else {
+                $statusAssignmentApprove[$key] = 'failure';
+            }
+        }
+        // dd($statusAssignmentApprove);
+        // dd($detail_request);
+        return compact('detail_request', 'if_success', 'ifSigned', 'statusAssignmentApprove');
+    }
     function getDirectSPV(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
@@ -52,19 +102,22 @@ class PermitToWorkServices implements PermitToWorkInterface
     function getApproveSC(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'authorisation' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'authorisation' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('authorisation', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
     function getApprovePC(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'permit_registry' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('permit_registry', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
     function getApproveProc(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'site_gas_test' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'site_gas_test' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('site_gas_test', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
 
@@ -72,14 +125,16 @@ class PermitToWorkServices implements PermitToWorkInterface
     function getIssueAA(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'issue' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'issue' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('issue', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
 
     function getAcceptancePA(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'acceptance' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'acceptance' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('acceptance', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
 
@@ -87,20 +142,23 @@ class PermitToWorkServices implements PermitToWorkInterface
     function getClosedOutPA(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_pa' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_pa' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('close_out_pa', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
     function getClosedOutAA(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_aa' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'close_out_aa' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('close_out_aa', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
     // Approval 4
     function getRegisWorkPA(Request $request)
     {
         return $this->getApproverSelect2($request, function ($user, $roleHelper) {
-            return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'registry_of_work_completion' && $user->id != Auth::id();
+            // return $user->getRoleNames()[0] == $roleHelper::roles[2] && $user->role_assignment == 'registry_of_work_completion' && $user->id != Auth::id();
+            return $user->getRoleNames()[0] == $roleHelper::roles[2] && in_array('registry_of_work_completion', $user->role_assignment) != null && $user->id != Auth::id();
         });
     }
     function getApproverSelect2(Request $request, $filter)
@@ -355,6 +413,67 @@ class PermitToWorkServices implements PermitToWorkInterface
         event(new SendApproverPTWRequest($receiver, Auth::user(), $detail));
         return response()->json([], 202);
     }
+    function storePTWProgress(StorePTWProgressRequest $request)
+    {
+        $validatedData = $request->validated();
+        return $this->storeOrUpdatePermitToWork($request, function ($validatedData) {
+            $prepareForStore = [
+                'authorisation' => [
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_authorisation'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'permit_registry' => [
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_permit_registry'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'site_gas_test' => [
+                    'flammable' => $validatedData['flammable'],
+                    'h2s' => $validatedData['h2s'],
+                    'oxygen' => $validatedData['oxygen'],
+                    'designation' => $validatedData['designation'],
+                    'approver' => $validatedData['approver_site_gas_test'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'issue' => [
+                    'approver' => $validatedData['issue'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'acceptance' => [
+                    'approver' => $validatedData['acceptance'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'close_out_pa' => [
+                    'status_work' => $validatedData['work_status_pa'],
+                    'description' => $validatedData['work_description_pa'],
+                    'approver' => $validatedData['closed_out_pa'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'close_out_aa' => [
+                    'status_work' => $validatedData['work_status_aa'],
+                    'approver' => $validatedData['closed_out_aa'],
+                    ...$this->prepareForStoreArray(),
+                ],
+                'registry_of_work_completion' => [
+                    'approver' => $validatedData['regis_work_pa'],
+                    ...$this->prepareForStoreArray(),
+                ],
+            ];
+            // dd([$prepareForStore,...$validatedData]);
+            // dd(response()->json([...$prepareForStore,...collect($validatedData)->except(['approver_authorisation','approver_permit_registry','approver_site_gas_test'])->toArray()], 200));
+            PermitToWork::updateOrCreate(
+                ['id' => $validatedData['id']],
+                [
+                    ...$prepareForStore,
+                    ...collect($validatedData)
+                        ->only(['tra_level', 'reference_no', 'hazard', 'controls', 'sscr', 'cross_referenced_certificates'])
+                        ->toArray(),
+                ],
+            );
+            return response()->json([], 202);
+        });
+    }
     function prepareForStoreArray()
     {
         return [
@@ -380,16 +499,31 @@ class PermitToWorkServices implements PermitToWorkInterface
         $id = $validated['id'];
         $ptwRequest = PermitToWork::find($id);
         // $receiver = $ptwRequest->request_pa_relation;
-        $user = $this->getAssignment();
-        $nextAssignment = array_keys(self::assignment)[self::assignment[$user] + 1 > 7 ? 7 : self::assignment[$user] + 1];
+        // $user = $this->getAssignment();
+        $assignmentStatus = $ptwRequest->status_ptw;
+        $nextAssignment = array_keys(self::assignment)[self::assignment[$assignmentStatus] + 1 > 7 ? 7 : self::assignment[$assignmentStatus] + 1];
         $receiver = User::find($ptwRequest->{$nextAssignment}->approver);
-        $assignment = $ptwRequest->{$this->getAssignment()};
+        // $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment = $ptwRequest->$assignmentStatus;
         $assignment->status = $validated['status'];
         $assignment->comment = $validated['comment'];
-        $assignment->signed = $validated['signature'];
+        if ($ptwRequest->status_ptw == 'issue') {
+            $assignment->status = 'ready_to_execute';
+            $assignment->comment = $validated['comment'];
+        } elseif ($ptwRequest->status_ptw == 'acceptance') {
+            $assignment->status = 'working_on_progress';
+            $assignment->comment = $validated['comment'];
+        } elseif ($ptwRequest->status_ptw == 'close_out_aa') {
+            $assignment->status = 'close_out';
+            $assignment->comment = $validated['comment'];
+        }
+        // dd($ptwRequest->status_ptw);
+        // $assignment->signed = $validated['signature'];
         // dd($assignment);
-        $ptwRequest->update([$this->getAssignment() => $assignment]);
-        if ($this->getAssignment() == 'registry_of_work_completion') {
+        // $ptwRequest->update([$this->getAssignment() => $assignment]);
+        // dd($assignment);
+        $ptwRequest->update([$assignmentStatus => $assignment, 'status_ptw' => $nextAssignment]);
+        if ($assignmentStatus == 'registry_of_work_completion') {
             $ptwRequest->update(['status' => 2]);
             event(new SendEmployeePTWDoneEvent($ptwRequest->request_pa_relation, Auth::user(), $ptwRequest));
             return response()->json('Success', 202);
@@ -404,11 +538,12 @@ class PermitToWorkServices implements PermitToWorkInterface
         $validated = $request->validated();
         $id = $validated['id'];
         $ptwRequest = PermitToWork::find($id);
-        $assignment = $ptwRequest->{$this->getAssignment()};
+        // $assignment = $ptwRequest->{$this->getAssignment()};
+        $assignment = $ptwRequest->{$ptwRequest->status_ptw};
         $assignment->status = $validated['status'];
         $assignment->comment = $validated['comment'];
-        $assignment->signed = $validated['signature'];
-        $ptwRequest->update([$this->getAssignment() => $assignment]);
+        // $assignment->signed = $validated['signature'];
+        $ptwRequest->update([$ptwRequest->status_ptw => $assignment]);
         $ptwRequest->update(['status' => 3]);
         event(new SendEmployeePTWDoneEvent($ptwRequest->request_pa_relation, Auth::user(), $ptwRequest));
         return response()->json('Success', 202);
@@ -420,7 +555,7 @@ class PermitToWorkServices implements PermitToWorkInterface
         $ptwRequest = PermitToWork::find($id);
         $receiver = User::find($ptwRequest->authorisation->approver);
         // dd($assignment);
-        $ptwRequest->update($validated);
+        $ptwRequest->update([...$validated, 'status_ptw' => 'authorisation']);
         event(new SendApproverFirstAssignment($receiver, Auth::user(), $ptwRequest));
         return response()->json('Success', 202);
     }

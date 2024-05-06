@@ -81,6 +81,7 @@ Route::controller(PermitToWorkController::class)
             Route::post('store_header_app_three', 'storeHeaderAppThree')->name('store_header_app_three');
             Route::post('store_header_app_four', 'storeHeaderAppFour')->name('store_header_app_four');
             Route::post('store_ptw_request', 'storePTWRequest')->name('store_ptw_request');
+            Route::post('store_ptw_progress', 'storePTWProgress')->name('store_ptw_progress');
         });
 
         // PTW Management

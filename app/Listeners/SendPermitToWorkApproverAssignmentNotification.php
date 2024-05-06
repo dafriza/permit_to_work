@@ -15,8 +15,10 @@ class SendPermitToWorkApproverAssignmentNotification
 {
     public function handle(SendApproverAssignment $event)
     {
-        $roleAssignment = $event->sender->role_assignment;
-        $roleAssignmentName = $event->sender->role_assignment_name;
+    //     $roleAssignment = $event->sender->role_assignment;
+    //     $roleAssignmentName = $event->sender->role_assignment_name;
+        $roleAssignment = $event->permitToWork->status_ptw;
+        $roleAssignmentName = $event->permitToWork->status_ptw;
         Notification::send($event->receiver, new PermitToWorkApproverAssignmentNotification($event->receiver, $event->sender,$roleAssignmentName, $event->permitToWork->{$roleAssignment}->status, $event->permitToWork));
     }
 }

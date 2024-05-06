@@ -13,7 +13,7 @@ class RejectRequest extends FormRequest
             'id' => 'required|integer',
             'status' => 'required',
             'comment' => 'required',
-            'signature' => 'required',
+            // 'signature' => 'required',
         ];
     }
     function messages()
@@ -22,14 +22,14 @@ class RejectRequest extends FormRequest
             'required' => ':attribute tidak boleh kosong!',
         ];
     }
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'signature' => $this->signConverter(),
-        ]);
-    }
-    function signConverter()
-    {
-        return SignServices::signConverter($this->id, $this->signature, $this->work_order, $this->date_application, 'signature_approver');
-    }
+    // protected function prepareForValidation()
+    // {
+    //     $this->merge([
+    //         'signature' => $this->signConverter(),
+    //     ]);
+    // }
+    // function signConverter()
+    // {
+    //     return SignServices::signConverter($this->id, $this->signature, $this->work_order, $this->date_application, 'signature_approver');
+    // }
 }

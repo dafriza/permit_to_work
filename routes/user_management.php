@@ -21,6 +21,7 @@ Route::middleware(["role:{$roleHelper::roles[0]}"])
         });
         Route::middleware(['permission:update ' . $access])->group(function () {
             Route::post('update_user', 'updateUser')->name('update_user');
+            Route::post('update_password', 'updatePassword')->name('update_password');
         });
         Route::middleware(['permission:delete ' . $access])->group(function(){
             Route::post('delete_user', 'deleteUser')->name('delete_user');

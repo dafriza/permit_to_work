@@ -12,5 +12,9 @@
         let createUserModal = $("#createUser");
         createUserModal.modal('hide')
         window.LaravelDataTables["user_management"].ajax.reload();
+    }, function() {
+        let createUserModal = $("#createUser");
+        createUserModal.modal('hide')
+        window.LaravelDataTables["user_management"].ajax.reload();
     })
 </script>

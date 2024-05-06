@@ -1,18 +1,37 @@
 function isNumberKey(evt) {
-    let charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
+    let charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
+}
+function isNumberKeyWithMinus(evt) {
+    let charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        if (charCode == 45) {
+            return true;
+        }
         return false;
+    }
     return true;
 }
 
 function isDateNow(evt) {
     // let choose_date = new Date(evt.target.value).toISOString();
     let choose_date = new Date(evt.target.value);
-    choose_date = choose_date.getFullYear() + '-' + choose_date.getMonth() + '-' + choose_date.getDate();
+    choose_date =
+        choose_date.getFullYear() +
+        "-" +
+        choose_date.getMonth() +
+        "-" +
+        choose_date.getDate();
     choose_date = new Date(choose_date);
 
     let date_now = new Date();
-    date_now = date_now.getFullYear() + '-' + date_now.getMonth() + '-' + date_now.getDate();
+    date_now =
+        date_now.getFullYear() +
+        "-" +
+        date_now.getMonth() +
+        "-" +
+        date_now.getDate();
     date_now = new Date(date_now);
     if (choose_date < date_now) {
         evt.target.value = null;
@@ -25,7 +44,23 @@ function isDateNow(evt) {
 }
 
 function romanize(num) {
-    var lookup = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 }, roman = '', i;
+    var lookup = {
+            M: 1000,
+            CM: 900,
+            D: 500,
+            CD: 400,
+            C: 100,
+            XC: 90,
+            L: 50,
+            XL: 40,
+            X: 10,
+            IX: 9,
+            V: 5,
+            IV: 4,
+            I: 1,
+        },
+        roman = "",
+        i;
     for (i in lookup) {
         while (num >= lookup[i]) {
             roman += i;
@@ -34,8 +69,8 @@ function romanize(num) {
     }
     return roman;
 }
-function checkboxChecked(tagByClass, indexValue, data){
-    $.each(tagByClass, function(key, val) {
+function checkboxChecked(tagByClass, indexValue, data) {
+    $.each(tagByClass, function (key, val) {
         if (val.attributes[indexValue].nodeValue == data) {
             val.checked = true;
             // console.log(val.checked);
@@ -43,9 +78,9 @@ function checkboxChecked(tagByClass, indexValue, data){
         }
     });
 }
-function checkboxCheckedMulti(tagByClass, indexValue, data){
-    $.each(tagByClass, function(tagKey, tagVal) {
-        $.each(data, function(key, val) {
+function checkboxCheckedMulti(tagByClass, indexValue, data) {
+    $.each(tagByClass, function (tagKey, tagVal) {
+        $.each(data, function (key, val) {
             if (tagVal.attributes[indexValue].nodeValue == val) {
                 tagVal.checked = true;
             }

@@ -31,8 +31,8 @@
                                 $userNotif = auth()->user()->notifications;
                             @endphp
                             @foreach (auth()->user()->unreadNotifications as $notif)
-                                <li
-                                    class="list-group-item list-group-item-action dropdown-notifications-item notifications" data-link="{{$notif->data['link']}}">
+                                <li class="list-group-item list-group-item-action dropdown-notifications-item notifications"
+                                    data-link="{{ $notif->data['link'] }}">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0 me-3">
                                             <div class="avatar">
@@ -65,7 +65,9 @@
                         </ul>
                     </li>
                     <li class="dropdown-menu-footer border-top p-3">
-                        <button class="btn btn-primary text-uppercase w-100">view all notifications</button>
+                        <button id="viewAllNotif" class="btn btn-primary text-uppercase w-100" data-bs-toggle="modal"
+                            data-bs-target="#modalNotif">view all
+                            notifications</button>
                     </li>
                 </ul>
             </li>
@@ -129,15 +131,20 @@
         <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
     </div>
 </nav>
+{{-- modal --}}
+{{-- <x-modal-bootstrap :id="'modalNotif'" :typeModal="'modal-lg'" :title="'View All Notification'">
+
+</x-modal-bootstrap> --}}
+{{-- end of modal --}}
 <!-- / Navbar -->
 @push('scripts')
     <script src="{{ asset('assets/js/http_ajax.js') }}"></script>
     <script>
-        $('.notifications').on('click',function(){
-            // let getUUID = ($(".dropdown-notifications-archive").data('uuid'));
-            // postWithAjax("{!! route('dashboard.read_notification', '') !!}" + "/" + getUUID, "{{ csrf_token() }}")
-            // $(this).parent().parent().parent().remove();
-            // getCountNotification();
+        $('.notifications').on('click', function() {
+            let getUUIDNotif = ($(".dropdown-notifications-archive").data('uuid'));
+            postWithAjax("{!! route('dashboard.read_notification', '') !!}" + "/" + getUUIDNotif, "{{ csrf_token() }}")
+            $(this).parent().parent().parent().remove();
+            getCountNotification();
             // console.log($(this).data('link'));
             window.location.replace($(this).data('link'));
         });

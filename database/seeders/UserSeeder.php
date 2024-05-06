@@ -11,11 +11,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $roles = RolesAndPermissionsHelper::roles;
@@ -24,12 +19,12 @@ class UserSeeder extends Seeder
         }
         User::factory(29)
             ->create()
-            ->each(function ($user)use($roles) {
+            ->each(function ($user) use ($roles) {
                 $user->assignRole(fake()->randomElement([$roles[1], $roles[2]]));
                 if ($user->getRoleNames()->first() == $roles[2]) {
-                    $user->update(['role_assignment' => fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa','close_out_aa','registry_of_work_completion'])]);
+                    $user->update(['role_assignment' => [fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion']), fake()->randomElement(['authorisation', 'permit_registry', 'site_gas_test', 'issue', 'acceptance', 'close_out_pa', 'close_out_aa', 'registry_of_work_completion'])]]);
                 } else {
-                    $user->update(['role_assignment' => $roles[1]]);
+                    $user->update(['role_assignment' => [$roles[1]]]);
                 }
             });
 
@@ -40,6 +35,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('super1admin'),
             'phone_number' => 000000000000,
             'address' => 'X Street',
+            'role_assignment' => ['superadmin'],
         ])->assignRole('superadmin');
     }
 }
